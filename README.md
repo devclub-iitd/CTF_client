@@ -3,7 +3,7 @@
 This repo is for the frontend of the Capture The Flag portal.
 
 ## Development
-First run 'npm install'(to install all packages).Also run 'yarn install' if there is any error.
+
 To start app in hot reload mode use `npm start`
 
 ## Dependency list
