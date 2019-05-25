@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React , {Component} from 'react';
 import './App.css';
+import 'typeface-roboto';
+import Header from './components/header/header';
+import Home from './components/home/home';
+import About from './components/about/about';
+import Practice from './components/practice/practice';
+import Contact from './components/contactUs/contactUs';
+import Competitions from './components/competition/competition';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  
+  render ()
+   {
+    
+    return (
+      <div>
+     <Header
+      home = {<Home />}  
+      about = {<About />}
+      practice = {<Practice />}
+      contact = {<Contact />}
+      competitions = {<Competitions />}/>
+      
+      </div>
+    );
+  }
 }
 
 export default App;
