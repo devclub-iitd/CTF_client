@@ -1,28 +1,28 @@
-import React , {Component} from 'react';
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/prefer-stateless-function */
+import React, { Component } from 'react';
 import './App.css';
 import 'typeface-roboto';
 import Header from './components/header/header';
-import Home from './components/home/home';
-import About from './components/about/about';
-import Practice from './components/practice/practice';
-import Contact from './components/contactUs/contactUs';
-import Competitions from './components/competition/competition';
+import Home from './containers/home/home';
+import About from './containers/about/about';
+import Practice from './containers/practice/practice';
+import Contact from './containers/contactUs/contactUs';
+import Competitions from './containers/competition/competition';
 
 
 class App extends Component {
-  
-  render ()
-   {
-    
+  render() {
     return (
       <div>
-     <Header
-      home = {<Home />}  
-      about = {<About />}
-      practice = {<Practice />}
-      contact = {<Contact />}
-      competitions = {<Competitions />}/>
-      
+        <Header
+          home={<Home />}
+          about={<About />}
+          practice={<Practice />}
+          contact={<Contact />}
+          competitions={<Competitions />}
+        />
+
       </div>
     );
   }
