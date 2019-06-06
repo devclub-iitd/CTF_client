@@ -1,9 +1,24 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 
-const contactUs = (props) => {
-    return (
-        <h1>Contact Us</h1>
-    )
-}
+const contactUs = () => (
+  <div>
+    <h1>Contact Us</h1>
+    <p>
+            We are always a message away on our
+      {' '}
+      <a href="https://www.facebook.com/tech.iitd/"> Facebook page. </a>
+    </p>
+    <p>
+      {' '}
+We @ DevClub are constantly looking for ways to make our products better.
+      {' '}
+      <a href="https://forms.gle/k1uQa8eDFd7tA1ia8">Click here  </a>
+, If you have any feedback you want to share with us.
+      {' '}
+    </p>
+  </div>
+
+);
 
 export default contactUs;
