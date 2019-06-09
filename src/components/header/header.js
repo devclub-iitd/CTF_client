@@ -150,5 +150,13 @@ const NavTabs = (props) => {
     </div>
   );
 };
+NavTabs.propTypes = {
+  home: PropTypes.node.isRequired,
+  practice: PropTypes.node.isRequired,
+  contact: PropTypes.node.isRequired,
+  about: PropTypes.node.isRequired,
+  competitions: PropTypes.node.isRequired,
+};
+
 
 export default NavTabs;

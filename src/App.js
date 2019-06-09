@@ -8,7 +8,7 @@ import Home from './containers/home/home';
 import About from './containers/about/about';
 import Practice from './containers/practice/practice';
 import Contact from './containers/contactUs/contactUs';
-import Competitions from './containers/competition/competition';
+import Competitions from './containers/competitions/competitions';
 
 
 class App extends Component {

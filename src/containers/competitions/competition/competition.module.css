@@ -1,0 +1,17 @@
+.title {
+    padding : 50px;
+    
+}
+
+.para {
+    padding:20px;
+    
+}
+
+
+
+.flex {
+    display:flex;
+    flex-direction: row-reverse;
+
+}
