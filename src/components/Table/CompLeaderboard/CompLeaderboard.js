@@ -1,35 +1,37 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import classes from './CompLeaderboard.module.css';
 
-const compLeaderboard = () => {
-  const user = [
-    {
-      id: 1,
-      name: 'Max',
-      rank: 1,
-      score: 22,
-    },
-    {
-      id: 2,
-      name: 'Rocky',
-      rank: 2,
-      score: 14,
-    },
-    {
-      id: 3,
-      name: 'Tommy',
-      rank: 3,
-      score: 2,
-    },
+const compLeaderboard = ({ leaderboard }) => {
+  // const user = [
+  //   {
+  //     id: 1,
+  //     name: 'Max',
+  //     rank: 1,
+  //     score: 22,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Rocky',
+  //     rank: 2,
+  //     score: 14,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Tommy',
+  //     rank: 3,
+  //     score: 2,
+  //   },
 
-  ];
-  const table = user.map(el => (
+  // ];
+
+  const table = Object.values(leaderboard).map(el => (
     <tr>
-      <td>{el.rank}</td>
-      <td>{el.name}</td>
-      <td>{el.score}</td>
+      <td key={el.id}>{el.rank}</td>
+      <td key={el.id}>{el.name}</td>
+      <td key={el.id}>{el.score}</td>
     </tr>
   ));
   return (
@@ -47,6 +49,10 @@ const compLeaderboard = () => {
     </div>
 
   );
+};
+
+compLeaderboard.propTypes = {
+  leaderboard: PropTypes.node.isRequired,
 };
 
 export default compLeaderboard;

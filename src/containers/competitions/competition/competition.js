@@ -36,7 +36,7 @@ class competition extends Component {
           </div>
           <Typography variant="h3">Challenges </Typography>
           <div>
-            <CompLeaderboard />
+            <CompLeaderboard leaderboard={comp.leaderboard} key={comp.id} />
           </div>
         </div>
 
