@@ -1,5 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import {
   Typography, CssBaseline, Paper, Grid,
@@ -31,13 +29,13 @@ class competitions extends Component {
   }
 
   render() {
-    const { competitions, show } = this.state;
-    let compList = competitions.map((el, index) => (
+    const { competitions: competition_, show } = this.state;
+    let compList = competition_.map((el, index) => (
       <div className={classes.list}>
         <Paper>
           <div
             className={classes.title}
-            onClick={() => this.linkClickHandler(<Competition comp={competitions[index]} />)}
+            onClick={() => this.linkClickHandler(<Competition comp={competition_[index]} />)}
             role="presentation"
           >
             <Typography variant="h3" component="h3" align="center">

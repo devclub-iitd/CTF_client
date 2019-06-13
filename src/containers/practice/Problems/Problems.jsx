@@ -1,5 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import {
   Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid,
@@ -7,7 +5,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
-class problems extends Component {
+class problemsComp extends Component {
     state = {
       problems: [
         {
@@ -118,4 +116,4 @@ class problems extends Component {
 }
 
 
-export default problems;
+export default problemsComp;
