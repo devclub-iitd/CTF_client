@@ -1,5 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import {
   Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid,
@@ -11,21 +9,21 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 
 class problems extends Component {
     state = {
-      problems: null,
+      problemsList: null,
     }
 
     componentDidMount() {
       Axios.get('https://ctf-apis.firebaseio.com/problems.json')
         .then((response) => {
-          this.setState({ problems: response.data });
+          this.setState({ problemsList: response.data });
         });
     }
 
     render() {
-      const { problems } = this.state;
+      const { problemsList } = this.state;
       let prob = null;
-      if (problems) {
-        prob = Object.values(problems).map(el => (
+      if (problemsList) {
+        prob = Object.values(problemsList).map(el => (
           <div style={{ width: '100%' }} key={el.id}>
             <ExpansionPanel>
               <ExpansionPanelSummary
@@ -73,7 +71,7 @@ class problems extends Component {
       }
 
       let display = <Spinner />;
-      if (problems) {
+      if (problemsList) {
         display = (
           <div>
             <br />

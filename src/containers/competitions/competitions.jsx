@@ -1,5 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import {
   Typography, CssBaseline, Paper, Grid,
@@ -12,13 +10,13 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 class competitions extends Component {
   state = {
     show: null,
-    competitions: null,
+    competitionsList: null,
   }
 
   componentDidMount() {
     Axios.get('https://ctf-apis.firebaseio.com/competitions.json')
       .then((response) => {
-        this.setState({ competitions: response.data });
+        this.setState({ competitionsList: response.data });
       });
   }
 
@@ -27,10 +25,10 @@ class competitions extends Component {
   }
 
   render() {
-    const { competitions, show } = this.state;
+    const { show, competitionsList } = this.state;
     let compList = <Spinner />;
-    if (competitions) {
-      compList = Object.values(competitions).map(el => (
+    if (competitionsList) {
+      compList = Object.values(competitionsList).map(el => (
         <div className={classes.list} key={el.id}>
           <Paper>
             <div

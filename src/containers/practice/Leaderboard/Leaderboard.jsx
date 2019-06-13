@@ -1,10 +1,8 @@
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/prefer-stateless-function */
-import React, { Component } from 'react';
+import React from 'react';
 import { Typography } from '@material-ui/core';
 import UserTable from '../../../components/Table/UserTable/UserTable';
 
-class leaderboard extends Component {
+class leaderboard extends React.PureComponent {
   render() {
     return (
       <div>

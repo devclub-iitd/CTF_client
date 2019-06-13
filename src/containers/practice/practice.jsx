@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import { Container, Typography, CssBaseline } from '@material-ui/core';
 import classes from './practice.module.css';

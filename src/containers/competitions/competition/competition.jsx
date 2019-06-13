@@ -1,13 +1,11 @@
-/* eslint-disable react/prefer-stateless-function */
-/* eslint-disable react/jsx-filename-extension */
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import classes from './competition.module.css';
 import CompLeaderboard from '../../../components/Table/CompLeaderboard/CompLeaderboard';
 
 
-class competition extends Component {
+class competition extends React.PureComponent {
     static propTypes = {
       comp: PropTypes.string.isRequired,
     }
