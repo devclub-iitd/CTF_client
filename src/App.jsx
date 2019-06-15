@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import './App.css';
 import 'typeface-roboto';
 import Header from './components/header/header';
@@ -9,17 +9,21 @@ import Contact from './containers/contactUs/contactUs';
 import Competitions from './containers/competitions/competitions';
 
 
-const App = () => (
-  <div>
-    <Header
-      home={<Home />}
-      about={<About />}
-      practice={<Practice />}
-      contact={<Contact />}
-      competitions={<Competitions />}
-    />
+class App extends PureComponent {
+  render() {
+    return (
+      <div>
+        <Header
+          home={<Home />}
+          about={<About />}
+          practice={<Practice />}
+          contact={<Contact />}
+          competitions={<Competitions />}
+        />
 
-  </div>
-);
+      </div>
+    );
+  }
+}
 
 export default App;

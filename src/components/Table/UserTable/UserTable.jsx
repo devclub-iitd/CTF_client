@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -82,9 +82,8 @@ function CustomizedTables({ width }) {
     </Paper>
   );
 }
-
 CustomizedTables.propTypes = {
-  width: propTypes.number.isRequired,
+  width: PropTypes.node.isRequired,
 };
 
 export default CustomizedTables;
