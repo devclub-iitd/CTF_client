@@ -1,0 +1,18 @@
+.list {
+    padding: 50px;
+}
+
+.padding {
+    padding: 20px;
+}
+
+.title {
+    padding: 20px;
+
+}
+
+.title:hover {
+    cursor: pointer;
+    color:blue;
+    text-decoration: underline;
+}

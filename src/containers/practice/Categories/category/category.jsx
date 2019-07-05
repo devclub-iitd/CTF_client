@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import {
   Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Box,
-  Button, TextField,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
-import Spinner from '../../../components/UI/Spinner/Spinner';
-import * as probelmActions from '../../../store/actions/index';
+import Spinner from '../../../../components/UI/Spinner/Spinner';
+import * as probelmActions from '../../../../store/actions/index';
 
 
 class problems extends Component {
   componentDidMount() {
-    const { onInitProblems } = this.props;
-    onInitProblems();
+    const { oncategoryFetchProblems, history } = this.props;
+    oncategoryFetchProblems(history.location.pathname.substring(21));
   }
 
   answerInput = (event) => {
@@ -74,21 +72,8 @@ class problems extends Component {
               <Typography>
                 {el.details}
                 <div>
-                  <TextField
-                    id="standard-full-width"
-                    label="Answer"
-                    style={{ margin: 8 }}
-                    fullWidth
-                    margin="large"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this.answerInput}
-                  />
-                  <Button variant="outlined" color="primary" onClick={this.submitAnswerHandler}>
-        Submit
-                  </Button>
-
+                  <input onChange={this.answerInput} type="text" name={el.id} />
+                  <button type="button" onClick={this.submitAnswerHandler}>Answer</button>
                 </div>
               </Typography>
             </ExpansionPanelDetails>
@@ -126,20 +111,21 @@ class problems extends Component {
 
     return (
       <div>
-        <Container maxWidth="md">
-          <Typography variant="h1" align="center">
-                    Problems
-          </Typography>
-          <Box p={2}>
-            {display}
-          </Box>
-          <Box p={2}>
+        <Box p={6}>
+          <Container maxWidth="md">
+            <Box p={4}>
+              <Typography variant="h1" align="center">
+                    Category Problems
+              </Typography>
+            </Box>
+            <Box p={3}>
+              {display}
+            </Box>
+
             {prob}
-          </Box>
-          <Box p={3}>
-            <NavLink to="/add/problem"><Typography variant="h4" align="center">Add a new Problem</Typography></NavLink>
-          </Box>
-        </Container>
+
+          </Container>
+        </Box>
 
 
       </div>
@@ -148,15 +134,16 @@ class problems extends Component {
 }
 
 problems.propTypes = {
-  onInitProblems: PropTypes.node.isRequired,
+  oncategoryFetchProblems: PropTypes.node.isRequired,
   problemsList: PropTypes.node.isRequired,
+  history: PropTypes.node.isRequired,
 };
 
 const mapStateToProps = state => ({
-  problemsList: state.problems,
+  problemsList: state.categoryProblems,
 });
 const mapDispatchToProps = dispatch => ({
-  onInitProblems: () => dispatch(probelmActions.initProbelms()),
+  oncategoryFetchProblems: category => dispatch(probelmActions.categoryFetchProblems(category)),
 });
 
 

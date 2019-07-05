@@ -5,7 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import { Link, withRouter } from 'react-router-dom';
+
 
 function TabContainer(props) {
   const { children } = props;
@@ -24,58 +25,86 @@ function LinkTab(props) {
   return (
     <Tab
       component="a"
-      onClick={(event) => {
-        event.preventDefault();
-      }}
+      // onClick={event => {
+      //   event.preventDefault();
+      // }}
       {...props}
     />
   );
 }
+
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.dark,
   },
+  button: {
+    margin: theme.spacing(1),
+  },
+  input: {
+    display: 'none',
+  },
 }));
 
-const NavTabs = (props) => {
+const NavTabs = ({ location }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   function handleChange(event, newValue) {
     setValue(newValue);
   }
-  const {
-    home, about, practice, competitions, contact,
-  } = props;
+  const current = () => {
+    let currentPath = location.pathname.substr(1);
+    const breakPoint = currentPath.indexOf('/');
+    currentPath = currentPath.substr(0, breakPoint);
+
+    switch (currentPath) {
+      case 'home': return 0;
+      case 'about': return 1;
+      case 'practice': return 2;
+      case 'competitions': return 3;
+      case 'competition': return 3;
+      case 'contactUs': return 4;
+      case 'signUp': return 5;
+      case 'profile': return 5;
+
+      default: return 0;
+    }
+  };
+
   return (
     <div className={classes.root}>
-      <AppBar position="fixed">
-        <div><h1 style={{ textAlign: 'center' }}>Capture The Flag</h1></div>
 
-        <Tabs variant="fullWidth" value={value} onChange={handleChange}>
-          <LinkTab label="Home" href="/home" />
-          <LinkTab label="About" href="/about" />
-          <LinkTab label="Practice" href="/practice" />
-          <LinkTab label="Competitions" href="/competitions" />
-          <LinkTab label="Contact us" href="/contact_us" />
+
+      <AppBar position="fixed">
+        <h1 style={{ textAlign: 'center' }}>Capture The Flag</h1>
+        <Tabs variant="fullWidth" value={current() || value} onChange={handleChange}>
+          <LinkTab label="Home" component={Link} to="/" />
+          <LinkTab label="About" component={Link} to="/about/" />
+          <LinkTab label="Practice" component={Link} to="/practice/problems" />
+          <LinkTab label="Competitions" component={Link} to="/competitions/" />
+          <LinkTab label="Contact us" component={Link} to="/contactUs/" />
+          <LinkTab label="Login/Signup" component={Link} to="/signUp/" />
         </Tabs>
       </AppBar>
       {value === 0 && (
       <TabContainer>
         <div>
+
+
           <br />
 
           <br />
           {' '}
           <br />
           {' '}
+          <br />
           <br />
 
 
         </div>
-        <Container>{home}</Container>
+
 
       </TabContainer>
       )}
@@ -91,26 +120,22 @@ const NavTabs = (props) => {
           <br />
 
         </div>
-        <Container>{about}</Container>
 
       </TabContainer>
       )}
       {value === 2 && (
-      // <TabContainer>
+      <TabContainer>
         <div>
           <br />
           <br />
           <br />
           <br />
-          <br />
-          <br />
 
 
-          {practice}
         </div>
 
 
-      // </TabContainer>
+      </TabContainer>
       )}
       {value === 3 && (
       <TabContainer>
@@ -125,7 +150,7 @@ const NavTabs = (props) => {
 
 
         </div>
-        <Container>{competitions}</Container>
+
 
       </TabContainer>
       )}
@@ -140,8 +165,26 @@ const NavTabs = (props) => {
           {' '}
           <br />
 
+
         </div>
-        <Container>{contact}</Container>
+
+
+      </TabContainer>
+      )}
+      {value === 5 && (
+      <TabContainer>
+        <div>
+          <br />
+          {' '}
+          <br />
+          {' '}
+          <br />
+          {' '}
+          <br />
+
+
+        </div>
+
 
       </TabContainer>
       )}
@@ -150,12 +193,8 @@ const NavTabs = (props) => {
   );
 };
 NavTabs.propTypes = {
-  home: PropTypes.node.isRequired,
-  practice: PropTypes.node.isRequired,
-  contact: PropTypes.node.isRequired,
-  about: PropTypes.node.isRequired,
-  competitions: PropTypes.node.isRequired,
+  location: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 
-export default NavTabs;
+export default withRouter(NavTabs);

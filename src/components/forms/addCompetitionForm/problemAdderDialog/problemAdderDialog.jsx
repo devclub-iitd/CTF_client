@@ -1,32 +1,47 @@
 import React, { Component } from 'react';
 import {
-  Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Box,
-  Button, TextField,
+  Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Axios from 'axios';
-import Spinner from '../../../components/UI/Spinner/Spinner';
-import * as probelmActions from '../../../store/actions/index';
+import Spinner from '../../../UI/Spinner/Spinner';
+import * as probelmActions from '../../../../store/actions/index';
 
 
 class problems extends Component {
-  componentDidMount() {
-    const { onInitProblems } = this.props;
-    onInitProblems();
-  }
+    state={
+      challenges: [],
+    };
 
-  answerInput = (event) => {
-    event.preventDefault();
-    const answer = event.target.value;
-    this.setState({ answer });
-  }
+    componentDidMount() {
+      const { onInitProblems } = this.props;
+      onInitProblems();
+    }
 
-  submitAnswerHandler = () => {
-    const { answer } = this.state;
-    Axios.post('Post Link', answer);
+
+  checkBoxChangeHandler = (element) => {
+    const { challenges } = this.state;
+    let flag = true;
+    challenges.map((i) => {
+      if (i === element) {
+        flag = false;
+      }
+      return '';
+    });
+    if (flag === true) {
+      this.setState({ challenges: [...challenges, element] });
+    } else {
+      let temp = [...challenges];
+      temp = temp.filter(item => item !== element);
+      this.setState({ challenges: temp });
+    }
+  };
+
+  submitHandler = () => {
+    const { challenges } = this.state;
+    const { problemSubmit } = this.props;
+    problemSubmit(challenges);
   }
 
   render() {
@@ -44,6 +59,7 @@ class problems extends Component {
               <Grid container spacing={3}>
                 <Grid item xs={3}>
                   <Typography>
+                    <input type="checkbox" onChange={() => this.checkBoxChangeHandler(el)} />
                     {el.name}
                     {' '}
                   </Typography>
@@ -73,23 +89,6 @@ class problems extends Component {
             <ExpansionPanelDetails>
               <Typography>
                 {el.details}
-                <div>
-                  <TextField
-                    id="standard-full-width"
-                    label="Answer"
-                    style={{ margin: 8 }}
-                    fullWidth
-                    margin="large"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={this.answerInput}
-                  />
-                  <Button variant="outlined" color="primary" onClick={this.submitAnswerHandler}>
-        Submit
-                  </Button>
-
-                </div>
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -130,15 +129,10 @@ class problems extends Component {
           <Typography variant="h1" align="center">
                     Problems
           </Typography>
-          <Box p={2}>
-            {display}
-          </Box>
-          <Box p={2}>
-            {prob}
-          </Box>
-          <Box p={3}>
-            <NavLink to="/add/problem"><Typography variant="h4" align="center">Add a new Problem</Typography></NavLink>
-          </Box>
+          {display}
+          {prob}
+          <button type="submit" onClick={this.submitHandler}>Submit</button>
+
         </Container>
 
 
@@ -150,6 +144,7 @@ class problems extends Component {
 problems.propTypes = {
   onInitProblems: PropTypes.node.isRequired,
   problemsList: PropTypes.node.isRequired,
+  problemSubmit: PropTypes.node.isRequired,
 };
 
 const mapStateToProps = state => ({
