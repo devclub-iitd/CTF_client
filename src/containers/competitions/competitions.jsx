@@ -1,45 +1,37 @@
 import React, { Component } from 'react';
 import {
-  Typography, CssBaseline, Paper, Grid,
+  Typography, CssBaseline, Paper, Grid, Container, Box,
 } from '@material-ui/core';
-import Axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import classes from './competitions.module.css';
-import Competition from './competition/competition';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import * as CompetitionActions from '../../store/actions/index';
 
 class competitions extends Component {
-  state = {
-    show: null,
-    competitionsList: null,
-  }
-
   componentDidMount() {
-    Axios.get('https://ctf-apis.firebaseio.com/competitions.json')
-      .then((response) => {
-        this.setState({ competitionsList: response.data });
-      });
-  }
-
-  linkClickHandler = (item) => {
-    this.setState({ show: item });
+    const { onInitCompetitions } = this.props;
+    onInitCompetitions();
   }
 
   render() {
-    const { show, competitionsList } = this.state;
+    const { competitionsList } = this.props;
     let compList = <Spinner />;
     if (competitionsList) {
       compList = Object.values(competitionsList).map(el => (
         <div className={classes.list} key={el.id}>
           <Paper>
-            <div
-              className={classes.title}
-              onClick={() => this.linkClickHandler(<Competition comp={el} />)}
-              role="presentation"
-            >
-              <Typography variant="h3" component="h3" align="center">
-                {el.name}
-              </Typography>
-            </div>
+            <Link to={`/competition/C${el.id}`}>
+              <div
+                className={classes.title}
+                role="presentation"
+              >
+                <Typography variant="h3" component="h3" align="center">
+                  {el.name}
+                </Typography>
+              </div>
+            </Link>
             <Grid container spacing={3}>
               <Grid item xs={10}>
                 <div className={classes.padding}>
@@ -61,24 +53,34 @@ class competitions extends Component {
         </div>
       ));
     }
-
-
-    if (show) {
-      compList = show;
-    }
-
     return (
-      <div>
-        <br />
-        <CssBaseline />
-        <Typography variant="h1" align="center">Competitions</Typography>
-        {compList}
+      <Box p={5}>
+        <Container>
+          <div>
+            <br />
+            <CssBaseline />
+            <Typography variant="h1" align="center">Competitions</Typography>
+            {compList}
+            <Link to="/competitions/add"><Typography variant="h4" align="center">Add a new Competition</Typography></Link>
+          </div>
+        </Container>
+      </Box>
 
-
-      </div>
 
     );
   }
 }
 
-export default competitions;
+competitions.propTypes = {
+  onInitCompetitions: PropTypes.node.isRequired,
+  competitionsList: PropTypes.node.isRequired,
+};
+
+const mapStateToProps = state => ({
+  competitionsList: state.competitions,
+});
+const mapDispatchToProps = dispatch => ({
+  onInitCompetitions: () => dispatch(CompetitionActions.initCompetitions()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(competitions);

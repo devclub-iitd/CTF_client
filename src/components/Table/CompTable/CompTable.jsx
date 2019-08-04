@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function PaperSheet() {
   const classes = useStyles();
-  const dudUrl = 'javascript';
+  const dudUrl = '/competition/';
 
   return (
     <div>
@@ -26,7 +26,7 @@ export default function PaperSheet() {
         <br />
         <Typography variant="h4" component="h3" color="primary">
           <Box p={3} bgcolor="background.paper">
-            <Link href={dudUrl} className={classes.link}>
+            <Link href={dudUrl+"C1"} className={classes.link}>
               Competition 1
             </Link>
           </Box>
@@ -35,7 +35,7 @@ export default function PaperSheet() {
         </Typography>
         <Typography variant="h4" component="h3" color="primary">
           <Box p={3} bgcolor="background.paper">
-            <Link href={dudUrl} className={classes.link}>
+            <Link href={dudUrl+"C2"} className={classes.link}>
               Competition 2
             </Link>
           </Box>
@@ -44,7 +44,7 @@ export default function PaperSheet() {
         <Typography variant="h4" component="h3" color="primary">
 
           <Box p={3} bgcolor="background.paper">
-            <Link href={dudUrl} className={classes.link}>
+            <Link href={dudUrl+"C3"} className={classes.link}>
               Competition 3
             </Link>
           </Box>

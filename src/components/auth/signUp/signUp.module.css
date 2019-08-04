@@ -1,0 +1,10 @@
+.container {
+text-align: center;
+}
+
+.textField {
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 200px;
+    width:200px
+}

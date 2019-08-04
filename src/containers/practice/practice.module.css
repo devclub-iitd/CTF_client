@@ -38,3 +38,7 @@ nav {
 main {
     margin-left: 220px;
 }
+
+a {
+    text-decoration: none;
+}
