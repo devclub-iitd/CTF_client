@@ -3,3 +3,7 @@ export const SET_COMPETITIONS = 'SET_COMPETITIONS';
 export const SET_COMPETITION = 'SET_COMPETITION';
 export const CAT_SET_PROBLEMS = 'CAT_SET_PROBLEMS';
 export const SET_PROFILE = 'SET_PROFILE';
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';

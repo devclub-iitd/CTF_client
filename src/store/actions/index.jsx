@@ -15,3 +15,8 @@ export {
   initProfile,
   fetchProfile,
 } from './profile';
+
+export {
+  auth,
+  logout
+} from './auth';

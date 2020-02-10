@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Container, Typography, Box, Paper, Grid,
 } from '@material-ui/core';
+
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

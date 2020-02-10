@@ -4,8 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
-import { Link, withRouter } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 
 
 function TabContainer(props) {
@@ -45,9 +48,14 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: 'none',
   },
+  logOut: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
-const NavTabs = ({ location }) => {
+const NavTabs = ({ location, isAuthenticated }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -73,19 +81,35 @@ const NavTabs = ({ location }) => {
     }
   };
 
+  let tab = <LinkTab label="Login/Signup" component={Link} to="/signUp/" />
+  let red=null
+  let logOut = null
+  console.log(isAuthenticated)
+  if(isAuthenticated){
+    console.log("sad");
+    tab = <LinkTab label="Profile" component={Link} to="/profile/"/>
+    red = <Redirect to="/profile/"></Redirect>
+    logOut = <Box alignItems="flex-end" m={1} p={1} ><div className={classes.logOut}><Link to="/logout/"><Button variant="contained">Logout</Button></Link></div></Box>
+  }
+
   return (
     <div className={classes.root}>
 
 
       <AppBar position="fixed">
-        <h1 style={{ textAlign: 'center' }}>Capture The Flag</h1>
+        <div>
+         <Box display="flex" justifyContent="center">
+         <Box alignItems="center" ><h1 style={{ textAlign: 'center' }}>Capture The Flag</h1></Box>
+         {logOut}
+         </Box> 
+        </div>
         <Tabs variant="fullWidth" value={current() || value} onChange={handleChange}>
           <LinkTab label="Home" component={Link} to="/" />
           <LinkTab label="About" component={Link} to="/about/" />
           <LinkTab label="Practice" component={Link} to="/practice/problems" />
           <LinkTab label="Competitions" component={Link} to="/competitions/" />
           <LinkTab label="Contact us" component={Link} to="/contactUs/" />
-          <LinkTab label="Login/Signup" component={Link} to="/signUp/" />
+          {tab}
         </Tabs>
       </AppBar>
       {value === 0 && (
@@ -188,7 +212,7 @@ const NavTabs = ({ location }) => {
 
       </TabContainer>
       )}
-
+      {red}
     </div>
   );
 };
@@ -196,5 +220,13 @@ NavTabs.propTypes = {
   location: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    isAuthenticated: state.token!==null,
+  }
+}
 
-export default withRouter(NavTabs);
+
+
+export default connect(mapStateToProps)(withRouter(NavTabs));

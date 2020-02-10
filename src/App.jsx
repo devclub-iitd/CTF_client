@@ -18,6 +18,7 @@ import rules from './containers/practice/Rules/rules';
 import leaderboard from './containers/practice/Leaderboard/Leaderboard';
 import category from './containers/practice/Categories/category/category';
 import Competition from './containers/competitions/competition/competition';
+import LogOut from './components/auth/logOut/logOut';
 
 
 class App extends PureComponent {
@@ -32,6 +33,7 @@ class App extends PureComponent {
         <Route path="/competition/:id" component={Competition} />
         <Route path="/contactUs/" component={Contact} />
         <Route path="/profile/" component={Profile} />
+        <Route path="/logout/" component={LogOut} />
         <Route path="/competitions/add" exact component={addCompetitionForm} />
         <Route path="/add/problem" component={addProbelmForm} />
         <Route path="/signUp/" component={SignUp} />
