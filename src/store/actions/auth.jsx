@@ -1,64 +1,97 @@
-import * as actionTypes from './actionsTypes';
-import axios from 'axios';
+import * as actionTypes from './actionsTypes'
+import axios from 'axios'
 
 export const authStart = () => {
-    return {
-        type: actionTypes.AUTH_START
-    };
+  return {
+    type: actionTypes.AUTH_START
+  }
 }
 
 export const authSuccess = (token, userId) => {
-    return {
-        type: actionTypes.AUTH_SUCCESS,
-        idToken: token,
-        userId: userId,
-    };
-};
+  return {
+    type: actionTypes.AUTH_SUCCESS,
+    idToken: token,
+    userId: userId
+  }
+}
 
 export const authFail = (error) => {
-    return {
-        type: actionTypes.AUTH_FAIL,
-        error: error,
-    };
-};
+  return {
+    type: actionTypes.AUTH_FAIL,
+    error: error
+  }
+}
 
 export const logout = () => {
-    return {
-        type: actionTypes.AUTH_LOGOUT,
-    }
+  localStorage.removeItem('token')
+  localStorage.removeItem('userId')
+  localStorage.removeItem('expirationDate')
+  return {
+    type: actionTypes.AUTH_LOGOUT
+  }
 }
 
 export const checkAuthTimeOut = (expirationTime) => {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(logout());
-        }, expirationTime*10000)
-    }
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(logout())
+    }, expirationTime * 10000)
+  }
 }
 
+export const fetchProfile = profile => ({
+  type: actionTypes.SET_PROFILE,
+  profile
+})
 
-export const auth = (email,password,isLogin) => {
-    return dispatch => {
-        dispatch(authStart());
-        const authData = {
-            email:email,
-            password:password,
-            returnSecureToken: true,
-        };
-        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAJR4psuMKnxperKpMiprlHbIiKl2IKpXo';
-        if(isLogin){
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAJR4psuMKnxperKpMiprlHbIiKl2IKpXo';
-        }
-        axios.post(url,authData)
-        .then(response => {
-            console.log(response);
-            dispatch(authSuccess(response.data.idToken,response.data.localId));
-            dispatch(checkAuthTimeOut(response.data.expiresIn));
-        })
-        .catch(err => {
-            console.log(err);
-            dispatch(authFail());
-        })
-    };
-};
+export const initProfile = (userId) => (dispatch) => {
+  axios.get('http://localhost:3000/api/user/' + userId)
+    .then((response) => {
+      dispatch(fetchProfile(response.data))
+    })
+}
 
+export const auth = (authData, isLogin) => {
+  return dispatch => {
+    dispatch(authStart())
+    let url = 'http://localhost:3000/api/user/signup'
+    if (isLogin) {
+      url = 'http://localhost:3000/api/user/login'
+    }
+    axios.post(url, authData)
+      .then(response => {
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('userId', response.data.userId)
+        const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000)
+        localStorage.setItem('expirationDate', expirationDate)
+        dispatch(authSuccess(response.data.token, response.data.userId))
+        dispatch(initProfile(response.data.userId))
+        dispatch(checkAuthTimeOut(response.data.expiresIn))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(authFail())
+      })
+  }
+}
+
+export const authCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      console.log('Logout hogaya 1')
+      dispatch(logout())
+    } else {
+      const expirationDate = new Date(localStorage.getItem('expirationDate'))
+      if (expirationDate > new Date()) {
+        const userId = localStorage.getItem('userId')
+        dispatch(authSuccess(token, userId))
+        dispatch(checkAuthTimeOut((expirationDate.getTime() - (new Date().getTime())) / 1000))
+        dispatch(initProfile(userId))
+      } else {
+        console.log('Logout hogaya 2')
+        dispatch(logout())
+      }
+    }
+  }
+}

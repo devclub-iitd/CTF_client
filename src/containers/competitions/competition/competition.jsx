@@ -1,24 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Typography, Container, Box } from '@material-ui/core';
-import { connect } from 'react-redux';
-import classes from './competition.module.css';
-import CompLeaderboard from '../../../components/Table/CompLeaderboard/CompLeaderboard';
-import CompProblems from '../../../components/Problem/CompProblems/CompProblems';
-import * as CompetitionActions from '../../../store/actions/index';
-import Spinner from '../../../components/UI/Spinner/Spinner';
-
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Typography, Container, Box } from '@material-ui/core'
+import { connect } from 'react-redux'
+import classes from './competition.module.css'
+import CompLeaderboard from '../../../components/Table/CompLeaderboard/CompLeaderboard'
+import CompProblems from '../../../components/Problem/CompProblems/CompProblems'
+import * as CompetitionActions from '../../../store/actions/index'
+import Spinner from '../../../components/UI/Spinner/Spinner'
 
 class competition extends Component {
-  componentDidMount() {
-    const { onInitCompetition, history } = this.props;
-    const id = history.location.pathname.substr(13);
-    onInitCompetition(id);
+  componentDidMount () {
+    const { onInitCompetition, location, token } = this.props
+    const { _id } = location.state
+    console.log('sdasdsa')
+    console.log(_id, token)
+    onInitCompetition(_id, token)
   }
 
-  render() {
-    const { compDetails } = this.props;
-    let data = <Spinner />;
+  render () {
+    const { compDetails } = this.props
+    let data = <Spinner />
     if (compDetails) {
       data = (
         <div>
@@ -32,7 +33,6 @@ class competition extends Component {
               {compDetails.details}
             </Typography>
           </div>
-
 
           <Typography variant="h4">Rules and Regulations : </Typography>
           <div className={classes.para}>
@@ -49,7 +49,7 @@ class competition extends Component {
             <CompLeaderboard leaderboard={compDetails.leaderboard} key={compDetails.id} />
           </div>
         </div>
-      );
+      )
     }
     return (
       <Container>
@@ -59,8 +59,7 @@ class competition extends Component {
         </Box>
       </Container>
 
-
-    );
+    )
   }
 }
 
@@ -68,14 +67,15 @@ competition.propTypes = {
   onInitCompetition: PropTypes.node.isRequired,
   compDetails: PropTypes.node.isRequired,
   history: PropTypes.node.isRequired,
-};
+  location: PropTypes.node.isRequired
+}
 
 const mapStateToProps = state => ({
   compDetails: state.competition,
-});
+  token: state.token
+})
 const mapDispatchToProps = dispatch => ({
-  onInitCompetition: id => dispatch(CompetitionActions.initCompetition(id)),
-});
+  onInitCompetition: (id, token) => dispatch(CompetitionActions.initCompetition(id, token))
+})
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(competition);
+export default connect(mapStateToProps, mapDispatchToProps)(competition)

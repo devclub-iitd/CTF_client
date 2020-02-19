@@ -30,7 +30,7 @@ class problems extends Component {
       return '';
     });
     if (flag === true) {
-      this.setState({ challenges: [...challenges, element] });
+      this.setState({ challenges: [...challenges, element._id] });
     } else {
       let temp = [...challenges];
       temp = temp.filter(item => item !== element);

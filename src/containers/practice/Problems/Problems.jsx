@@ -18,22 +18,56 @@ class problems extends Component {
     onInitProblems();
   }
 
+  constructor(props){
+    super(props);
+    this.state = {
+      answer: '',
+      id: ''
+    }
+  }
+
+  status = (_id) => {
+    const { profile } = this.props
+    if(profile){
+      if(profile.data.problems.includes(_id)){
+        return true
+      }
+    }
+    return false
+  }
+
   answerInput = (event) => {
     event.preventDefault();
     const answer = event.target.value;
     this.setState({ answer });
   }
 
-  submitAnswerHandler = () => {
-    const { answer } = this.state;
-    Axios.post('Post Link', answer);
+  submitAnswerHandler = async (prb) => {
+    const { profile, token } = this.props
+    const { answer } = this.state;console.log(prb,answer)
+    if(token && prb.answer === answer){
+          console.log('Sedning req')
+         profile.data.problems.push(prb._id)
+         prb.userSolved = prb.userSolved + 1
+         const url = 'http://localhost:3000/api/problem/'+prb._id
+         const response = await Axios({
+            method: 'PUT',
+            url: url,
+            data: {
+              problems: profile.data.problems,
+              userSolved: prb.userSolved
+            },
+            headers: { 'Authorization': 'Bearer ' + token }
+         });
+         console.log(response) 
+    }
   }
 
   render() {
     const { problemsList } = this.props;
     let prob = null;
     if (problemsList) {
-      prob = Object.values(problemsList).map(el => (
+      prob = (problemsList).map(el => (
         <div style={{ width: '100%' }} key={el.id}>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -62,7 +96,7 @@ class problems extends Component {
                 </Grid>
                 <Grid item xs={3}>
                   <Typography>
-                    {el.status ? 'Solved' : 'Unsolved'}
+                    {this.status(el._id) ? 'Solved' : 'Unsolved'}
                     {' '}
                   </Typography>
                 </Grid>
@@ -85,7 +119,7 @@ class problems extends Component {
                     }}
                     onChange={this.answerInput}
                   />
-                  <Button variant="outlined" color="primary" onClick={this.submitAnswerHandler}>
+                  <Button variant="outlined" color="primary" onClick={() => this.submitAnswerHandler(el)}>
         Submit
                   </Button>
 
@@ -154,6 +188,8 @@ problems.propTypes = {
 
 const mapStateToProps = state => ({
   problemsList: state.problems,
+  token: state.token,
+  profile: state.profile
 });
 const mapDispatchToProps = dispatch => ({
   onInitProblems: () => dispatch(probelmActions.initProbelms()),
