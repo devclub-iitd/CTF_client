@@ -4,11 +4,14 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import classesExt from './CompTable.module.css';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(7, 5),
-    spacing: 118,
+    padding: '40px',
+    backgroundColor: 'rgba(245,245,245,0.6)',
+    position: 'relative',
+    // top: '-150px'
   },
 }));
 
@@ -19,37 +22,22 @@ export default function PaperSheet() {
 
   return (
     <div>
-      <Paper className={classes.root} square={false}>
-        <Typography variant="h3" component="h3" align="center">
+      <Paper className={classes.root} elevation={5}>
+        <div className={classesExt.cardTitle}>
           Competitions
-        </Typography>
-        <br />
-        <Typography variant="h4" component="h3" color="primary">
-          <Box p={3} bgcolor="background.paper">
-            <Link href={dudUrl+"C1"} className={classes.link}>
-              Competition 1
-            </Link>
-          </Box>
-
-
-        </Typography>
-        <Typography variant="h4" component="h3" color="primary">
-          <Box p={3} bgcolor="background.paper">
-            <Link href={dudUrl+"C2"} className={classes.link}>
-              Competition 2
-            </Link>
-          </Box>
-
-        </Typography>
-        <Typography variant="h4" component="h3" color="primary">
-
-          <Box p={3} bgcolor="background.paper">
-            <Link href={dudUrl+"C3"} className={classes.link}>
-              Competition 3
-            </Link>
-          </Box>
-
-        </Typography>
+        </div>
+        <div className={classesExt.miniLineCenter} />
+        <div className={classesExt.competitionList}>
+          <Link href={dudUrl+"C1"} style={{ textDecoration: 'none' }}>
+            <div className={classesExt.competitionLink}>Competition 1</div>
+          </Link>
+          <Link href={dudUrl+"C2"} style={{ textDecoration: 'none' }}>
+            <div className={classesExt.competitionLink}>Competition 2</div>
+          </Link>
+          <Link href={dudUrl+"C3"} style={{ textDecoration: 'none' }}>
+            <div className={classesExt.competitionLink}>Competition 3</div>
+          </Link>
+        </div>
       </Paper>
     </div>
   );

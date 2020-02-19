@@ -24,28 +24,30 @@ class competition extends Component {
       data = (
         <div>
           <div className={classes.title}>
-            <Typography variant="h2" align="center">
               {compDetails.name}
-            </Typography>
           </div>
-          <div className={classes.para}>
-            <Typography variant="h5">
+          <div className={classes.miniLineCol} />
+          <div className={classes.details}>
               {compDetails.details}
-            </Typography>
           </div>
 
-          <Typography variant="h4">Rules and Regulations : </Typography>
-          <div className={classes.para}>
-            <Typography variant="h5">
-                The rules are as follow, Blah Blah Blah Blah and so on.
-            </Typography>
+          <div className={classes.ruleCont}>
+            <div className={classes.subTitle}>Rules and Regulations:</div>
+            <div className={classes.miniLine} />
+            <div className={classes.ruleDetails}>
+              Rule Details
+            </div>
           </div>
-          <div>
-            <Typography variant="h3">Challenges </Typography>
-            <Box p={3}><CompProblems challenges={compDetails.challenges} /></Box>
+          <div className={classes.challengesCont}>
+            <div className={classes.subTitle}>Challenges:</div>
+            <div className={classes.miniLine} />
+            <div>
+              <Box p={3}><CompProblems challenges={compDetails.challenges} /></Box>
+            </div>
           </div>
-
-          <div>
+          <div className={classes.rankingCont}>
+            <div className={classes.subTitle}>User Ranking:</div>
+            <div className={classes.miniLine} />
             <CompLeaderboard leaderboard={compDetails.leaderboard} key={compDetails.id} />
           </div>
         </div>
@@ -53,10 +55,9 @@ class competition extends Component {
     }
     return (
       <Container>
-
-        <Box p={4}>
+        <div className={classes.mainCont}>
           {data}
-        </Box>
+        </div>
       </Container>
 
     )

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import {
-  Typography, CssBaseline, Paper, Grid, Container, Box
+  Typography, Paper, Grid, Container, Box, Fab
 } from '@material-ui/core'
 import PropTypes from 'prop-types'
+import NavigationIcon from '@material-ui/icons/Navigation';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import classes from './competitions.module.css'
@@ -82,40 +83,29 @@ class competitions extends Component {
     let compList = <Spinner />
     if (competitionsList) {
       compList = competitionsList.map(el => (
-        <div className={classes.list} key={el.id}>
-          <Paper>
-            <Link onClick={() => this.startCompetition(el)} to={{
+        <div key={el._id}>
+          <Paper className={classes.competitionCard} style={{ backgroundColor: 'rgba(240,240,240,0.8)' }}>
+            <Link style={{ textDecoration: 'none' } onClick={() => this.startCompetition(el)} to={{
               pathname: `/event/${el._id}`,
               state: {
                 _id: `${el._id}`,
               }
             }}>
-              <div
-                className={classes.title}
-                role="presentation"
-              >
-                <Typography variant="h3" component="h3" align="center">
+              <div className={classes.competitionCardTitle}>
                   {el.name}
-                </Typography>
               </div>
             </Link>
-            <Grid container spacing={3}>
-              <Grid item xs={10}>
-                <div className={classes.padding}>
-                  <Typography variant="h5" component="h3">
-                    {el.details}
-                  </Typography>
-                </div>
-              </Grid>
-              <Grid item xs={2}>
-                  Registered
-                <br />
-                <br />
+
+            <div className={classes.miniLineCol} />
+            <div className={classes.competitionCardDetailCont}>
+                  Random text
+              <div className={classes.thinLine} />
+              <div className={classes.competitionCardExtras}>
+                Registered -
+                {' '}
                 {el.participants.length}
-              </Grid>
-
-            </Grid>
-
+              </div>
+            </div>
           </Paper>
         </div>
       ))
@@ -124,12 +114,20 @@ class competitions extends Component {
       <Box p={5}>
         {this.props.red}
         <Container>
-          <div>
-            <br />
-            <CssBaseline />
-            <Typography variant="h1" align="center">Competitions</Typography>
-            {compList}
-            <Link to="/competitions/add"><Typography variant="h4" align="center">Add a new Competition</Typography></Link>
+          <div className={classes.mainCont}>
+            <div className={classes.pageTitle}>Competitions</div>
+            <div className={classes.miniLine} />
+            <div className={classes.competitionListCont}>
+              {compList}
+            </div>
+            <div className={classes.btnCont}>
+              <Link to="/competitions/add">
+                <Fab variant="extended" color="primary" aria-label="Add">
+                  <NavigationIcon className={classes.extendedIcon} />
+                  Add Competition
+                </Fab>
+              </Link>
+            </div>
           </div>
         </Container>
       </Box>

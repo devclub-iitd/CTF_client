@@ -93,10 +93,11 @@ const NavTabs = ({ location, isAuthenticated }) => {
 
       <AppBar position="fixed">
         <div>
-          <Box display="flex" justifyContent="center">
-            <Box alignItems="center" ><h1 style={{ textAlign: 'center' }}>Capture The Flag</h1></Box>
-            {logOut}
-          </Box>
+
+         <Box display="flex" justifyContent="center">
+         <Box alignItems="center" ><h1 style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: '2px', padding: '10px' }}>Capture The Flag</h1></Box>
+         {logOut}
+         </Box>
         </div>
         <Tabs variant="fullWidth" value={current() || value} onChange={handleChange}>
           <LinkTab label="Home" component={Link} to="/" />
