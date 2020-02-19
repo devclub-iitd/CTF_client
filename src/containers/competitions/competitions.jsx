@@ -85,7 +85,7 @@ class competitions extends Component {
       compList = competitionsList.map(el => (
         <div key={el._id}>
           <Paper className={classes.competitionCard} style={{ backgroundColor: 'rgba(240,240,240,0.8)' }}>
-            <Link style={{ textDecoration: 'none' } onClick={() => this.startCompetition(el)} to={{
+            <Link style={{ textDecoration: 'none' }} onClick={() => this.startCompetition(el)} to={{
               pathname: `/event/${el._id}`,
               state: {
                 _id: `${el._id}`,

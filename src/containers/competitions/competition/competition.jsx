@@ -24,11 +24,11 @@ class competition extends Component {
       data = (
         <div>
           <div className={classes.title}>
-              {compDetails.name}
+            {compDetails.name}
           </div>
           <div className={classes.miniLineCol} />
           <div className={classes.details}>
-              {compDetails.details}
+            {compDetails.details}
           </div>
 
           <div className={classes.ruleCont}>
