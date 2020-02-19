@@ -34,8 +34,7 @@ const compLeaderboard = ({ leaderboard }) => {
     </tr>
   ));
   return (
-    <div>
-      <Box p={4}><Typography variant="h2" align="center">User Ranking</Typography></Box>
+    <div style={{ marginTop: '30px' }}>
       <table className={classes.table}>
         <tr>
           <th>Rank</th>

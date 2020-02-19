@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
+import classes from './CompProblems.module.css';
 import Axios from 'axios';
 
 const CompProblems = ({ challenges }) => {
@@ -22,16 +23,16 @@ const CompProblems = ({ challenges }) => {
       <br />
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <Typography variant="h4">Problems  </Typography>
+          <div className={classes.tableHeading} >Problems  </div>
         </Grid>
         <Grid item xs={3}>
-          <Typography variant="h4">Users Solved </Typography>
+          <div className={classes.tableHeading} >Users Solved </div>
         </Grid>
         <Grid item xs={3}>
-          <Typography variant="h4">Score  </Typography>
+          <div className={classes.tableHeading} >Score  </div>
         </Grid>
         <Grid item xs={3}>
-          <Typography variant="h4">Status  </Typography>
+          <div className={classes.tableHeading} >Status  </div>
         </Grid>
 
 

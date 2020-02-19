@@ -44,6 +44,10 @@
   color: black;
   font-weight: 600;
   font-size: 40px;
+  transition: 0.2s ease-out;
+}
+.competitionCardTitle:hover {
+  letter-spacing: 2px;
 }
 .miniLineCol {
   width: 40px;
