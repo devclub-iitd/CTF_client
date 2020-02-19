@@ -1,93 +1,93 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import clsx from 'clsx';
-import TextField from '@material-ui/core/TextField';
-import { Typography, Container, Button } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import FormControl from '@material-ui/core/FormControl';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import classes from './login.module.css';
-import Spinner from '../../UI/Spinner/Spinner';
-import * as actions from '../../../store/actions/index';
+import React from 'react'
+import { connect } from 'react-redux'
+import clsx from 'clsx'
+import TextField from '@material-ui/core/TextField'
+import { Typography, Container, Button } from '@material-ui/core'
+import Icon from '@material-ui/core/Icon'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import FormControl from '@material-ui/core/FormControl'
+import IconButton from '@material-ui/core/IconButton'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import classes from './login.module.css'
+import Spinner from '../../UI/Spinner/Spinner'
+import * as actions from '../../../store/actions/index'
 
 const Login = (props) => {
   const [values, setValues] = React.useState({
     username: '',
-    password: '',
-  });
+    password: ''
+  })
   const handleChange = prop => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+    setValues({ ...values, [prop]: event.target.value })
+  }
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
+    setValues({ ...values, showPassword: !values.showPassword })
+  }
   const loginSubmitHandler = (event) => {
-    event.preventDefault();
-    props.onAuth(values.username,values.password,true);
-    //Axios.post('Post Link', values);
-  };
+    event.preventDefault()
+    props.onAuth(values, true)
+    // Axios.post('Post Link', values);
+  }
 
-  let display =  <Container className={classes.container}>
-  <Typography variant="h2" align="center">Login</Typography>
-  <TextField
-    id="standard-username"
-    label="Username"
-    className={classes.textField}
-    margin="normal"
-    name="username"
-    onChange={handleChange('username')}
-  />
-  <br />
-  <FormControl className={clsx(classes.margin, classes.textField)}>
-    <InputLabel htmlFor="adornment-password">Password</InputLabel>
-    <Input
-      id="adornment-password"
-      type={values.showPassword ? 'text' : 'password'}
-      value={values.password}
-      onChange={handleChange('password')}
-      endAdornment={(
-        <InputAdornment position="end">
-          <IconButton aria-label="Toggle password visibility" onClick={handleClickShowPassword}>
-            {values.showPassword ? <Visibility /> : <VisibilityOff />}
-          </IconButton>
-        </InputAdornment>
-)}
+  let display = <Container className={classes.container}>
+    <Typography variant="h2" align="center">Login</Typography>
+    <TextField
+      id="standard-username"
+      label="Username"
+      className={classes.textField}
+      margin="normal"
+      name="username"
+      onChange={handleChange('username')}
     />
-  </FormControl>
-  <br />
-  <br />
-  <Button onClick={loginSubmitHandler} variant="contained" color="primary" className={classes.button}>
+    <br />
+    <FormControl className={clsx(classes.margin, classes.textField)}>
+      <InputLabel htmlFor="adornment-password">Password</InputLabel>
+      <Input
+        id="adornment-password"
+        type={values.showPassword ? 'text' : 'password'}
+        value={values.password}
+        onChange={handleChange('password')}
+        endAdornment={(
+          <InputAdornment position="end">
+            <IconButton aria-label="Toggle password visibility" onClick={handleClickShowPassword}>
+              {values.showPassword ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        )}
+      />
+    </FormControl>
+    <br />
+    <br />
+    <Button onClick={loginSubmitHandler} variant="contained" color="primary" className={classes.button}>
              Login
-    <Icon className={classes.rightIcon}>send</Icon>
-  </Button>
-  <br />
-  <br />
-</Container>
-if(props.loading){
-  display = <Spinner></Spinner>
+      <Icon className={classes.rightIcon}>send</Icon>
+    </Button>
+    <br />
+    <br />
+  </Container>
+  if (props.loading) {
+    display = <Spinner></Spinner>
+  }
+  return (
+    <div>
+      {display}
+    </div>
+  )
 }
-return (
-  <div>
-    {display}
-  </div>
-  );
-};
 
 const mapStateToProps = state => {
   return {
-    loading: state.loading,
+    loading: state.loading
   }
 }
 
 const mapDispatchToProps = dispatch => {
-      return {
-        onAuth: (email,password,isLogin) => dispatch(actions.auth(email,password,isLogin))
-      }
+  return {
+    onAuth: (authData, isLogin) => dispatch(actions.auth(authData, isLogin))
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

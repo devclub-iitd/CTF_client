@@ -1,14 +1,14 @@
-import Axios from 'axios';
-import * as actionType from './actionsTypes';
+import Axios from 'axios'
+import * as actionType from './actionsTypes'
 
 export const fetchProfile = profile => ({
   type: actionType.SET_PROFILE,
-  profile,
-});
+  profile
+})
 
-export const initProfile = () => (dispatch) => {
-  Axios.get('https://ctf-apis.firebaseio.com/profile.json')
+export const initProfile = (userId) => (dispatch) => {
+  Axios.get('http://localhost:3000/api/user/' + userId)
     .then((response) => {
-      dispatch(fetchProfile(response.data));
-    });
-};
+      dispatch(fetchProfile(response.data))
+    })
+}

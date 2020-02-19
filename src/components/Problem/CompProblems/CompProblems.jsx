@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   Typography, Container, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails,
   Grid, TextField, Button,
@@ -8,16 +8,17 @@ import PropTypes from 'prop-types';
 import classes from './CompProblems.module.css';
 import Axios from 'axios';
 
+
 const CompProblems = ({ challenges }) => {
-  const [values, setValues] = useState(null);
+  const [values, setValues] = useState(null)
   const answerInput = (event) => {
-    event.preventDefault();
-    const answer = event.target.value;
-    setValues({ answer });
-  };
+    event.preventDefault()
+    const answer = event.target.value
+    setValues({ answer })
+  }
   const submitAnswerHandler = () => {
-    Axios.post('Post Link', values);
-  };
+    Axios.post('Post Link', values)
+  }
   const display = (
     <div>
       <br />
@@ -35,13 +36,12 @@ const CompProblems = ({ challenges }) => {
           <div className={classes.tableHeading} >Status  </div>
         </Grid>
 
-
       </Grid>
 
     </div>
-  );
-  const prob = Object.values(challenges).map(el => (
-    <div style={{ width: '100%' }} key={el.id}>
+  )
+  const prob = challenges.map(el => (
+    <div style={{ width: '100%' }} key={el._id}>
       <ExpansionPanel>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -74,7 +74,6 @@ const CompProblems = ({ challenges }) => {
               </Typography>
             </Grid>
 
-
           </Grid>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
@@ -88,7 +87,7 @@ const CompProblems = ({ challenges }) => {
                 fullWidth
                 margin="large"
                 InputLabelProps={{
-                  shrink: true,
+                  shrink: true
                 }}
                 onChange={answerInput}
               />
@@ -101,18 +100,18 @@ const CompProblems = ({ challenges }) => {
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>
-  ));
+  ))
 
   return (
     <Container>
       {display}
       {prob}
     </Container>
-  );
-};
+  )
+}
 
 CompProblems.propTypes = {
-  challenges: PropTypes.node.isRequired,
-};
+  challenges: PropTypes.node.isRequired
+}
 
-export default CompProblems;
+export default CompProblems

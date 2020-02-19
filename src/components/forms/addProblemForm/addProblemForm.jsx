@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import { Typography, Container, Button } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import Axios from 'axios';
-import classes from './addProblemForm.module.css';
+import React, { useState } from 'react'
+import TextField from '@material-ui/core/TextField'
+import { Typography, Container, Button } from '@material-ui/core'
+import Icon from '@material-ui/core/Icon'
+import Axios from 'axios'
+import { connect } from 'react-redux'
+import classes from './addProblemForm.module.css'
+import * as actions from '../../../store/actions/index'
 
-
-const AddProbelmForm = () => {
+const AddProbelmForm = (props) => {
   const [formElements, setFormElement] = useState({
     name: '',
     category: '',
     details: '',
     difficulty: '',
-    answer: '',
-  });
+    answer: ''
+  })
 
   const changeHandler = name => (event) => {
-    setFormElement({ ...formElements, [name]: event.target.value });
-  };
+    setFormElement({ ...formElements, [name]: event.target.value })
+  }
 
   const submitHandler = (event) => {
-    event.preventDefault();
-    Axios.post('https://ctf-apis.firebaseio.com/problems.json', formElements);
-  };
-
+    event.preventDefault()
+    const { addProblem, token } = props
+    addProblem(formElements, token)
+  }
 
   return (
     <Container>
@@ -31,7 +32,6 @@ const AddProbelmForm = () => {
         <Typography variant="h3" align="center">Add a Problem</Typography>
         <br />
         <form noValidate autoComplete="off" onSubmit={submitHandler}>
-
 
           <TextField
             id="standard-name"
@@ -88,7 +88,19 @@ const AddProbelmForm = () => {
         </form>
       </div>
     </Container>
-  );
-};
+  )
+}
 
-export default AddProbelmForm;
+const mapStateToProps = state => {
+  return {
+    token: state.token
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addProblem: (problem, token) => dispatch(actions.onitProblem(problem, token))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProbelmForm)

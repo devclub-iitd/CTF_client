@@ -1,30 +1,31 @@
-import React from 'react';
+import React from 'react'
 import {
-  Container, Typography, Box, Paper, Grid,
-} from '@material-ui/core';
+  Container, Typography, Box, Paper, Grid
+} from '@material-ui/core'
 
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Spinner from '../../components/UI/Spinner/Spinner';
-import classes from './profile.module.css';
-import * as ProfileActions from '../../store/actions/index';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import Spinner from '../../components/UI/Spinner/Spinner'
+import classes from './profile.module.css'
+import * as ProfileActions from '../../store/actions/index'
 
 class Profile extends React.PureComponent {
-  componentDidMount() {
-    const { onInitProfile } = this.props;
-    onInitProfile();
+  componentDidMount () {
+    const { onInitProfile, userId } = this.props
+    onInitProfile(userId)
   }
 
-
-  render() {
-    const {
-      profile,
-    } = this.props;
-    let compList = <Spinner />;
+  render () {
+    let {
+      profile
+    } = this.props
+    let compList = <Spinner />
     if (profile) {
-      compList = Object.values(profile.competitionsList).map(el => (
-        <div className={classes.list} key={el.id}>
+      // const message = profile.message
+      profile = profile.data
+      compList = (profile.events).map(el => (
+        <div className={classes.list} key={el._id}>
           <Paper>
             <Link to={`/competition/C${el.id}`}>
               <div
@@ -60,9 +61,9 @@ class Profile extends React.PureComponent {
 
           </Paper>
         </div>
-      ));
+      ))
     }
-    let display = null;
+    let display = null
     if (profile) {
       display = (
         <div>
@@ -96,20 +97,19 @@ class Profile extends React.PureComponent {
           <Box p={4}>
             <Typography variant="h5">
     Rank:
-              {profile.problems.rank}
+              {/* {profile.problems.rank} */}
             </Typography>
           </Box>
           <Box p={4}>
             <Typography variant="h5">
     Score:
-              {profile.problems.score}
+              {/* {profile.problems.score} */}
             </Typography>
           </Box>
 
         </div>
-      );
+      )
     }
-
 
     return (
       <div>
@@ -120,19 +120,20 @@ class Profile extends React.PureComponent {
         </Container>
       </div>
 
-    );
+    )
   }
 }
 Profile.propTypes = {
   onInitProfile: PropTypes.node.isRequired,
-  profile: PropTypes.node.isRequired,
-};
+  profile: PropTypes.node.isRequired
+}
 
 const mapStateToProps = state => ({
   profile: state.profile,
-});
+  userId: state.userId
+})
 const mapDispatchToProps = dispatch => ({
-  onInitProfile: () => dispatch(ProfileActions.initProfile()),
-});
+  onInitProfile: (userId) => dispatch(ProfileActions.initProfile(userId))
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

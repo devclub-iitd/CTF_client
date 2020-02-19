@@ -2,21 +2,24 @@ export {
   initProbelms,
   fetchProblems,
   categoryFetchProblems,
-} from './problems';
+  onitProblem
+} from './problems'
 
 export {
   initCompetitions,
   fetchCompetitions,
   initCompetition,
   fetchCompetition,
-} from './competitions';
+  onitEvent
+} from './competitions'
 
 export {
   initProfile,
-  fetchProfile,
-} from './profile';
+  fetchProfile
+} from './profile'
 
 export {
   auth,
-  logout
-} from './auth';
+  logout,
+  authCheckState
+} from './auth'

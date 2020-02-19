@@ -1,7 +1,7 @@
-import React from 'react';
-import { Typography, Box } from '@material-ui/core';
-import PropTypes from 'prop-types';
-import classes from './CompLeaderboard.module.css';
+import React from 'react'
+import { Typography, Box } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import classes from './CompLeaderboard.module.css'
 
 const compLeaderboard = ({ leaderboard }) => {
   // const user = [
@@ -26,13 +26,13 @@ const compLeaderboard = ({ leaderboard }) => {
 
   // ];
 
-  const table = Object.values(leaderboard).map(el => (
+  const table = leaderboard.map(el => (
     <tr>
-      <td key={el.id}>{el.rank}</td>
-      <td key={el.id}>{el.name}</td>
-      <td key={el.id}>{el.score}</td>
+      <td key={el._id}>{el.rank}</td>
+      <td key={el._id}>{el.name}</td>
+      <td key={el._id}>{el.score}</td>
     </tr>
-  ));
+  ))
   return (
     <div style={{ marginTop: '30px' }}>
       <table className={classes.table}>
@@ -46,11 +46,11 @@ const compLeaderboard = ({ leaderboard }) => {
 
     </div>
 
-  );
-};
+  )
+}
 
 compLeaderboard.propTypes = {
-  leaderboard: PropTypes.node.isRequired,
-};
+  leaderboard: PropTypes.node.isRequired
+}
 
-export default compLeaderboard;
+export default compLeaderboard
