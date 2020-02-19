@@ -40,18 +40,18 @@ const rows = [
 
 
 function CustomizedTables({ width }) {
-  let wid = '30%';
-  if (width) {
-    wid = width;
-  }
+  // idk what this code was for ----------------
+  // let wid = '30%';
+  // if (width) {
+  //   wid = width;
+  // }
   const useStyles = makeStyles(theme => ({
     root: {
-      width: wid,
-      marginTop: theme.spacing(3),
-      overflowX: 'auto',
+      width: '300px',
+      padding: '0px'
     },
     table: {
-      minWidth: 250,
+      width: '300px'
     },
   }));
 

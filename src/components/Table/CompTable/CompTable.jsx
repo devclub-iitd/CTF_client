@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     padding: '40px',
     backgroundColor: 'rgba(245,245,245,0.6)',
     position: 'relative',
-    top: '-150px'
+    // top: '-150px'
   },
 }));
 
