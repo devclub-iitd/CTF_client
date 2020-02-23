@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {
-  Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container,
+  Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Button
 } from '@material-ui/core';
+import Icon from '@material-ui/core/Icon'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../../../UI/Spinner/Spinner';
 import * as probelmActions from '../../../../store/actions/index';
+import classes from './problemAdderDialog.module.css';
 
 
 class problems extends Component {
@@ -58,11 +60,15 @@ class problems extends Component {
             >
               <Grid container spacing={3}>
                 <Grid item xs={3}>
-                  <Typography>
-                    <input type="checkbox" onChange={() => this.checkBoxChangeHandler(el)} />
-                    {el.name}
-                    {' '}
-                  </Typography>
+                  <div className={classes.column1}>
+                    <span className={classes.checkBox}>
+                      <input type="checkbox" onChange={() => this.checkBoxChangeHandler(el)} />
+                    </span>
+                    <Typography>
+                      {el.name}
+                      {' '}
+                    </Typography>
+                  </div>
                 </Grid>
                 <Grid item xs={3}>
                   <Typography>
@@ -82,8 +88,6 @@ class problems extends Component {
                     {' '}
                   </Typography>
                 </Grid>
-
-
               </Grid>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
@@ -103,21 +107,18 @@ class problems extends Component {
           <br />
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Typography variant="h4">Problems  </Typography>
+              <div className={classes.tableTitle}>Problems</div>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Users Solved </Typography>
+              <div className={classes.tableTitle}>Users Solved</div>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Score  </Typography>
+              <div className={classes.tableTitle}>Score</div>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Status  </Typography>
+              <div className={classes.tableTitle}>Status</div>
             </Grid>
-
-
           </Grid>
-
         </div>
       );
     }
@@ -126,16 +127,15 @@ class problems extends Component {
     return (
       <div>
         <Container maxWidth="md">
-          <Typography variant="h1" align="center">
-                    Problems
-          </Typography>
+          <div className={classes.title}>
+            Problems
+          </div>
           {display}
           {prob}
-          <button type="submit" onClick={this.submitHandler}>Submit</button>
-
+          <Button type="submit" variant="contained" color="primary" onClick={this.submitHandler} style={{ 'marginTop': '20px' }}>
+            submit
+          </Button>
         </Container>
-
-
       </div>
     );
   }

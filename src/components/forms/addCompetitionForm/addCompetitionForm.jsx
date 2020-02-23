@@ -46,62 +46,67 @@ const AddCompetitionForm = (props) => {
 
   return (
     <Container>
-      <div>
-        <Typography variant="h3" align="center">Add a Competition</Typography>
-        <br />
-        <form noValidate autoComplete="off" onSubmit={submitHandler}>
+      <div className={classes.mainCont}>
+        <div className={classes.subCont}>
+          <div className={classes.title}>Add a Competition</div>
+          <div className={classes.miniLine} />
+          <form noValidate autoComplete="off" onSubmit={submitHandler}>
 
-          <TextField
-            id="standard-name"
-            label="Name"
-            className={classes.textField}
-            margin="normal"
-            name="name"
-            onChange={changeHandler('name')}
-          />
-          <br />
-          <br />
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <DateTimePicker
-              value={startDate}
-              disablePast
-              onChange={handleStartDateChange}
-              label="Start Date and Time"
-              showTodayButton
+            <TextField
+              id="standard-name"
+              label="Name"
+              className={classes.textField}
+              margin="normal"
+              name="name"
+              onChange={changeHandler('name')}
             />
-          </MuiPickersUtilsProvider>
-          <br />
-          <br />
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <DateTimePicker
-              value={endDate}
-              disablePast
-              onChange={handleEndDateChange}
-              label="End Date and Time"
-              showTodayButton
+            <br />
+            <br />
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DateTimePicker
+                value={startDate}
+                className={classes.textField}
+                disablePast
+                onChange={handleStartDateChange}
+                label="Start Date and Time"
+                showTodayButton
+              />
+            </MuiPickersUtilsProvider>
+            <br />
+            <br />
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DateTimePicker
+                value={endDate}
+                className={classes.textField}
+                disablePast
+                onChange={handleEndDateChange}
+                label="End Date and Time"
+                showTodayButton
+              />
+            </MuiPickersUtilsProvider>
+            <br />
+            <br />
+            <br />
+            <TextField
+              id="Competition Details"
+              label="Competition Details"
+              multiline
+              rows="10"
+              className={classes.textField}
+              // fullWidth="true"
+              onChange={changeHandler('details')}
+              variant="outlined"
             />
-          </MuiPickersUtilsProvider>
-          <br />
-          <br />
-          <br />
-          <TextField
-            id="Competition Details"
-            label="Competition Details"
-            multiline
-            rows="10"
-            className={classes.textField}
-            fullWidth="true"
-            onChange={changeHandler('details')}
-            variant="outlined"
-          />
-          <br />
-          <br />
-          <Modal name="Add Problems"><ProblemAdderDialog problemSubmit={problemSubmitHandler} /></Modal>
-          <Button type="submit" variant="contained" color="primary" className={classes.button}>
-                 Send
-            <Icon className={classes.rightIcon}>send</Icon>
-          </Button>
-        </form>
+            <br />
+            <br />
+            <Modal name="Add Problems"><ProblemAdderDialog problemSubmit={problemSubmitHandler} /></Modal>
+            <br />
+            <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                   Send
+              <Icon className={classes.rightIcon}>send</Icon>
+            </Button>
+          </form>
+        </div>
       </div>
     </Container>
   )
