@@ -34,7 +34,6 @@ class competitions extends Component {
     })
   }
 
-
   startCompetition = async (event) => {
     const { token, userId, profile, onInitProfile } = this.props;
     let username = null
@@ -97,6 +96,10 @@ class competitions extends Component {
 
   render () {
     const { competitionsList, profile, token } = this.props
+    let isAdmin = null
+    if(profile){
+      isAdmin = profile.isAdmin
+    }
     let compList = <Spinner />
     if (competitionsList) {
       compList = competitionsList.map(el => (
@@ -123,7 +126,7 @@ class competitions extends Component {
                 {el.participants.length}
               </div>
               <div>
-                {profile.isAdmin ? <Button onClick = {() => this.deleteEventHandler(el._id)}>Delete</Button> : null}
+                {isAdmin ? <Button onClick = {() => this.deleteEventHandler(el._id)}>Delete</Button> : null}
               </div>
             </div>
           </Paper>
