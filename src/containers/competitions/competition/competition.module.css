@@ -34,7 +34,7 @@
   width: 60%;
 }
 .ruleCont, .challengesCont, .rankingCont {
-  width: 60%;
+  width: 100%;
   margin: auto;
 }
 .subTitle {

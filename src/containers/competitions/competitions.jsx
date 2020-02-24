@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Typography, Paper, Grid, Container, Box, Fab
+  Typography, Paper, Grid, Container, Box, Fab, Button
 } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -24,14 +24,31 @@ class competitions extends Component {
     }
   }
 
+  deleteEventHandler = async (eventId) => {
+    const { token } = this.props
+    const url = 'http://localhost:3000/api/event/' + eventId
+    const response = await Axios({
+      method: 'DELETE',
+      url: url,
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+  }
+
 
   startCompetition = async (event) => {
     const { token, userId, profile, onInitProfile } = this.props;
+    let username = null
+    if(profile){
+      username = profile.username
+    }
     if(!token){
       window.location.href = "/";
       return alert('Login to enter Competition')
     }
-    let isParticipated = profile.data.participant.some(item => event.participants.includes(item))
+    if(new Date(event.startTime) > (new Date())){
+      return alert('Competition has not started yet!!')
+    }
+    let isParticipated = profile.participant.some(item => event.participants.includes(item))
     console.log(isParticipated)
     if(!isParticipated){
       let url = 'http://localhost:3000/api/participant/'
@@ -40,7 +57,8 @@ class competitions extends Component {
         url: url,
         data: {
           eventId: event._id,
-          userId: userId
+          userId: userId,
+          username: username
         },
         headers: { 'Authorization': 'Bearer ' + token }
      });
@@ -58,11 +76,10 @@ class competitions extends Component {
         headers: { 'Authorization': 'Bearer ' + token }
      });
      url = 'http://localhost:3000/api/user/'+userId
-     const userParticipant = [...profile.data.participant]
-     const userEvent = [...profile.data.events]
+     const userParticipant = [...profile.participant]
+     const userEvent = [...profile.events]
      userEvent.push(event._id)
      userParticipant.push(participant_id)
-     console.log(userParticipant,userEvent)
      const userResponse = await Axios({
       method: 'PUT',
       url: url,
@@ -79,14 +96,14 @@ class competitions extends Component {
   }
 
   render () {
-    const { competitionsList } = this.props
+    const { competitionsList, profile, token } = this.props
     let compList = <Spinner />
     if (competitionsList) {
       compList = competitionsList.map(el => (
         <div key={el._id}>
           <Paper className={classes.competitionCard} style={{ backgroundColor: 'rgba(240,240,240,0.8)' }}>
             <Link style={{ textDecoration: 'none' }} onClick={() => this.startCompetition(el)} to={{
-              pathname: `/event/${el._id}`,
+              pathname: `/event/${(new Date(el.startTime) < (new Date())) ? el._id : ''}`,
               state: {
                 _id: `${el._id}`,
               }
@@ -95,7 +112,7 @@ class competitions extends Component {
                   {el.name}
               </div>
             </Link>
-
+              {el.details}
             <div className={classes.miniLineCol} />
             <div className={classes.competitionCardDetailCont}>
                   Random text
@@ -104,6 +121,9 @@ class competitions extends Component {
                 Registered -
                 {' '}
                 {el.participants.length}
+              </div>
+              <div>
+                {profile.isAdmin ? <Button onClick = {() => this.deleteEventHandler(el._id)}>Delete</Button> : null}
               </div>
             </div>
           </Paper>

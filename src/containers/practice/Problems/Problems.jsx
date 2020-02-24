@@ -29,7 +29,7 @@ class problems extends Component {
   status = (_id) => {
     const { profile } = this.props
     if(profile){
-      if(profile.data.problems.includes(_id)){
+      if(profile.problems.includes(_id)){
         return true
       }
     }
@@ -47,14 +47,14 @@ class problems extends Component {
     const { answer } = this.state;console.log(prb,answer)
     if(token && prb.answer === answer){
           console.log('Sedning req')
-         profile.data.problems.push(prb._id)
+         profile.problems.push(prb._id)
          prb.userSolved = prb.userSolved + 1
          const url = 'http://localhost:3000/api/problem/'+prb._id
          const response = await Axios({
             method: 'PUT',
             url: url,
             data: {
-              problems: profile.data.problems,
+              problems: profile.problems,
               userSolved: prb.userSolved
             },
             headers: { 'Authorization': 'Bearer ' + token }

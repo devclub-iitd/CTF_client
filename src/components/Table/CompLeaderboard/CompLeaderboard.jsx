@@ -1,38 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Typography, Box } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import classes from './CompLeaderboard.module.css'
+import Axios from 'axios'
 
-const compLeaderboard = ({ leaderboard }) => {
-  // const user = [
-  //   {
-  //     id: 1,
-  //     name: 'Max',
-  //     rank: 1,
-  //     score: 22,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Rocky',
-  //     rank: 2,
-  //     score: 14,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Tommy',
-  //     rank: 3,
-  //     score: 2,
-  //   },
+import Spinner from '../../UI/Spinner/Spinner'
 
-  // ];
+const CompLeaderboard = ({ eventId }) => {
+  const [leaderboard, setLeaderboard] = useState(null)
 
-  const table = leaderboard.map(el => (
-    <tr>
-      <td key={el._id}>{el.rank}</td>
-      <td key={el._id}>{el.name}</td>
-      <td key={el._id}>{el.score}</td>
-    </tr>
-  ))
+  useEffect(() => {
+    const url = 'http://localhost:3000/api/event/leaderboard/' + eventId
+    const fetchLeaderboard = async () => {
+      const response = await Axios.get(url)
+      setLeaderboard(response.data)
+    }
+    fetchLeaderboard()
+  }, [])
+
+  let table = <Spinner></Spinner>
+  if (leaderboard) {
+    table = leaderboard.map((el, rank) => (
+      <tr>
+        <td key={el._id}>{rank + 1}</td>
+        <td key={el._id}>{el.username}</td>
+        <td key={el._id}>{el.score}</td>
+      </tr>
+    ))
+  }
+
   return (
     <div style={{ marginTop: '30px' }}>
       <table className={classes.table}>
@@ -49,8 +45,8 @@ const compLeaderboard = ({ leaderboard }) => {
   )
 }
 
-compLeaderboard.propTypes = {
-  leaderboard: PropTypes.node.isRequired
+CompLeaderboard.propTypes = {
+  eventId: PropTypes.node.isRequired
 }
 
-export default compLeaderboard
+export default CompLeaderboard

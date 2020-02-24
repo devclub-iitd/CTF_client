@@ -17,13 +17,11 @@ class Profile extends React.PureComponent {
   }
 
   render () {
-    let {
+    const {
       profile
     } = this.props
     let compList = <Spinner />
     if (profile) {
-      // const message = profile.message
-      profile = profile.data
       compList = (profile.events).map(el => (
         <div className={classes.list} key={el._id}>
           <Paper>

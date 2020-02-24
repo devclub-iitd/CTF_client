@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import { CssBaseline } from '@material-ui/core';
-import { NavLink } from 'react-router-dom';
-import classes from './practice.module.css';
+import React, { PureComponent } from 'react'
+import { CssBaseline } from '@material-ui/core'
+import { NavLink } from 'react-router-dom'
+import classes from './practice.module.css'
 
 class practice extends PureComponent {
-  render() {
+  render () {
     return (
       <div>
         <nav className={classes.body}>
@@ -57,11 +57,9 @@ class practice extends PureComponent {
 
         <CssBaseline />
 
-
       </div>
-    );
+    )
   }
 }
 
-
-export default practice;
+export default practice

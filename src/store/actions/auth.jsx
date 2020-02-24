@@ -47,7 +47,7 @@ export const fetchProfile = profile => ({
 export const initProfile = (userId) => (dispatch) => {
   axios.get('http://localhost:3000/api/user/' + userId)
     .then((response) => {
-      dispatch(fetchProfile(response.data))
+      dispatch(fetchProfile(response.data.data))
     })
 }
 
@@ -86,8 +86,8 @@ export const authCheckState = () => {
       if (expirationDate > new Date()) {
         const userId = localStorage.getItem('userId')
         dispatch(authSuccess(token, userId))
-        dispatch(checkAuthTimeOut((expirationDate.getTime() - (new Date().getTime())) / 1000))
         dispatch(initProfile(userId))
+        dispatch(checkAuthTimeOut((expirationDate.getTime() - (new Date().getTime())) / 1000))
       } else {
         console.log('Logout hogaya 2')
         dispatch(logout())

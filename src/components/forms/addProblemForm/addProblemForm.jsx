@@ -13,7 +13,9 @@ const AddProbelmForm = (props) => {
     category: '',
     details: '',
     difficulty: '',
-    answer: ''
+    answer: '',
+    score: 0,
+    isActive: 1
   })
 
   const changeHandler = name => (event) => {
@@ -63,6 +65,15 @@ const AddProbelmForm = (props) => {
           />
           <br />
           <TextField
+            id="score"
+            label="Score"
+            className={classes.textField}
+            margin="normal"
+            name="score"
+            onChange={changeHandler('score')}
+          />
+          <br />
+          <TextField
             id="standard-difficulty"
             label="Difficulty"
             className={classes.textField}
@@ -78,6 +89,15 @@ const AddProbelmForm = (props) => {
             margin="normal"
             name="answer"
             onChange={changeHandler('answer')}
+          />
+          <br />
+          <TextField
+            id="standard-activity"
+            label="Activity"
+            className={classes.textField}
+            margin="normal"
+            name="isActive"
+            onChange={changeHandler('isActive')}
           />
           <br />
           <br />

@@ -9,6 +9,6 @@ export const fetchProfile = profile => ({
 export const initProfile = (userId) => (dispatch) => {
   Axios.get('http://localhost:3000/api/user/' + userId)
     .then((response) => {
-      dispatch(fetchProfile(response.data))
+      dispatch(fetchProfile(response.data.data))
     })
 }
