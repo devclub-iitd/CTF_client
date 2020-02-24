@@ -1,6 +1,40 @@
+.mainCont {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* background-color: red; */
+  justify-content: flex-start;
+  position: absolute;
+  top: 150px;
+  /* height: calc(100% - 150px); */
+  width: 100%;
+  left: 0px;
+  padding-bottom: 100px;
+}
+.miniLine {
+  width: 40px;
+  height: 8px;
+  background-color: rgba(63,81,181,0.9);
+  /* background-color: rgba(0,0,0,0.8); */
+  margin-top: 25px;
+  border-radius: 3px;
+}
+.subCont {
+  /* margin-left: 50px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 50px;
+}
+.title {
+  font-size: 50px;
+  font-weight: 700;
+}
 .textField {
     display: flex;
     justify-content: flex-start;
     margin-right: 200px;
-    width:200px
+    width:450px
 }

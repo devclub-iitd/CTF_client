@@ -30,7 +30,9 @@ const SignUp = () => {
   };
   return (
     <Container className={classes.container}>
-      <Typography variant="h2" align="center">Sign Up</Typography>
+      <div className={classes.modalTitle}>Sign Up</div>
+      <div className={classes.miniLine} />
+      <br />
       <TextField
         id="standard-username"
         label="Username"
@@ -53,7 +55,7 @@ const SignUp = () => {
                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>
-)}
+          )}
         />
       </FormControl>
       <br />
@@ -67,8 +69,9 @@ const SignUp = () => {
       />
       <br />
       <br />
+      <br />
       <Button onClick={loginSubmitHandler} variant="contained" color="primary" className={classes.button}>
-                 SignUp
+        <span className={classes.btnText}>Sign Up</span>
         <Icon className={classes.rightIcon}>send</Icon>
       </Button>
       <br />

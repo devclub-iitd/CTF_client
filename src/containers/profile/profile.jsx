@@ -64,25 +64,28 @@ class Profile extends React.PureComponent {
     let display = null
     if (profile) {
       display = (
-        <div>
-          <Typography variant="h2" align="center">
+        <div className={classes.mainCont}>
+          <div className={classes.pageTitle}>
             {profile.name}
-          </Typography>
+          </div>
+          <div className={classes.miniLine} />
           <Box p={6}>
             <div style={{ textAlign: 'center' }}>
               <img alt="Profile Pic" src={profile.image} height="420" width="420" />
             </div>
           </Box>
-
-          <Typography variant="h4">
-    UserName:
+          <div className={classes.subDetail}>
+            <span className={classes.subDetailTitle}>User Name:</span>
             {' '}
-            {profile.username}
-          </Typography>
+            <span className={classes.subDetailDesc}>
+              {profile.username}
+            </span>
+            <div className={classes.miniLineLeft} />
+          </div>
           <Box p={4}>
-            <Typography variant="h4" align="center">
-    Competitions Participated
-            </Typography>
+            <div className={classes.subTitle}>
+              Competitions Participated
+            </div>
           </Box>
           <Box>
             {compList}

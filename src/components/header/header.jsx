@@ -48,8 +48,23 @@ const useStyles = makeStyles(theme => ({
   },
   logOut: {
     '& > *': {
-      margin: theme.spacing(1)
+      // margin: theme.spacing(1)
     }
+  },
+  headerTitleBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerLogoutBtn: {
+    marginLeft: 'auto',
+    marginRight: '100px'
+  },
+  headerTitle: {
+    marginLeft: '100px',
+    marginRight: '100px'
+    // backgroundColor: 'red'
   }
 }))
 
@@ -85,7 +100,7 @@ const NavTabs = ({ location, isAuthenticated }) => {
   if (isAuthenticated) {
     tab = <LinkTab label="Profile" component={Link} to="/profile/"/>
     red = <Redirect to="/profile/"></Redirect>
-    logOut = <Box alignItems="flex-end" m={1} p={1} ><div className={classes.logOut}><Link to="/logout/"><Button variant="contained">Logout</Button></Link></div></Box>
+    logOut = <Box className={classes.headerLogoutBtn}><div className={classes.logOut}><Link to="/logout/"><Button variant="contained">Logout</Button></Link></div></Box>
   }
 
   return (
@@ -94,8 +109,8 @@ const NavTabs = ({ location, isAuthenticated }) => {
       <AppBar position="fixed">
         <div>
 
-          <Box display="flex" justifyContent="center">
-            <Box alignItems="center" ><h1 style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: '2px', padding: '10px' }}>Capture The Flag</h1></Box>
+          <Box className={classes.headerTitleBox}>
+            <Box alignItems="center" className={classes.headerTitle}><h1 style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: '2px', padding: '10px' }}>Capture The Flag</h1></Box>
             {logOut}
           </Box>
         </div>
