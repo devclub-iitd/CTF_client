@@ -21,7 +21,7 @@ import leaderboard from './containers/practice/Leaderboard/Leaderboard'
 import category from './containers/practice/Categories/category/category'
 import Competition from './containers/competitions/competition/competition'
 import LogOut from './components/auth/logOut/logOut'
-import Walkthrough from './containers/walkthrough/walkthrough'
+// import Walkthrough from './containers/walkthrough/walkthrough'
 
 class App extends PureComponent {
   componentDidMount () {
@@ -49,7 +49,7 @@ class App extends PureComponent {
         <Route path="/practice/leaderboard" exact component={leaderboard} />
         <Route path="/practice/categories" exact component={categories} />
         <Route path="/practice/categories/:id" component={category} />
-        <Route path="/walkthrough" component={Walkthrough} />
+        {/* <Route path="/walkthrough" component={Walkthrough} /> */}
       </div>
     )
   }
