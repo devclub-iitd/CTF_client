@@ -8,11 +8,66 @@
 
 .title {
     padding: 20px;
-
+  background-color: red;
 }
 
 .title:hover {
     cursor: pointer;
     color:blue;
     text-decoration: underline;
+}
+.mainCont {
+  text-align: center;
+  position: absolute;
+  top: 150px;
+  height: calc(100% - 150px);
+  width: 100%;
+  left: 0px;
+  /* background-color: green; */
+}
+.pageTitle {
+  font-weight: 700;
+  font-size: 50px;
+  margin-top: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.miniLine {
+  width: 40px;
+  background-color: rgba(63,81,181,0.9);
+  /* background-color: rgba(0,0,0,0.8); */
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  border-radius: 3px;
+  height: 8px;
+}
+.subDetail {
+  width: 400px;
+  /* background-color: red; */
+  margin: auto;
+  text-align: left;
+  font-size: 20px;
+}
+.subDetailTitle {
+  font-weight: 600;
+  font-size: 22px;
+}
+.subDetailDesc {
+  font-weight: 200;
+  margin-left: 10px;
+}
+.miniLineLeft{
+  width: 40px;
+  background-color: rgba(63,81,181,0.9);
+  margin-top: 25px;
+  margin-bottom: 0px;
+  border-radius: 3px;
+  height: 8px;
+}
+.subTitle {
+  font-weight: 600;
+  font-size: 26px;
+  text-transform: uppercase;
+  margin-top: 30px;
 }

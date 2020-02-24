@@ -37,74 +37,81 @@ const SignUp = (props) => {
     props.onAuth(values, false)
   }
 
-  let display = <Container className={classes.container}>
-    <Typography variant="h2" align="center">Sign Up</Typography>
-    <TextField
-      id="standard-name"
-      label="Name"
-      className={classes.textField}
-      margin="normal"
-      name="name"
-      onChange={handleChange('name')}
-    />
-    <br />
-    <TextField
-      id="standard-emailId"
-      label="EmailId"
-      className={classes.textField}
-      margin="normal"
-      name="emailId"
-      onChange={handleChange('email')}
-    />
-    <br />
-    <TextField
-      id="standard-number"
-      type="number"
-      label="Mobile No"
-      className={classes.textField}
-      margin="normal"
-      name="number"
-      onChange={handleChange('number')}
-    />
-    <br />
-    <TextField
-      id="standard-username"
-      label="Username"
-      className={classes.textField}
-      margin="normal"
-      name="username"
-      onChange={handleChange('username')}
-    />
-    <br />
-    <FormControl className={clsx(classes.margin, classes.textField)}>
-      <InputLabel htmlFor="adornment-password">Password</InputLabel>
-      <Input
-        id="adornment-password"
-        type={values.showPassword ? 'text' : 'password'}
-        value={values.password}
-        onChange={handleChange('password')}
-        endAdornment={(
-          <InputAdornment position="end">
-            <IconButton aria-label="Toggle password visibility" onClick={handleClickShowPassword}>
-              {values.showPassword ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        )}
-      />
-    </FormControl>
-    <br />
-    <br />
-    <Button onClick={loginSubmitHandler} variant="contained" color="primary" className={classes.button}>
-             Sign Up
-      <Icon className={classes.rightIcon}>send</Icon>
-    </Button>
-    <div>
-      <Modal name="Login"><Login /></Modal>
-    </div>
-    <div>
-      <Modal name="Admin"><Admin /></Modal>
-    </div>
-  </Container>
+  let display =
+    <Container className={classes.container}>
+      <div className={classes.mainCont}>
+        <div className={classes.left}>
+          <div className={classes.pageTitle}>Sign Up</div>
+          <div className={classes.miniLine} />
+          <div className={classes.modalRow}>
+            <Modal name="Login"><Login /></Modal>
+            <span className={classes.orSym}>OR</span>
+            <Modal name="Admin"><Admin /></Modal>
+          </div>
+        </div>
+        <div className={classes.right}>
+          <TextField
+            id="standard-name"
+            label="Name"
+            className={classes.textField}
+            margin="normal"
+            name="name"
+            onChange={handleChange('name')}
+          />
+          <br />
+          <TextField
+            id="standard-emailId"
+            label="EmailId"
+            className={classes.textField}
+            margin="normal"
+            name="emailId"
+            onChange={handleChange('email')}
+          />
+          <br />
+          <TextField
+            id="standard-number"
+            type="number"
+            label="Mobile No"
+            className={classes.textField}
+            margin="normal"
+            name="number"
+            onChange={handleChange('number')}
+          />
+          <br />
+          <TextField
+            id="standard-username"
+            label="Username"
+            className={classes.textField}
+            margin="normal"
+            name="username"
+            onChange={handleChange('username')}
+          />
+          <br />
+          <FormControl className={clsx(classes.margin, classes.textField)}>
+            <InputLabel htmlFor="adornment-password">Password</InputLabel>
+            <Input
+              id="adornment-password"
+              type={values.showPassword ? 'text' : 'password'}
+              value={values.password}
+              onChange={handleChange('password')}
+              endAdornment={(
+                <InputAdornment position="end">
+                  <IconButton aria-label="Toggle password visibility" onClick={handleClickShowPassword}>
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              )}
+            />
+          </FormControl>
+          <br />
+          <br />
+          <Button onClick={loginSubmitHandler} variant="contained" color="primary" className={classes.button}>
+            <span className={classes.btnText}>Sign Up</span>
+            <Icon className={classes.rightIcon}>send</Icon>
+          </Button>
+        </div>
+      </div>
+    </Container>
 
   if (props.loading) {
     display = <Spinner></Spinner>

@@ -33,7 +33,9 @@ const Login = (props) => {
   }
 
   let display = <Container className={classes.container}>
-    <Typography variant="h2" align="center">Login</Typography>
+    <div className={classes.modalTitle}>Login</div>
+    <div className={classes.miniLine} />
+    <br />
     <TextField
       id="standard-username"
       label="Username"
@@ -61,8 +63,9 @@ const Login = (props) => {
     </FormControl>
     <br />
     <br />
+    <br />
     <Button onClick={loginSubmitHandler} variant="contained" color="primary" className={classes.button}>
-             Login
+      <span className={classes.btnText}>Login</span>
       <Icon className={classes.rightIcon}>send</Icon>
     </Button>
     <br />
