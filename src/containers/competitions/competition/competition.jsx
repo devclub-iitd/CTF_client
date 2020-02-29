@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Typography, Container, Box } from '@material-ui/core'
+import { Typography, Container, Box, Paper, Button } from '@material-ui/core'
 import Timer from '../../../components/UI/Timer/timer'
 import { connect } from 'react-redux'
 import classes from './competition.module.css'
@@ -10,24 +10,71 @@ import * as CompetitionActions from '../../../store/actions/index'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 
 class competition extends Component {
-  componentDidMount () {
-    const { onInitCompetition, location, token } = this.props
+   componentDidMount () {
+    const { onInitCompetition, location, token} = this.props
     const { _id } = location.state
-    console.log('sdasdsa')
-    console.log(_id, token)
-    onInitCompetition(_id, token)
+     onInitCompetition(_id, token)
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      level: 1
+    }
+  }
+
+  nextButtonHandler = () => {
+    const { profile, token, compDetails, location, onInitCompetitionLevelProblems } = this.props
+    const { level } = this.state
+    const { _id } = location.state
+    let participant = null
+    if( level === compDetails.levels ){
+      alert('This is the Final level!!')
+    }
+    if( profile ) {
+      participant = profile.participant[profile.participant.length -1]
+    }
+    if(participant.level > level) {
+      const updatedLevel = level + 1
+      onInitCompetitionLevelProblems(_id, token, updatedLevel, participant._id)
+      this.setState({level: updatedLevel })
+    }
+    else{
+      alert('Level not Unlocked yet!!')
+    }
+  }
+
+  prevButtonHandler = () => {
+    const { profile, compDetails, location, token, onInitCompetitionLevelProblems } = this.props
+    const { level } = this.state
+    const { _id } = location.state
+    let participant = null
+    if(level > 1){
+      const updatedLevel = level - 1
+      if( profile ) {
+        participant = profile.participant[profile.participant.length -1]
+      }
+      onInitCompetitionLevelProblems(_id, token, updatedLevel, participant._id)
+      this.setState({ level: updatedLevel })
+    }
+    else{
+      alert('This is the first level')
+    }
   }
 
   render () {
     const { compDetails, token, profile } = this.props
+    const { level } = this.state
     let participant = null
     let problemsSolved = null
+    let userId = null
     if (profile) {
       participant = profile.participant
       problemsSolved = profile.problems
+      userId = profile._id
     }
     let data = <Spinner />
-    if (compDetails) {
+    if (compDetails && profile) {
       data = (
         <div>
           <div className={classes.title}>
@@ -52,21 +99,27 @@ class competition extends Component {
           <div className={classes.challengesCont}>
             <div className={classes.subTitle}>Challenges:</div>
             <div className={classes.miniLine} />
-            <div>
-              <Box p={3}><CompProblems
-                startTime = {compDetails.startTime}
-                endTime = {compDetails.endTime}
-                problemsSolved = {problemsSolved}
-                participantId = {participant[participant.length - 1]}
-                eventId={compDetails._id}
-                token = { token }
-                challenges={compDetails.challenges} /></Box>
-            </div>
+            <Paper>
+              <div>
+                <Typography>Level {level}</Typography>
+                <Box p={3}><CompProblems
+                  level ={level}
+                  startTime = {compDetails.startTime}
+                  endTime = {compDetails.endTime}
+                  problemsSolved = {problemsSolved}
+                  participant = {participant[participant.length - 1]}
+                  eventScore={compDetails.levelScore}
+                  token = { token }
+                  challenges={compDetails.challenges} /></Box>
+              </div>
+              <Button onClick = {this.prevButtonHandler} >Previous</Button>
+              <Button onClick = {this.nextButtonHandler} >Next</Button>
+            </Paper>
           </div>
           <div className={classes.rankingCont}>
             <div className={classes.subTitle}>User Ranking:</div>
             <div className={classes.miniLine} />
-            <CompLeaderboard eventId={compDetails._id} key={compDetails._id} />
+            <CompLeaderboard userId = {userId} eventId={compDetails._id} key={compDetails._id} />
           </div>
         </div>
       )
@@ -97,7 +150,9 @@ const mapStateToProps = state => ({
   profile: state.profile
 })
 const mapDispatchToProps = dispatch => ({
-  onInitCompetition: (id, token) => dispatch(CompetitionActions.initCompetition(id, token))
+  onInitProfile: (userId, token) => dispatch(CompetitionActions.initProfile(userId, token)),
+  onInitCompetition: (id, token) => dispatch(CompetitionActions.initCompetition(id, token)),
+  onInitCompetitionLevelProblems: (eventId, token, level, participantId) => dispatch(CompetitionActions.initCompetitionLevelProblems(eventId, token, level, participantId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(competition)

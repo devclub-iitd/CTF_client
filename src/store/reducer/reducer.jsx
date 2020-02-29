@@ -66,6 +66,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         competition: action.competition
       }
+    case actionTypes.SET_COMPETITIONS_LEVEL_PROBLEMS:
+      return {
+        ...state,
+        competition: {
+          ...state.competition,
+          challenges: action.challenges
+        }
+      }
     case actionTypes.ADD_EVENT:
       return {
         ...state,

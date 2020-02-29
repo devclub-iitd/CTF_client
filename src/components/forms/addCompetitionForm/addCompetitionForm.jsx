@@ -18,7 +18,9 @@ const AddCompetitionForm = (props) => {
   const [values, setValues] = useState({
     name: '',
     challenges: [],
-    details: ''
+    details: '',
+    level: 0,
+    levelScore: new Map()
   })
   const [startDate, handleStartDateChange] = useState(new Date())
   const [endDate, handleEndDateChange] = useState(new Date())
@@ -34,14 +36,16 @@ const AddCompetitionForm = (props) => {
       startTime: startDate,
       endTime: endDate
     }
-    // Axios.post('Post Link', send);
-    console.log(req)
     const { addEvent, token } = props
+    // console.log(req.levelScore)
     addEvent(req, token)
+    alert('Competition Created Successfully')
   }
 
-  const problemSubmitHandler = (challenges) => {
-    setValues({ ...values, challenges })
+  const problemSubmitHandler = (challenges, levels) => {
+    const level = levels.size
+    setValues({ ...values, challenges, levelScore: levels, level })
+    alert('Problems added Successfully')
   }
 
   return (

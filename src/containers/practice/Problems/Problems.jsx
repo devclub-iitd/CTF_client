@@ -15,7 +15,7 @@ import * as probelmActions from '../../../store/actions/index';
 class problems extends Component {
   componentDidMount() {
     const { onInitProblems } = this.props;
-    onInitProblems();
+    onInitProblems('1');
   }
 
   constructor(props){
@@ -192,7 +192,7 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 const mapDispatchToProps = dispatch => ({
-  onInitProblems: () => dispatch(probelmActions.initProbelms()),
+  onInitProblems: (problemType) => dispatch(probelmActions.initProbelms(problemType)),
 });
 
 

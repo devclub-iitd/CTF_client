@@ -14,6 +14,7 @@ const AddProbelmForm = (props) => {
     details: '',
     difficulty: '',
     answer: '',
+    level: 1,
     score: 0,
     isActive: 1
   })
@@ -26,6 +27,7 @@ const AddProbelmForm = (props) => {
     event.preventDefault()
     const { addProblem, token } = props
     addProblem(formElements, token)
+    alert('Problem added Successfully')
   }
 
   return (
@@ -80,6 +82,15 @@ const AddProbelmForm = (props) => {
             margin="normal"
             name="difficulty"
             onChange={changeHandler('difficulty')}
+          />
+          <br />
+          <TextField
+            id="standard-level"
+            label="Level"
+            className={classes.textField}
+            margin="normal"
+            name="level"
+            onChange={changeHandler('level')}
           />
           <br />
           <TextField

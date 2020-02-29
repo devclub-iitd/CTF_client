@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classes from './CompProblems.module.css'
 import Axios from 'axios'
 
-const CompProblems = ({ startTime, endTime, problemsSolved, participantId, eventId, token, challenges }) => {
+const CompProblems = ({ level, startTime, endTime, problemsSolved, participant, eventScore, token, challenges }) => {
   const [values, setValues] = useState(new Map())
   const answerInput = (event) => {
     event.preventDefault()
@@ -16,6 +16,7 @@ const CompProblems = ({ startTime, endTime, problemsSolved, participantId, event
   }
   const isSolved = (problemId) => problemsSolved.includes(problemId)
   const submitAnswerHandler = async (problem) => {
+    const participantId = participant._id
     const url = 'http://localhost:3000/api/participant/' + participantId
     const response = await Axios({
       method: 'PUT',
@@ -25,10 +26,12 @@ const CompProblems = ({ startTime, endTime, problemsSolved, participantId, event
         score: problem.score,
         answer: values.get(problem.name),
         startTime: startTime,
-        endTime: endTime
+        endTime: endTime,
+        eventScore: eventScore
       },
       headers: { Authorization: 'Bearer ' + token }
     })
+    console.log(response.data)
     alert(response.data.message)
   }
   const display = (
@@ -127,10 +130,11 @@ CompProblems.propTypes = {
   challenges: PropTypes.node.isRequired,
   token: PropTypes.node.isRequired,
   eventId: PropTypes.node.isRequired,
-  participantId: PropTypes.node.isRequired,
+  participant: PropTypes.node.isRequired,
   problemsSolved: PropTypes.node.isRequired,
   startTime: PropTypes.node.isRequired,
-  endTime: PropTypes.node.isRequired
+  endTime: PropTypes.node.isRequired,
+  level: PropTypes.node.isRequired
 }
 
 export default CompProblems

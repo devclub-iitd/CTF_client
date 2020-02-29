@@ -6,7 +6,7 @@ import Axios from 'axios'
 
 import Spinner from '../../UI/Spinner/Spinner'
 
-const CompLeaderboard = ({ eventId }) => {
+const CompLeaderboard = ({ userId, eventId }) => {
   const [leaderboard, setLeaderboard] = useState(null)
 
   useEffect(() => {
@@ -19,11 +19,24 @@ const CompLeaderboard = ({ eventId }) => {
   }, [])
 
   let table = <Spinner></Spinner>
+  let userRank = <Spinner></Spinner>
   if (leaderboard) {
+    for (let i = 0; i < leaderboard.length; i++) {
+      if (leaderboard[i].userId === userId) {
+        userRank = <div>
+          <h2>
+            Rank : {i + 1}
+          </h2>
+          <h2>
+            Score: {leaderboard[i].score}
+          </h2>
+        </div>
+      }
+    }
     table = leaderboard.map((el, rank) => (
       <tr>
         <td key={el._id}>{rank + 1}</td>
-        <td key={el._id}>{el.username}</td>
+        <td key={el._id}>{el.handle}</td>
         <td key={el._id}>{el.score}</td>
       </tr>
     ))
@@ -31,6 +44,7 @@ const CompLeaderboard = ({ eventId }) => {
 
   return (
     <div style={{ marginTop: '30px' }}>
+      {userRank}
       <table className={classes.table}>
         <tr>
           <th>Rank</th>

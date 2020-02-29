@@ -14,11 +14,12 @@ import classes from './problemAdderDialog.module.css';
 class problems extends Component {
     state={
       challenges: [],
+      levels: new Map()
     };
 
     componentDidMount() {
       const { onInitProblems } = this.props;
-      onInitProblems();
+      onInitProblems('2');
     }
 
 
@@ -31,19 +32,28 @@ class problems extends Component {
       }
       return '';
     });
+    const levels = this.state.levels
+    const level = element.level.toString()
     if (flag === true) {
-      this.setState({ challenges: [...challenges, element._id] });
+      if(!levels.has(level)){
+        levels.set(level,0)
+      }
+      levels.set(level,(parseInt(levels.get(level),10)+ element.score).toString())
+      this.setState({ challenges: [...challenges, element._id], levels });
     } else {
       let temp = [...challenges];
+      if(levels.has(level)){
+        levels.set(levels.get(level),(parseInt(levels.get(level),10) - element.score).toString())
+      }
       temp = temp.filter(item => item !== element);
-      this.setState({ challenges: temp });
+      this.setState({ challenges: temp, levels });
     }
   };
 
   submitHandler = () => {
-    const { challenges } = this.state;
+    const { challenges, levels } = this.state;
     const { problemSubmit } = this.props;
-    problemSubmit(challenges);
+    problemSubmit(challenges,levels);
   }
 
   render() {
@@ -151,7 +161,7 @@ const mapStateToProps = state => ({
   problemsList: state.problems,
 });
 const mapDispatchToProps = dispatch => ({
-  onInitProblems: () => dispatch(probelmActions.initProbelms()),
+  onInitProblems: (problemType) => dispatch(probelmActions.initProbelms(problemType)),
 });
 
 

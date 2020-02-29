@@ -13,16 +13,17 @@ import * as CompetitionActions from '../../store/actions/index'
 
 class competitions extends Component {
   componentDidMount () {
+    
     const { onInitCompetitions } = this.props
     onInitCompetitions()
   }
 
-  constructor(props){
-    super(props);
-    this.state = {
-      reg: null,
-    }
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.state = {
+  //     render: false,
+  //   }
+  // }
 
   deleteEventHandler = async (eventId) => {
     const { token } = this.props
@@ -34,79 +35,70 @@ class competitions extends Component {
     })
   }
 
-  startCompetition = async (event) => {
-    const { token, userId, profile, onInitProfile } = this.props;
-    let username = null
-    if(profile){
-      username = profile.username
-    }
+
+
+  registerHandler = async (event) => {
+    const { token, userId, profile, registerCompetition } = this.props;
     if(!token){
-      window.location.href = "/";
-      return alert('Login to enter Competition')
+      return alert('Login to Register!!')
     }
     if(new Date(event.startTime) > (new Date())){
-      return alert('Competition has not started yet!!')
+      return alert('Registration has not started yet!!')
     }
-    let isParticipated = profile.participant.some(item => event.participants.includes(item))
-    console.log(isParticipated)
-    if(!isParticipated){
-      let url = 'http://localhost:3000/api/participant/'
-      const participant = await Axios({
-        method: 'POST',
-        url: url,
-        data: {
-          eventId: event._id,
-          userId: userId,
-          username: username
-        },
-        headers: { 'Authorization': 'Bearer ' + token }
-     });
-      const participant_id = participant.data.data._id
-      url = 'http://localhost:3000/api/event/'+event._id
-      event.participants.push(participant_id)
-      event.leaderboard.push(participant_id)
-      const eventResponse = await Axios({
-        method: 'PUT',
-        url: url,
-        data: {
-          participants: event.participants,
-          leaderboard: event.leaderboard
-        },
-        headers: { 'Authorization': 'Bearer ' + token }
-     });
-     url = 'http://localhost:3000/api/user/'+userId
-     const userParticipant = [...profile.participant]
-     const userEvent = [...profile.events]
-     userEvent.push(event._id)
-     userParticipant.push(participant_id)
-     const userResponse = await Axios({
-      method: 'PUT',
-      url: url,
-      data: {
-        participant: userParticipant,
-        events: userEvent
-      },
-      headers: { 'Authorization': 'Bearer ' + token }
-      });
-      await onInitProfile(userId)
-     return
+    const profileParticipantsId = profile.participant.map(el => el._id)
+    let isParticipated = profileParticipantsId.some(item => event.participants.includes(item))
+    if(isParticipated){
+      return alert('Already Registered !!')
     }
-    console.log(profile)
+    await registerCompetition(token, userId, profile, event)
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 1000)
+    
   }
 
+
   render () {
-    const { competitionsList, profile, token } = this.props
+    const { competitionsList, profile} = this.props
     let isAdmin = null
     if(profile){
       isAdmin = profile.isAdmin
     }
     let compList = <Spinner />
     if (competitionsList) {
-      compList = competitionsList.map(el => (
+      compList = competitionsList.map(el => {
+          const { token, profile } = this.props
+          let reg = null
+          if( !token ){
+            reg = 'Login to Register'
+            return
+          }
+          const profileParticipantsId = profile.participant.map(el => el._id)
+          let isParticipated = profileParticipantsId.some(item => el.participants.includes(item))
+          if(!isParticipated) {
+            reg = 'Register'
+          }
+          else{
+            reg = 'Registered'
+          }
+          const startCompetition = () => {
+            if( !token ){
+              alert('Login to Enter Competition')
+              return
+            }
+            if(!isParticipated) {
+              alert('Register to Enter Competition')
+              return
+            }
+            if(new Date(el.startTime) > (new Date())){
+              alert('Competition has not started yet!!')
+            }
+          }
+        return(
         <div key={el._id}>
           <Paper className={classes.competitionCard} style={{ backgroundColor: 'rgba(240,240,240,0.8)' }}>
-            <Link style={{ textDecoration: 'none' }} onClick={() => this.startCompetition(el)} to={{
-              pathname: `/event/${(new Date(el.startTime) < (new Date())) ? el._id : ''}`,
+            <Link style={{ textDecoration: 'none' }} onClick={() => startCompetition()} to={{
+              pathname: `/event/${(isParticipated && token && new Date(el.startTime) < (new Date())) ? el._id : ''}`,
               state: {
                 _id: `${el._id}`,
               }
@@ -118,7 +110,7 @@ class competitions extends Component {
               {el.details}
             <div className={classes.miniLineCol} />
             <div className={classes.competitionCardDetailCont}>
-                  Random text
+          <Button onClick={() => this.registerHandler(el)}>{reg}</Button>
               <div className={classes.thinLine} />
               <div className={classes.competitionCardExtras}>
                 Registered -
@@ -126,12 +118,12 @@ class competitions extends Component {
                 {el.participants.length}
               </div>
               <div>
-                {isAdmin ? <Button onClick = {() => this.deleteEventHandler(el._id)}>Delete</Button> : null}
+                {(isAdmin && token) ? <Button onClick = {() => this.deleteEventHandler(el._id)}>Delete</Button> : null}
               </div>
             </div>
           </Paper>
         </div>
-      ))
+      )})
     }
     return (
       <Box p={5}>
@@ -172,7 +164,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   onInitCompetitions: () => dispatch(CompetitionActions.initCompetitions()),
-  onInitProfile: (userId) => dispatch(CompetitionActions.initProfile(userId))
+  registerCompetition: (token, userId, profile, event) => dispatch(CompetitionActions.regEvent(token, userId, profile, event))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(competitions)

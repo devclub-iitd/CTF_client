@@ -6,8 +6,9 @@ export const fetchProblems = problems => ({
   problems
 })
 
-export const initProbelms = () => (dispatch) => {
-  Axios.get('http://localhost:3000/api/problem/')
+export const initProbelms = (problemType) => (dispatch) => {
+  const url = 'http://localhost:3000/api/problem/all_paroblems/' + problemType
+  Axios.get(url)
     .then((response) => {
       dispatch(fetchProblems(response.data.data))
     })

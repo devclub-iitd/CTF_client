@@ -6,9 +6,12 @@ export const fetchProfile = profile => ({
   profile
 })
 
-export const initProfile = (userId) => (dispatch) => {
-  Axios.get('http://localhost:3000/api/user/' + userId)
-    .then((response) => {
-      dispatch(fetchProfile(response.data.data))
-    })
+export const initProfile = (userId, token) => async (dispatch) => {
+  const url = 'http://localhost:3000/api/user/' + userId
+  const response = await Axios({
+    method: 'GET',
+    url: url,
+    headers: { Authorization: 'Bearer ' + token }
+  })
+  dispatch(fetchProfile(response.data.data))
 }

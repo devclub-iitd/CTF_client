@@ -12,8 +12,8 @@ import * as ProfileActions from '../../store/actions/index'
 
 class Profile extends React.PureComponent {
   componentDidMount () {
-    const { onInitProfile, userId } = this.props
-    onInitProfile(userId)
+    const { onInitProfile, userId, token } = this.props
+    onInitProfile(userId, token)
   }
 
   render () {
@@ -22,41 +22,24 @@ class Profile extends React.PureComponent {
     } = this.props
     let compList = <Spinner />
     if (profile) {
-      compList = (profile.events).map(el => (
+      compList = (profile.participant).map(el => (
         <div className={classes.list} key={el._id}>
           <Paper>
-            <Link to={`/competition/C${el.id}`}>
+            <Link style={{ textDecoration: 'none' }} to={{
+              pathname: `/event/${el.eventId}`,
+              state: {
+                _id: `${el.eventId}`
+              }
+            }}>
               <div
                 className={classes.title}
                 role="presentation"
               >
                 <Typography variant="h3" component="h3" align="center">
-                  {el.name}
+                  {el.eventName}
                 </Typography>
               </div>
             </Link>
-            <Grid container spacing={3}>
-              <Grid item xs={8}>
-                <div className={classes.padding}>
-                  <Typography variant="h5" component="h3">
-                    Rank:
-                    {' '}
-                    {el.rank}
-                  </Typography>
-                </div>
-              </Grid>
-              <Grid item xs={4}>
-                <div className={classes.padding}>
-                  <Typography variant="h5" component="h3">
-                    Score:
-                    {' '}
-                    {el.score}
-                  </Typography>
-                </div>
-              </Grid>
-
-            </Grid>
-
           </Paper>
         </div>
       ))
@@ -69,18 +52,25 @@ class Profile extends React.PureComponent {
             {profile.name}
           </div>
           <div className={classes.miniLine} />
-          <Box p={6}>
-            <div style={{ textAlign: 'center' }}>
-              <img alt="Profile Pic" src={profile.image} height="420" width="420" />
-            </div>
-          </Box>
           <div className={classes.subDetail}>
             <span className={classes.subDetailTitle}>User Name:</span>
             {' '}
             <span className={classes.subDetailDesc}>
               {profile.username}
             </span>
-            <div className={classes.miniLineLeft} />
+            <br /> <br />
+            <span className={classes.subDetailTitle}>Email:</span>
+            {' '}
+            <span className={classes.subDetailDesc}>
+              {profile.email}
+            </span>
+            <br /> <br />
+            <span className={classes.subDetailTitle}>Phone No:</span>
+            {' '}
+            <span className={classes.subDetailDesc}>
+              {profile.number}
+            </span>
+            <div className={classes.miniLine} />
           </div>
           <Box p={4}>
             <div className={classes.subTitle}>
@@ -89,23 +79,6 @@ class Profile extends React.PureComponent {
           </Box>
           <Box>
             {compList}
-          </Box>
-          <Box p={4}>
-            <Typography variant="h4" align="center">
-    Leaderboard
-            </Typography>
-          </Box>
-          <Box p={4}>
-            <Typography variant="h5">
-    Rank:
-              {/* {profile.problems.rank} */}
-            </Typography>
-          </Box>
-          <Box p={4}>
-            <Typography variant="h5">
-    Score:
-              {/* {profile.problems.score} */}
-            </Typography>
           </Box>
 
         </div>
@@ -126,15 +99,18 @@ class Profile extends React.PureComponent {
 }
 Profile.propTypes = {
   onInitProfile: PropTypes.node.isRequired,
-  profile: PropTypes.node.isRequired
+  profile: PropTypes.node.isRequired,
+  token: PropTypes.node.isRequired,
+  userId: PropTypes.node.isRequired
 }
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  userId: state.userId
+  userId: state.userId,
+  token: state.token
 })
 const mapDispatchToProps = dispatch => ({
-  onInitProfile: (userId) => dispatch(ProfileActions.initProfile(userId))
+  onInitProfile: (userId, token) => dispatch(ProfileActions.initProfile(userId, token))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)

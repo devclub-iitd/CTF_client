@@ -10,7 +10,9 @@ export {
   fetchCompetitions,
   initCompetition,
   fetchCompetition,
-  onitEvent
+  onitEvent,
+  initCompetitionLevelProblems,
+  regEvent
 } from './competitions'
 
 export {

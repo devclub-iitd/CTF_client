@@ -44,11 +44,14 @@ export const fetchProfile = profile => ({
   profile
 })
 
-export const initProfile = (userId) => (dispatch) => {
-  axios.get('http://localhost:3000/api/user/' + userId)
-    .then((response) => {
-      dispatch(fetchProfile(response.data.data))
-    })
+export const initProfile = (userId, token) => async (dispatch) => {
+  const url = 'http://localhost:3000/api/user/' + userId
+  const response = await axios({
+    method: 'GET',
+    url: url,
+    headers: { Authorization: 'Bearer ' + token }
+  })
+  dispatch(fetchProfile(response.data.data))
 }
 
 export const auth = (authData, isLogin) => {
@@ -79,17 +82,15 @@ export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('token')
     if (!token) {
-      console.log('Logout hogaya 1')
       dispatch(logout())
     } else {
       const expirationDate = new Date(localStorage.getItem('expirationDate'))
       if (expirationDate > new Date()) {
         const userId = localStorage.getItem('userId')
         dispatch(authSuccess(token, userId))
-        dispatch(initProfile(userId))
+        dispatch(initProfile(userId, token))
         dispatch(checkAuthTimeOut((expirationDate.getTime() - (new Date().getTime())) / 1000))
       } else {
-        console.log('Logout hogaya 2')
         dispatch(logout())
       }
     }
