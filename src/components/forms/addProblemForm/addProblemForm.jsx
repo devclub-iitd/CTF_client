@@ -6,6 +6,8 @@ import Axios from 'axios'
 import { connect } from 'react-redux'
 import classes from './addProblemForm.module.css'
 import * as actions from '../../../store/actions/index'
+import Snackbar from '../../UI/snackbar/snackbar'
+
 
 const AddProbelmForm = (props) => {
   const [formElements, setFormElement] = useState({
@@ -18,6 +20,21 @@ const AddProbelmForm = (props) => {
     score: 0,
     isActive: 1
   })
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+
+  const openSnack = (mess) => {
+    setMessage(mess)
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
 
   const changeHandler = name => (event) => {
     setFormElement({ ...formElements, [name]: event.target.value })
@@ -27,7 +44,7 @@ const AddProbelmForm = (props) => {
     event.preventDefault()
     const { addProblem, token } = props
     addProblem(formElements, token)
-    alert('Problem added Successfully')
+    openSnack('Problem added Successfully')
   }
 
   return (
@@ -118,6 +135,7 @@ const AddProbelmForm = (props) => {
           </Button>
         </form>
       </div>
+      <Snackbar open={open} message={message} handleClose={handleClose} />
     </Container>
   )
 }

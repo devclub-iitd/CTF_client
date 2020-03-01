@@ -13,6 +13,7 @@ import classes from './addCompetitionForm.module.css'
 import Modal from '../../modal/modal'
 import ProblemAdderDialog from './problemAdderDialog/problemAdderDialog'
 import * as actions from '../../../store/actions/index'
+import Snackbar from '../../UI/snackbar/snackbar'
 
 const AddCompetitionForm = (props) => {
   const [values, setValues] = useState({
@@ -24,6 +25,21 @@ const AddCompetitionForm = (props) => {
   })
   const [startDate, handleStartDateChange] = useState(new Date())
   const [endDate, handleEndDateChange] = useState(new Date())
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+
+  const openSnack = (mess) => {
+    setMessage(mess)
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
 
   const changeHandler = name => (event) => {
     setValues({ ...values, [name]: event.target.value })
@@ -39,13 +55,13 @@ const AddCompetitionForm = (props) => {
     const { addEvent, token } = props
     // console.log(req.levelScore)
     addEvent(req, token)
-    alert('Competition Created Successfully')
+    openSnack('Competition Created Successfully')
   }
 
   const problemSubmitHandler = (challenges, levels) => {
     const level = levels.size
     setValues({ ...values, challenges, levelScore: levels, level })
-    alert('Problems added Successfully')
+    openSnack('Problems added Successfully')
   }
 
   return (
@@ -112,6 +128,7 @@ const AddCompetitionForm = (props) => {
           </form>
         </div>
       </div>
+      <Snackbar open={open} message={message} handleClose={handleClose} />
     </Container>
   )
 }
