@@ -10,13 +10,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    width: '300px',
-    height: '200px',
-    borderRadius: '20px',
-    marginTop: '20px'
+    minWidth: 300,
+    width: '100%',
   },
   image: {
-    borderRadius: '20px',
     position: 'relative',
     height: 200,
     [theme.breakpoints.down('xs')]: {
@@ -38,7 +35,6 @@ const useStyles = makeStyles(theme => ({
   },
   focusVisible: {},
   imageButton: {
-    borderRadius: '20px',
     position: 'absolute',
     left: 0,
     right: 0,
@@ -59,7 +55,6 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: 'center 40%',
   },
   imageBackdrop: {
-    borderRadius: '20px',
     position: 'absolute',
     left: 0,
     right: 0,

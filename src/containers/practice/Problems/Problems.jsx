@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {
   Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Box,
-  Button, TextField, Fab
+  Button, TextField,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import * as probelmActions from '../../../store/actions/index';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import classes from './Problems.module.css';
+
 
 class problems extends Component {
   componentDidMount() {
@@ -60,7 +59,7 @@ class problems extends Component {
             },
             headers: { 'Authorization': 'Bearer ' + token }
          });
-         console.log(response)
+         console.log(response) 
     }
   }
 
@@ -136,47 +135,47 @@ class problems extends Component {
     if (problemsList) {
       display = (
         <div>
+          <br />
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <div className={classes.tableFieldTitle}>Problems </div>
+              <Typography variant="h4">Problems  </Typography>
             </Grid>
             <Grid item xs={3}>
-              <div className={classes.tableFieldTitle}>Users Solved</div>
+              <Typography variant="h4">Users Solved </Typography>
             </Grid>
             <Grid item xs={3}>
-              <div className={classes.tableFieldTitle}>Score </div>
+              <Typography variant="h4">Score  </Typography>
             </Grid>
             <Grid item xs={3}>
-              <div className={classes.tableFieldTitle}>Status </div>
+              <Typography variant="h4">Status  </Typography>
             </Grid>
+
+
           </Grid>
+
         </div>
       );
     }
 
 
     return (
-      <div className={classes.mainCont}>
-          <div className={classes.innerCont}>
-            <div className={classes.pageTitle}>
-                Problems
-            </div>
-            <div className={classes.miniLine} />
-            <div className={classes.tableCont}>
-              {display}
-              <div className={classes.tableProbs}>
-                {prob}
-              </div>
-            </div>
-            <div className={classes.btnCont}>
-              <Link to="/add/problem">
-                <Fab variant="extended" color="primary" aria-label="Add">
-                  <NavigationIcon className={classes.extendedIcon} />
-                  Add Problem
-                </Fab>
-              </Link>
-            </div>
-        </div>
+      <div>
+        <Container maxWidth="md">
+          <Typography variant="h1" align="center">
+                    Problems
+          </Typography>
+          <Box p={2}>
+            {display}
+          </Box>
+          <Box p={2}>
+            {prob}
+          </Box>
+          <Box p={3}>
+            <NavLink to="/add/problem"><Typography variant="h4" align="center">Add a new Problem</Typography></NavLink>
+          </Box>
+        </Container>
+
+
       </div>
     );
   }

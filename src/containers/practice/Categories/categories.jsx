@@ -3,22 +3,38 @@ import {
   Grid, Box, Container, Typography,
 } from '@material-ui/core';
 import ComplexButton from '../../../components/ComplexButton/complexButton';
-import classes from './categories.module.css'
 
 const Categories = () => (
-  <div className={classes.mainCont}>
-    <div className={classes.innerCont}>
-      <div className={classes.pageTitle}>Categories</div>
-      <div className={classes.miniLine} />
-      <div className={classes.pageDetCont}>
-        <ComplexButton name="Category 1" to="/practice/categories/1" />
-        <ComplexButton name="Category 2" to="/practice/categories/2" />
-        <ComplexButton name="Category 3" to="/practice/categories/3" />
-        <ComplexButton name="Category 4" to="/practice/categories/4" />
-        <ComplexButton name="Category 5" to="/practice/categories/5" />
-        <ComplexButton name="Hidden Problems" to="/practice/categories/hidden" />
-      </div>
-    </div>
+  <div>
+    <Typography variant="h1" align="center">Categories</Typography>
+    <Container maxWidth="md">
+      <Box p={1}>
+        <Grid container spacing={3}>
+          <Grid item xs={4}>
+            <ComplexButton name="Category 1" to="/practice/categories/1" />
+          </Grid>
+          <Grid item xs={4}>
+            <ComplexButton name="Category 2" to="/practice/categories/2" />
+          </Grid>
+          <Grid item xs={4}>
+            <ComplexButton name="Category 3" to="/practice/categories/3" />
+          </Grid>
+          <Grid item xs={4}>
+            <ComplexButton name="Category 4" to="/practice/categories/4" />
+          </Grid>
+          <Grid item xs={4}>
+            <ComplexButton name="Category 5" to="/practice/categories/5" />
+          </Grid>
+          <Grid item xs={4}>
+            <ComplexButton name="Hidden Problems" to="/practice/categories/hidden" />
+          </Grid>
+        </Grid>
+
+      </Box>
+
+    </Container>
+
+
   </div>
 );
 
