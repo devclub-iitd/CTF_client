@@ -14,11 +14,6 @@
   width: 80%;
   margin: auto;
 }
-.pageDetCont {
-  margin-left: 80px;
-  margin-top: 80px;
-  margin-right: 80px;
-}
 .pageTitle {
   font-size: 50px;
   font-weight: 700;
@@ -28,19 +23,14 @@
   height: 8px;
   background-color: rgba(63,81,181,0.9);
   /* background-color: rgba(0,0,0,0.8); */
-  margin-top: 25px;
+  margin-top: 20px;
   border-radius: 3px;
 }
-.tableCont {
-  margin-top: 20px;
-}
-.tableFieldTitle {
-  font-size: 18px;
-  font-weight: 600;
-}
-.tableProbs {
-  margin-top: 20px;
-}
-.btnCont {
-  margin-top: 50px;
+.pageDetCont {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 40px;
 }
