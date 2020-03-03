@@ -8,6 +8,7 @@ import CompLeaderboard from '../../../components/Table/CompLeaderboard/CompLeade
 import CompProblems from '../../../components/Problem/CompProblems/CompProblems'
 import * as CompetitionActions from '../../../store/actions/index'
 import Spinner from '../../../components/UI/Spinner/Spinner'
+import Snackbar from '../../../components/UI/snackbar/snackbar'
 
 class competition extends Component {
    componentDidMount () {
@@ -19,8 +20,23 @@ class competition extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      level: 1
+      level: 1,
+      open: false,
+      message: ""
     }
+    this.openSnack = this.openSnack.bind(this)
+    this.closeSnack = this.closeSnack.bind(this)
+  }
+  openSnack(mess) {
+    this.setState({
+      open: true,
+      message: mess
+    })
+  }
+  closeSnack() {
+    this.setState({
+      open: false
+    })
   }
 
   nextButtonHandler = () => {
@@ -29,7 +45,7 @@ class competition extends Component {
     const { _id } = location.state
     let participant = null
     if( level === compDetails.levels ){
-      alert('This is the Final level!!')
+      this.openSnack('This is the Final level!!')
     }
     if( profile ) {
       participant = profile.participant[profile.participant.length -1]
@@ -40,7 +56,7 @@ class competition extends Component {
       this.setState({level: updatedLevel })
     }
     else{
-      alert('Level not Unlocked yet!!')
+      this.openSnack('Level not Unlocked yet!!')
     }
   }
 
@@ -58,11 +74,12 @@ class competition extends Component {
       this.setState({ level: updatedLevel })
     }
     else{
-      alert('This is the first level')
+      this.openSnack('This is the first level')
     }
   }
 
   render () {
+    const { open, message } = this.state;
     const { compDetails, token, profile } = this.props
     const { level } = this.state
     let participant = null
@@ -129,6 +146,7 @@ class competition extends Component {
         <div className={classes.mainCont}>
           {data}
         </div>
+        <Snackbar open={open} message={message} handleClose={this.closeSnack} />
       </Container>
 
     )

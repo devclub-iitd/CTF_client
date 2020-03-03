@@ -7,6 +7,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PropTypes from 'prop-types'
 import classes from './CompProblems.module.css'
 import Axios from 'axios'
+import Snackbar from '../../UI/snackbar/snackbar'
+
 
 const CompProblems = ({ level, startTime, endTime, problemsSolved, participant, eventScore, token, challenges }) => {
   const [values, setValues] = useState(new Map())
@@ -14,6 +16,20 @@ const CompProblems = ({ level, startTime, endTime, problemsSolved, participant, 
     event.preventDefault()
     values.set(event.target.name, event.target.value)
   }
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+
+  const openSnack = (mess) => {
+    setMessage(mess)
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
   const isSolved = (problemId) => problemsSolved.includes(problemId)
   const submitAnswerHandler = async (problem) => {
     const participantId = participant._id
@@ -32,7 +48,7 @@ const CompProblems = ({ level, startTime, endTime, problemsSolved, participant, 
       headers: { Authorization: 'Bearer ' + token }
     })
     console.log(response.data)
-    alert(response.data.message)
+    openSnack(response.data.message)
   }
   const display = (
     <div>
@@ -115,6 +131,7 @@ const CompProblems = ({ level, startTime, endTime, problemsSolved, participant, 
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
+      <Snackbar open={open} message={message} handleClose={handleClose} />
     </div>
   ))
 
