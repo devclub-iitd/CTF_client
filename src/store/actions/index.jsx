@@ -12,7 +12,8 @@ export {
   fetchCompetition,
   onitEvent,
   initCompetitionLevelProblems,
-  regEvent
+  regEvent,
+  initLeaderboard
 } from './competitions'
 
 export {

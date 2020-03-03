@@ -10,7 +10,8 @@ const initialState = {
   token: null,
   userId: null,
   error: null,
-  loading: false
+  loading: false,
+  leaderboard: []
 }
 
 const authStart = (state, action) => {
@@ -65,6 +66,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         competition: action.competition
+      }
+    case actionTypes.SET_LEADERBOARD:
+      return {
+        ...state,
+        leaderboard: action.leaderboard
       }
     case actionTypes.SET_COMPETITIONS_LEVEL_PROBLEMS:
       return {

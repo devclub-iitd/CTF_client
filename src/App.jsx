@@ -30,6 +30,16 @@ class App extends PureComponent {
   }
 
   render () {
+    const { profile } = this.props
+    let protectedRoutes = null
+    if (profile) {
+      if (profile.isAdmin === 1) {
+        protectedRoutes = <div>
+          <Route path="/competitions/add" exact component={addCompetitionForm} />
+          <Route path="/add/problem" component={addProbelmForm} />
+        </div>
+      }
+    }
     return (
       <div>
         <Header />
@@ -41,8 +51,7 @@ class App extends PureComponent {
         <Route path="/contactUs/" component={Contact} />
         <Route path="/profile/" component={Profile} />
         <Route path="/logout/" component={LogOut} />
-        <Route path="/competitions/add" exact component={addCompetitionForm} />
-        <Route path="/add/problem" component={addProbelmForm} />
+        {protectedRoutes}
         <Route path="/signUp/" component={SignUp} />
         <Route path="/practice/problems" exact component={Problems} />
         <Route path="/practice/rules" exact component={rules} />
@@ -55,10 +64,14 @@ class App extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  profile: state.profile
+})
+
 const mapDispatchToProps = dispatch => {
   return {
     onCheckAuthState: () => dispatch(actions.authCheckState())
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(App))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))

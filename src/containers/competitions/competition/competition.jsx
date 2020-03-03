@@ -11,28 +11,36 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 
 class competition extends Component {
    componentDidMount () {
-    const { onInitCompetition, location, token} = this.props
+    const { onInitCompetition, location, token, onInitLeaderboard} = this.props
     const { _id } = location.state
-     onInitCompetition(_id, token)
+     onInitCompetition(_id, token, 1)
+     onInitLeaderboard(_id)
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      level: 1
+      level: 1,
+      eventId: null
     }
   }
 
-  nextButtonHandler = () => {
-    const { profile, token, compDetails, location, onInitCompetitionLevelProblems } = this.props
+  updateUI = () => {
+    const { level } = this.state
+    const { onInitCompetition, location, token, onInitProfile, onInitLeaderboard, userId} = this.props
+    const { _id } = location.state
+     onInitCompetition(_id, token, level)
+     onInitProfile(userId, token)
+     onInitLeaderboard(_id)
+  }
+
+  nextButtonHandler = (participant) => {
+    const { token, compDetails, location, onInitCompetitionLevelProblems } = this.props
     const { level } = this.state
     const { _id } = location.state
-    let participant = null
-    if( level === compDetails.levels ){
+    if( level === compDetails.level ){
       alert('This is the Final level!!')
-    }
-    if( profile ) {
-      participant = profile.participant[profile.participant.length -1]
+      return
     }
     if(participant.level > level) {
       const updatedLevel = level + 1
@@ -45,7 +53,7 @@ class competition extends Component {
   }
 
   prevButtonHandler = () => {
-    const { profile, compDetails, location, token, onInitCompetitionLevelProblems } = this.props
+    const { profile, location, token, onInitCompetitionLevelProblems } = this.props
     const { level } = this.state
     const { _id } = location.state
     let participant = null
@@ -63,15 +71,20 @@ class competition extends Component {
   }
 
   render () {
-    const { compDetails, token, profile } = this.props
+    const { compDetails, token, profile, leaderboard } = this.props
     const { level } = this.state
     let participant = null
     let problemsSolved = null
     let userId = null
-    if (profile) {
-      participant = profile.participant
-      problemsSolved = profile.problems
+    if (compDetails && profile) {
       userId = profile._id
+      participant = compDetails.participants.filter(el => el.userId === userId)
+      participant = participant[0]
+      problemsSolved = participant.problemsSolved 
+      problemsSolved = problemsSolved.map(prb => {
+        const prbId = Object.keys(prb)[1]
+        return prbId
+      })
     }
     let data = <Spinner />
     if (compDetails && profile) {
@@ -103,23 +116,23 @@ class competition extends Component {
               <div>
                 <Typography>Level {level}</Typography>
                 <Box p={3}><CompProblems
-                  level ={level}
+                  updateUI = {this.updateUI}
                   startTime = {compDetails.startTime}
                   endTime = {compDetails.endTime}
                   problemsSolved = {problemsSolved}
-                  participant = {participant[participant.length - 1]}
+                  participant = {participant}
                   eventScore={compDetails.levelScore}
                   token = { token }
                   challenges={compDetails.challenges} /></Box>
               </div>
-              <Button onClick = {this.prevButtonHandler} >Previous</Button>
-              <Button onClick = {this.nextButtonHandler} >Next</Button>
+              <Button onClick = {() => this.prevButtonHandler(participant)} >Previous</Button>
+              <Button onClick = {() => this.nextButtonHandler(participant)} >Next</Button>
             </Paper>
           </div>
           <div className={classes.rankingCont}>
             <div className={classes.subTitle}>User Ranking:</div>
             <div className={classes.miniLine} />
-            <CompLeaderboard userId = {userId} eventId={compDetails._id} key={compDetails._id} />
+            <CompLeaderboard userId = {userId} leaderboard = {leaderboard} key={compDetails._id} />
           </div>
         </div>
       )
@@ -147,11 +160,14 @@ competition.propTypes = {
 const mapStateToProps = state => ({
   compDetails: state.competition,
   token: state.token,
-  profile: state.profile
+  profile: state.profile,
+  leaderboard: state.leaderboard,
+  userId: state.userId
 })
 const mapDispatchToProps = dispatch => ({
   onInitProfile: (userId, token) => dispatch(CompetitionActions.initProfile(userId, token)),
-  onInitCompetition: (id, token) => dispatch(CompetitionActions.initCompetition(id, token)),
+  onInitCompetition: (id, token, level) => dispatch(CompetitionActions.initCompetition(id, token, level)),
+  onInitLeaderboard: (eventId) => dispatch(CompetitionActions.initLeaderboard(eventId)),
   onInitCompetitionLevelProblems: (eventId, token, level, participantId) => dispatch(CompetitionActions.initCompetitionLevelProblems(eventId, token, level, participantId))
 })
 

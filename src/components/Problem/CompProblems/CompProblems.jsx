@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classes from './CompProblems.module.css'
 import Axios from 'axios'
 
-const CompProblems = ({ level, startTime, endTime, problemsSolved, participant, eventScore, token, challenges }) => {
+const CompProblems = ({ updateUI, startTime, endTime, problemsSolved, participant, eventScore, token, challenges }) => {
   const [values, setValues] = useState(new Map())
   const answerInput = (event) => {
     event.preventDefault()
@@ -31,8 +31,8 @@ const CompProblems = ({ level, startTime, endTime, problemsSolved, participant, 
       },
       headers: { Authorization: 'Bearer ' + token }
     })
-    console.log(response.data)
     alert(response.data.message)
+    updateUI()
   }
   const display = (
     <div>

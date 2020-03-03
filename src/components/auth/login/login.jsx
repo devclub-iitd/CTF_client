@@ -29,7 +29,6 @@ const Login = (props) => {
   const loginSubmitHandler = (event) => {
     event.preventDefault()
     props.onAuth(values, true)
-    // Axios.post('Post Link', values);
   }
 
   let display = <Container className={classes.container}>

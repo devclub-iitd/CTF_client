@@ -26,8 +26,6 @@ export const addProblem = problem => ({
 
 export const onitProblem = (problem, token) => async (dispatch) => {
   const url = 'http://localhost:3000/api/problem/'
-  console.log('Sending problem to be uploaded')
-  console.log(problem, token)
   const response = await Axios({
     method: 'POST',
     url: url,

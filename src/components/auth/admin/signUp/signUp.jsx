@@ -1,33 +1,36 @@
-import React from 'react';
-import clsx from 'clsx';
-import TextField from '@material-ui/core/TextField';
-import { Typography, Container, Button } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import FormControl from '@material-ui/core/FormControl';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Axios from 'axios';
-import classes from './signUp.module.css';
+import React from 'react'
+import clsx from 'clsx'
+import { connect } from 'react-redux'
+import TextField from '@material-ui/core/TextField'
+import { Typography, Container, Button } from '@material-ui/core'
+import Icon from '@material-ui/core/Icon'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import FormControl from '@material-ui/core/FormControl'
+import IconButton from '@material-ui/core/IconButton'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import classes from './signUp.module.css'
+import * as actions from '../../../../store/actions/index'
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [values, setValues] = React.useState({
     username: '',
     password: '',
-    key: '',
-  });
+    email: '',
+    secret: ''
+  })
   const handleChange = prop => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+    setValues({ ...values, [prop]: event.target.value })
+  }
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-  const loginSubmitHandler = () => {
-    Axios.post('Post Link', values);
-  };
+    setValues({ ...values, showPassword: !values.showPassword })
+  }
+  const loginSubmitHandler = (event) => {
+    event.preventDefault()
+    props.onAuth(values, false)
+  }
   return (
     <Container className={classes.container}>
       <div className={classes.modalTitle}>Sign Up</div>
@@ -60,12 +63,21 @@ const SignUp = () => {
       </FormControl>
       <br />
       <TextField
+        id="standard-emailId"
+        label="EmailId"
+        className={classes.textField}
+        margin="normal"
+        name="emailId"
+        onChange={handleChange('email')}
+      />
+      <br />
+      <TextField
         id="secret-key"
         label="Secret Key"
         className={classes.textField}
         margin="normal"
         name="Key"
-        onChange={handleChange('key')}
+        onChange={handleChange('secret')}
       />
       <br />
       <br />
@@ -77,7 +89,19 @@ const SignUp = () => {
       <br />
       <br />
     </Container>
-  );
-};
+  )
+}
 
-export default SignUp;
+const mapStateToProps = state => {
+  return {
+    loading: state.loading
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (authData, isLogin) => dispatch(actions.auth(authData, isLogin))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

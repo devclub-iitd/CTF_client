@@ -73,7 +73,7 @@ class problems extends Component {
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
-              id="panel1a-header"
+              id={el._id}
             >
               <Grid container spacing={3}>
                 <Grid item xs={3}>
@@ -109,7 +109,7 @@ class problems extends Component {
                 {el.details}
                 <div>
                   <TextField
-                    id="standard-full-width"
+                    id={el._id}
                     label="Answer"
                     style={{ margin: 8 }}
                     fullWidth
@@ -157,6 +157,12 @@ class problems extends Component {
       );
     }
 
+    const { profile, token } =this.props
+    let isAdmin = null
+    if(profile){
+      isAdmin = profile.isAdmin
+    }
+
 
     return (
       <div>
@@ -170,9 +176,9 @@ class problems extends Component {
           <Box p={2}>
             {prob}
           </Box>
-          <Box p={3}>
+         { (isAdmin && token)  ? <Box p={3}>
             <NavLink to="/add/problem"><Typography variant="h4" align="center">Add a new Problem</Typography></NavLink>
-          </Box>
+          </Box> : null}
         </Container>
 
 

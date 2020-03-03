@@ -6,18 +6,7 @@ import Axios from 'axios'
 
 import Spinner from '../../UI/Spinner/Spinner'
 
-const CompLeaderboard = ({ userId, eventId }) => {
-  const [leaderboard, setLeaderboard] = useState(null)
-
-  useEffect(() => {
-    const url = 'http://localhost:3000/api/event/leaderboard/' + eventId
-    const fetchLeaderboard = async () => {
-      const response = await Axios.get(url)
-      setLeaderboard(response.data)
-    }
-    fetchLeaderboard()
-  }, [])
-
+const CompLeaderboard = ({ userId, leaderboard }) => {
   let table = <Spinner></Spinner>
   let userRank = <Spinner></Spinner>
   if (leaderboard) {
@@ -35,12 +24,13 @@ const CompLeaderboard = ({ userId, eventId }) => {
     }
     table = leaderboard.map((el, rank) => (
       <tr>
-        <td key={el._id}>{rank + 1}</td>
-        <td key={el._id}>{el.handle}</td>
-        <td key={el._id}>{el.score}</td>
+        <td key={rank}>{rank + 1}</td>
+        <td key={el.handle + rank.toString()}>{el.handle}</td>
+        <td key={rank + (1000 * el.score)}>{el.score}</td>
       </tr>
     ))
   }
+  console.log(table)
 
   return (
     <div style={{ marginTop: '30px' }}>

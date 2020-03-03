@@ -14,7 +14,7 @@ export const fetchProfile = profile => ({
 export const initCompetitions = () => (dispatch) => {
   Axios.get('http://localhost:3000/api/event/')
     .then((response) => {
-      dispatch(fetchCompetitions(response.data.data))
+      dispatch(fetchCompetitions(response.data.data.reverse()))
     })
 }
 
@@ -23,11 +23,15 @@ export const fetchCompetition = competition => ({
   competition
 })
 
-export const initCompetition = (eventId, token) => async (dispatch) => {
+export const initCompetition = (eventId, token, level) => async (dispatch) => {
   const url = `http://localhost:3000/api/event/${eventId}`
   const response = await Axios({
     method: 'GET',
     url: url,
+    params: {
+      level,
+      eventId
+    },
     headers: { Authorization: 'Bearer ' + token }
   })
   await dispatch(fetchCompetition(response.data))
@@ -37,6 +41,18 @@ export const fetchCompetitionLevelProblems = challenges => ({
   type: actionType.SET_COMPETITIONS_LEVEL_PROBLEMS,
   challenges
 })
+
+export const fetchLeaderboard = leaderboard => ({
+  type: actionType.SET_LEADERBOARD,
+  leaderboard
+})
+
+export const initLeaderboard = eventId => async dispatch => {
+  const url = 'http://localhost:3000/api/event/leaderboard/' + eventId
+  const response = await Axios.get(url)
+  console.log(response.data)
+  await dispatch(fetchLeaderboard(response.data))
+}
 
 export const initCompetitionLevelProblems = (eventId, token, level, participantId) => async dispatch => {
   const url = `http://localhost:3000/api/event/${eventId}/level-probelms`
@@ -81,9 +97,6 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     username = profile.username
   }
   let url = 'http://localhost:3000/api/participant/'
-  console.log(event)
-  console.log(userId)
-  console.log(username)
   const participant = await Axios({
     method: 'POST',
     url: url,
@@ -95,7 +108,6 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     },
     headers: { Authorization: 'Bearer ' + token }
   })
-  console.log(participant)
   const participantId = participant.data.data._id
   url = 'http://localhost:3000/api/event/' + event._id
   event.participants.push(participantId)
@@ -109,7 +121,6 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     },
     headers: { Authorization: 'Bearer ' + token }
   })
-  dispatch(fetchCompetition(event))
   url = 'http://localhost:3000/api/user/' + userId
   const userParticipant = [...profile.participant]
   const userEvent = [...profile.events]
@@ -129,6 +140,5 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     participant: userParticipant,
     events: userEvent
   }
-  dispatch(fetchProfile(updatedProfile))
   alert('Registered Successfully!!!')
 }

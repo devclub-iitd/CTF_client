@@ -58,7 +58,7 @@ const Home = () => {
                 <div className={classes.center}>
                   <Fab variant="extended" color="primary" aria-label="Add">
                     <NavigationIcon className={classes.extendedIcon} />
-                  Walkthrough
+                    <a href = 'http://localhost:3000/' target="_blank" >Walkthrough</a>
                   </Fab>
                 </div>
               </div>

@@ -39,11 +39,11 @@ class competitions extends Component {
 
   registerHandler = async (event) => {
     const { token, userId, profile, registerCompetition } = this.props;
+    if(new Date(event.endTime).getTime() < new Date().getTime()){
+      return alert('Registration is Over!!')
+    }
     if(!token){
       return alert('Login to Register!!')
-    }
-    if(new Date(event.startTime) > (new Date())){
-      return alert('Registration has not started yet!!')
     }
     const profileParticipantsId = profile.participant.map(el => el._id)
     let isParticipated = profileParticipantsId.some(item => event.participants.includes(item))
@@ -51,10 +51,10 @@ class competitions extends Component {
       return alert('Already Registered !!')
     }
     await registerCompetition(token, userId, profile, event)
-    setTimeout(() => {
-      window.location.reload(false);
-    }, 1000)
-    
+    const { onInitCompetitions, onInitProfile } = this.props
+    await onInitProfile(userId, token)
+    await onInitCompetitions()
+    this.forceUpdate()
   }
 
 
@@ -69,13 +69,16 @@ class competitions extends Component {
       compList = competitionsList.map(el => {
           const { token, profile } = this.props
           let reg = null
+          let profileParticipantsId = null
+          let isParticipated = null
+          if(profile){
+            profileParticipantsId = profile.participant.map(el => el._id)
+            isParticipated = profileParticipantsId.some(item => el.participants.includes(item))
+          }
           if( !token ){
             reg = 'Login to Register'
-            return
           }
-          const profileParticipantsId = profile.participant.map(el => el._id)
-          let isParticipated = profileParticipantsId.some(item => el.participants.includes(item))
-          if(!isParticipated) {
+          else if(!isParticipated) {
             reg = 'Register'
           }
           else{
@@ -118,7 +121,7 @@ class competitions extends Component {
                 {el.participants.length}
               </div>
               <div>
-                {(isAdmin && token) ? <Button onClick = {() => this.deleteEventHandler(el._id)}>Delete</Button> : null}
+                {(isAdmin) ? <Button onClick = {() => this.deleteEventHandler(el._id)}>Delete</Button> : null}
               </div>
             </div>
           </Paper>
@@ -135,14 +138,14 @@ class competitions extends Component {
             <div className={classes.competitionListCont}>
               {compList}
             </div>
-            <div className={classes.btnCont}>
+            { (isAdmin ) ? <div className={classes.btnCont}>
               <Link to="/competitions/add">
                 <Fab variant="extended" color="primary" aria-label="Add">
                   <NavigationIcon className={classes.extendedIcon} />
                   Add Competition
                 </Fab>
               </Link>
-            </div>
+            </div> : null}
           </div>
         </Container>
       </Box>
@@ -164,6 +167,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   onInitCompetitions: () => dispatch(CompetitionActions.initCompetitions()),
+  onInitProfile: (userId, token) => dispatch(CompetitionActions.initProfile(userId, token)),
   registerCompetition: (token, userId, profile, event) => dispatch(CompetitionActions.regEvent(token, userId, profile, event))
 })
 

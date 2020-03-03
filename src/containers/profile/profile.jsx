@@ -22,27 +22,32 @@ class Profile extends React.PureComponent {
     } = this.props
     let compList = <Spinner />
     if (profile) {
-      compList = (profile.participant).map(el => (
-        <div className={classes.list} key={el._id}>
-          <Paper>
-            <Link style={{ textDecoration: 'none' }} to={{
-              pathname: `/event/${el.eventId}`,
-              state: {
-                _id: `${el.eventId}`
-              }
-            }}>
-              <div
-                className={classes.title}
-                role="presentation"
-              >
-                <Typography variant="h3" component="h3" align="center">
-                  {el.eventName}
-                </Typography>
-              </div>
-            </Link>
-          </Paper>
-        </div>
-      ))
+      compList = (profile.participant).map(el => {
+        if (el.score === 0) {
+          return
+        }
+        return (
+          <div className={classes.list} key={el._id}>
+            <Paper>
+              <Link style={{ textDecoration: 'none' }} to={{
+                pathname: `/event/${el.eventId}`,
+                state: {
+                  _id: `${el.eventId}`
+                }
+              }}>
+                <div
+                  className={classes.title}
+                  role="presentation"
+                >
+                  <Typography variant="h3" component="h3" align="center">
+                    {el.eventName}
+                  </Typography>
+                </div>
+              </Link>
+            </Paper>
+          </div>
+        )
+      })
     }
     let display = null
     if (profile) {

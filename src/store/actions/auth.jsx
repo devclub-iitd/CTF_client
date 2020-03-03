@@ -63,17 +63,22 @@ export const auth = (authData, isLogin) => {
     }
     axios.post(url, authData)
       .then(response => {
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('userId', response.data.userId)
-        const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000)
-        localStorage.setItem('expirationDate', expirationDate)
-        dispatch(authSuccess(response.data.token, response.data.userId))
-        dispatch(initProfile(response.data.userId))
-        dispatch(checkAuthTimeOut(response.data.expiresIn))
+        if (response.data.status === 200) {
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('userId', response.data.userId)
+          const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000)
+          localStorage.setItem('expirationDate', expirationDate)
+          dispatch(authSuccess(response.data.token, response.data.userId))
+          dispatch(initProfile(response.data.userId, response.data.token))
+          dispatch(checkAuthTimeOut(response.data.expiresIn))
+          alert(response.data.message)
+          return
+        }
+        dispatch(authFail(response.data.message))
+        alert(response.data.message)
       })
       .catch(err => {
-        console.log(err)
-        dispatch(authFail())
+        dispatch(authFail(err))
       })
   }
 }
