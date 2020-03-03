@@ -21,7 +21,9 @@ class competition extends Component {
     super(props)
     this.state = {
       level: 1,
-      eventId: null
+      eventId: null,
+      open: false,
+      message: ""
     }
   }
 
@@ -39,8 +41,9 @@ class competition extends Component {
     const { level } = this.state
     const { _id } = location.state
     if( level === compDetails.level ){
-      alert('This is the Final level!!')
+      this.openSnack('This is the Final level!!')
       return
+
     }
     if(participant.level > level) {
       const updatedLevel = level + 1
@@ -72,6 +75,8 @@ class competition extends Component {
 
   render () {
     const { compDetails, token, profile, leaderboard } = this.props
+    const { open, message } = this.state;
+
     const { level } = this.state
     let participant = null
     let problemsSolved = null

@@ -140,5 +140,6 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     participant: userParticipant,
     events: userEvent
   }
+  dispatch(fetchProfile(updatedProfile))
   alert('Registered Successfully!!!')
 }

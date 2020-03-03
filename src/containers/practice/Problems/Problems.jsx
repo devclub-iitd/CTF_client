@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import {
   Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Box,
-  Button, TextField,
+  Button, TextField, Fab
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import * as probelmActions from '../../../store/actions/index';
-
+import NavigationIcon from '@material-ui/icons/Navigation';
+import classes from './Problems.module.css';
 
 class problems extends Component {
   componentDidMount() {
@@ -59,7 +60,7 @@ class problems extends Component {
             },
             headers: { 'Authorization': 'Bearer ' + token }
          });
-         console.log(response) 
+         console.log(response)
     }
   }
 
@@ -135,24 +136,20 @@ class problems extends Component {
     if (problemsList) {
       display = (
         <div>
-          <br />
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Typography variant="h4">Problems  </Typography>
+              <div className={classes.tableFieldTitle}>Problems </div>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Users Solved </Typography>
+              <div className={classes.tableFieldTitle}>Users Solved</div>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Score  </Typography>
+              <div className={classes.tableFieldTitle}>Score </div>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Status  </Typography>
+              <div className={classes.tableFieldTitle}>Status </div>
             </Grid>
-
-
           </Grid>
-
         </div>
       );
     }
@@ -165,23 +162,27 @@ class problems extends Component {
 
 
     return (
-      <div>
-        <Container maxWidth="md">
-          <Typography variant="h1" align="center">
-                    Problems
-          </Typography>
-          <Box p={2}>
-            {display}
-          </Box>
-          <Box p={2}>
-            {prob}
-          </Box>
-         { (isAdmin && token)  ? <Box p={3}>
-            <NavLink to="/add/problem"><Typography variant="h4" align="center">Add a new Problem</Typography></NavLink>
-          </Box> : null}
-        </Container>
-
-
+      <div className={classes.mainCont}>
+          <div className={classes.innerCont}>
+            <div className={classes.pageTitle}>
+                Problems
+            </div>
+            <div className={classes.miniLine} />
+            <div className={classes.tableCont}>
+              {display}
+              <div className={classes.tableProbs}>
+                {prob}
+              </div>
+            </div>
+            { (isAdmin && token) ? <div className={classes.btnCont}>
+              <Link to="/add/problem">
+                <Fab variant="extended" color="primary" aria-label="Add">
+                  <NavigationIcon className={classes.extendedIcon} />
+                  Add Problem
+                </Fab>
+              </Link>
+            </div> : null }
+        </div>
       </div>
     );
   }
