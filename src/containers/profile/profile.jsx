@@ -24,7 +24,8 @@ class Profile extends React.PureComponent {
     if (profile) {
       compList = (profile.participant).map(el => (
         <div className={classes.list} key={el._id}>
-            <Link style={{ textDecoration: 'none', color: 'rgba(245,0,87,1)' }} to={{
+          <Paper>
+            <Link style={{ textDecoration: 'none' }} to={{
               pathname: `/event/${el.eventId}`,
               state: {
                 _id: `${el.eventId}`
@@ -34,11 +35,12 @@ class Profile extends React.PureComponent {
                 className={classes.title}
                 role="presentation"
               >
-                <div className={classes.innerListTitle}>
+                <Typography variant="h3" component="h3" align="center">
                   {el.eventName}
-                </div>
+                </Typography>
               </div>
             </Link>
+          </Paper>
         </div>
       ))
     }
@@ -74,11 +76,10 @@ class Profile extends React.PureComponent {
             <div className={classes.subTitle}>
               Competitions Participated
             </div>
-            <div className={classes.miniLine} />
           </Box>
-          <div className={classes.compListCont}>
+          <Box>
             {compList}
-          </div>
+          </Box>
 
         </div>
       )

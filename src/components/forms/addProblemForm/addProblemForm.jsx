@@ -6,13 +6,6 @@ import Axios from 'axios'
 import { connect } from 'react-redux'
 import classes from './addProblemForm.module.css'
 import * as actions from '../../../store/actions/index'
-import Snackbar from '../../UI/snackbar/snackbar'
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
-
 
 const AddProbelmForm = (props) => {
   const [formElements, setFormElement] = useState({
@@ -25,21 +18,6 @@ const AddProbelmForm = (props) => {
     score: 0,
     isActive: 1
   })
-  const [open, setOpen] = React.useState(false);
-  const [message, setMessage] = React.useState('');
-
-  const openSnack = (mess) => {
-    setMessage(mess)
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
-
 
   const changeHandler = name => (event) => {
     setFormElement({ ...formElements, [name]: event.target.value })
@@ -49,14 +27,14 @@ const AddProbelmForm = (props) => {
     event.preventDefault()
     const { addProblem, token } = props
     addProblem(formElements, token)
-    openSnack('Problem added Successfully')
+    alert('Problem added Successfully')
   }
 
   return (
-    <div className={classes.mainCont}>
-      <div className={classes.subCont}>
-        <div className={classes.title}>Add a Problem</div>
-        <div className={classes.miniLine} />
+    <Container>
+      <div>
+        <Typography variant="h3" align="center">Add a Problem</Typography>
+        <br />
         <form noValidate autoComplete="off" onSubmit={submitHandler}>
 
           <TextField
@@ -68,21 +46,14 @@ const AddProbelmForm = (props) => {
             onChange={changeHandler('name')}
           />
           <br />
-          <FormControl className={classes.textField}>
-            <InputLabel>Category</InputLabel>
-            <Select
-              labelId="category"
-              id="category"
-              value={formElements.category}
-              onChange={changeHandler('category')}
-            >
-              <MenuItem value={'Web Exploits'}>Web Exploits</MenuItem>
-              <MenuItem value={'Binary Exploits'}>Binary Exploits</MenuItem>
-              <MenuItem value={'Cipher-Decipher'}>Cipher Decipher</MenuItem>
-            </Select>
-          </FormControl>
-
-          <br />
+          <TextField
+            id="standard-category"
+            label="Category"
+            className={classes.textField}
+            margin="normal"
+            name="category"
+            onChange={changeHandler('category')}
+          />
           <br />
           <TextField
             id="Probelm Details"
@@ -146,9 +117,8 @@ const AddProbelmForm = (props) => {
             <Icon className={classes.rightIcon}>send</Icon>
           </Button>
         </form>
-        <Snackbar open={open} message={message} handleClose={handleClose} />
       </div>
-    </div>
+    </Container>
   )
 }
 
@@ -165,12 +135,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProbelmForm)
-
-// <TextField
-//   id="standard-category"
-//   label="Category"
-//   className={classes.textField}
-//   margin="normal"
-//   name="category"
-//   onChange={changeHandler('category')}
-// />
