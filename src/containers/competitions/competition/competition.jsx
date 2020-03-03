@@ -8,6 +8,7 @@ import CompLeaderboard from '../../../components/Table/CompLeaderboard/CompLeade
 import CompProblems from '../../../components/Problem/CompProblems/CompProblems'
 import * as CompetitionActions from '../../../store/actions/index'
 import Spinner from '../../../components/UI/Spinner/Spinner'
+import Snackbar from '../../../components/UI/snackbar/snackbar'
 
 class competition extends Component {
    componentDidMount () {
@@ -21,15 +22,34 @@ class competition extends Component {
     super(props)
     this.state = {
       level: 1,
+<<<<<<< HEAD
       eventId: null,
       leaderboardShow: true
+=======
+      open: false,
+      message: ""
+>>>>>>> d7f2d6a780f13f53338624d3a2889ff313fcaee7
     }
+    this.openSnack = this.openSnack.bind(this)
+    this.closeSnack = this.closeSnack.bind(this)
+  }
+  openSnack(mess) {
+    this.setState({
+      open: true,
+      message: mess
+    })
+  }
+  closeSnack() {
+    this.setState({
+      open: false
+    })
   }
 
   updateUI = () => {
     const { level } = this.state
     const { onInitCompetition, location, token, onInitProfile, onInitLeaderboard, userId} = this.props
     const { _id } = location.state
+<<<<<<< HEAD
      onInitCompetition(_id, token, level)
      onInitProfile(userId, token)
      onInitLeaderboard(_id)
@@ -42,6 +62,14 @@ class competition extends Component {
     if( level === compDetails.level ){
       alert('This is the Final level!!')
       return
+=======
+    let participant = null
+    if( level === compDetails.levels ){
+      this.openSnack('This is the Final level!!')
+    }
+    if( profile ) {
+      participant = profile.participant[profile.participant.length -1]
+>>>>>>> d7f2d6a780f13f53338624d3a2889ff313fcaee7
     }
     if(participant.level > level) {
       const updatedLevel = level + 1
@@ -49,7 +77,7 @@ class competition extends Component {
       this.setState({level: updatedLevel })
     }
     else{
-      alert('Level not Unlocked yet!!')
+      this.openSnack('Level not Unlocked yet!!')
     }
   }
 
@@ -67,7 +95,7 @@ class competition extends Component {
       this.setState({ level: updatedLevel })
     }
     else{
-      alert('This is the first level')
+      this.openSnack('This is the first level')
     }
   }
 
@@ -79,7 +107,12 @@ class competition extends Component {
   }
 
   render () {
+<<<<<<< HEAD
     const { compDetails, token, profile, leaderboard, leaderboardStatus } = this.props
+=======
+    const { open, message } = this.state;
+    const { compDetails, token, profile } = this.props
+>>>>>>> d7f2d6a780f13f53338624d3a2889ff313fcaee7
     const { level } = this.state
     let participant = null
     let problemsSolved = null
@@ -156,6 +189,7 @@ class competition extends Component {
         <div className={classes.mainCont}>
           {data}
         </div>
+        <Snackbar open={open} message={message} handleClose={this.closeSnack} />
       </Container>
 
     )

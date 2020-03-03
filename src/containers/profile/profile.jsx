@@ -28,23 +28,21 @@ class Profile extends React.PureComponent {
         }
         return (
           <div className={classes.list} key={el._id}>
-            <Paper>
-              <Link style={{ textDecoration: 'none' }} to={{
-                pathname: `/event/${el.eventId}`,
-                state: {
-                  _id: `${el.eventId}`
-                }
-              }}>
-                <div
-                  className={classes.title}
-                  role="presentation"
-                >
-                  <Typography variant="h3" component="h3" align="center">
-                    {el.eventName}
-                  </Typography>
+            <Link style={{ textDecoration: 'none', color: 'rgba(245,0,87,1)' }} to={{
+              pathname: `/event/${el.eventId}`,
+              state: {
+                _id: `${el.eventId}`
+              }
+            }}>
+              <div
+                className={classes.title}
+                role="presentation"
+              >
+                <div className={classes.innerListTitle}>
+                  {el.eventName}
                 </div>
-              </Link>
-            </Paper>
+              </div>
+            </Link>
           </div>
         )
       })
@@ -81,10 +79,11 @@ class Profile extends React.PureComponent {
             <div className={classes.subTitle}>
               Competitions Participated
             </div>
+            <div className={classes.miniLine} />
           </Box>
-          <Box>
+          <div className={classes.compListCont}>
             {compList}
-          </Box>
+          </div>
 
         </div>
       )

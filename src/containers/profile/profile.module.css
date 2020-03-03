@@ -1,21 +1,3 @@
-.list {
-    padding: 50px;
-}
-
-.padding {
-    padding: 20px;
-}
-
-.title {
-    padding: 20px;
-  background-color: red;
-}
-
-.title:hover {
-    cursor: pointer;
-    color:blue;
-    text-decoration: underline;
-}
 .mainCont {
   text-align: center;
   position: absolute;
@@ -46,6 +28,7 @@
   width: 400px;
   /* background-color: red; */
   margin: auto;
+  margin-top: 15px;
   text-align: left;
   font-size: 20px;
 }
@@ -70,4 +53,29 @@
   font-size: 26px;
   text-transform: uppercase;
   margin-top: 30px;
+}
+.compListCont {
+  width: 80%;
+  margin:auto;
+  padding-bottom: 100px;
+}
+.list {
+  padding: 10px;
+  text-align: center;
+  width: 60%;
+  margin:  auto;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 10px;
+  border: 2px solid rgba(245,0,87,1);
+  color: rgba(245,0,87,1);
+  transition: 0.2s ease-out;
+}
+.list:hover .innerListTitle{
+  color: white;
+}
+.list:hover{
+  background-color: rgba(245,0,87,1);
 }

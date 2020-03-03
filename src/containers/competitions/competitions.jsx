@@ -10,12 +10,36 @@ import classes from './competitions.module.css'
 import Axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import * as CompetitionActions from '../../store/actions/index'
+import Snackbar from '../../components/UI/snackbar/snackbar'
 
 class competitions extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      message: ""
+    }
+    this.openSnack = this.openSnack.bind(this)
+    this.closeSnack = this.closeSnack.bind(this)
+  }
+
   componentDidMount () {
-    
+
     const { onInitCompetitions } = this.props
     onInitCompetitions()
+  }
+
+  openSnack(mess) {
+    this.setState({
+      open: true,
+      message: mess
+    })
+  }
+  closeSnack() {
+    this.setState({
+      open: false
+    })
   }
 
   // constructor(props){
@@ -43,12 +67,15 @@ class competitions extends Component {
       return alert('Registration is Over!!')
     }
     if(!token){
-      return alert('Login to Register!!')
+      this.openSnack('Login to Register!!')
+    }
+    if(new Date(event.startTime) > (new Date())){
+      this.openSnack('Registration has not started yet!!')
     }
     const profileParticipantsId = profile.participant.map(el => el._id)
     let isParticipated = profileParticipantsId.some(item => event.participants.includes(item))
     if(isParticipated){
-      return alert('Already Registered !!')
+      this.openSnack('Already Registered !!')
     }
     await registerCompetition(token, userId, profile, event)
     const { onInitCompetitions, onInitProfile } = this.props
@@ -59,6 +86,7 @@ class competitions extends Component {
 
 
   render () {
+    const { open, message } = this.state;
     const { competitionsList, profile} = this.props
     let isAdmin = null
     if(profile){
@@ -86,15 +114,15 @@ class competitions extends Component {
           }
           const startCompetition = () => {
             if( !token ){
-              alert('Login to Enter Competition')
+              this.openSnack('Login to Enter Competition')
               return
             }
             if(!isParticipated) {
-              alert('Register to Enter Competition')
+              this.openSnack('Register to Enter Competition')
               return
             }
             if(new Date(el.startTime) > (new Date())){
-              alert('Competition has not started yet!!')
+              this.openSnack('Competition has not started yet!!')
             }
           }
         return(
@@ -148,8 +176,8 @@ class competitions extends Component {
             </div> : null}
           </div>
         </Container>
+        <Snackbar open={open} message={message} handleClose={this.closeSnack} />
       </Box>
-
     )
   }
 }
