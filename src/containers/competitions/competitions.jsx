@@ -45,9 +45,6 @@ class competitions extends Component {
     if(!token){
       return alert('Login to Register!!')
     }
-    if(new Date(event.startTime) > (new Date())){
-      return alert('Registration has not started yet!!')
-    }
     const profileParticipantsId = profile.participant.map(el => el._id)
     let isParticipated = profileParticipantsId.some(item => event.participants.includes(item))
     if(isParticipated){

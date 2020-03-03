@@ -11,7 +11,8 @@ const initialState = {
   userId: null,
   error: null,
   loading: false,
-  leaderboard: []
+  leaderboard: [],
+  leaderboardStatus: true
 }
 
 const authStart = (state, action) => {
@@ -71,6 +72,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         leaderboard: action.leaderboard
+      }
+    case actionTypes.SET_LEADERBOARD_STATUS:
+      return {
+        ...state,
+        leaderboardStatus: action.leaderboardStatus
       }
     case actionTypes.SET_COMPETITIONS_LEVEL_PROBLEMS:
       return {

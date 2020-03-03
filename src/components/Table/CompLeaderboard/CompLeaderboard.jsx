@@ -30,7 +30,6 @@ const CompLeaderboard = ({ userId, leaderboard }) => {
       </tr>
     ))
   }
-  console.log(table)
 
   return (
     <div style={{ marginTop: '30px' }}>

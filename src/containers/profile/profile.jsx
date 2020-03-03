@@ -28,21 +28,23 @@ class Profile extends React.PureComponent {
         }
         return (
           <div className={classes.list} key={el._id}>
-            <Link style={{ textDecoration: 'none', color: 'rgba(245,0,87,1)' }} to={{
-              pathname: `/event/${el.eventId}`,
-              state: {
-                _id: `${el.eventId}`
-              }
-            }}>
-              <div
-                className={classes.title}
-                role="presentation"
-              >
-                <Typography variant="h3" component="h3" align="center">
-                  {el.eventName}
-                </Typography>
-              </div>
-            </Link>
+            <Paper>
+              <Link style={{ textDecoration: 'none' }} to={{
+                pathname: `/event/${el.eventId}`,
+                state: {
+                  _id: `${el.eventId}`
+                }
+              }}>
+                <div
+                  className={classes.title}
+                  role="presentation"
+                >
+                  <Typography variant="h3" component="h3" align="center">
+                    {el.eventName}
+                  </Typography>
+                </div>
+              </Link>
+            </Paper>
           </div>
         )
       })

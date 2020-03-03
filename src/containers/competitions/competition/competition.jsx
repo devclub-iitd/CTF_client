@@ -22,8 +22,7 @@ class competition extends Component {
     this.state = {
       level: 1,
       eventId: null,
-      open: false,
-      message: ""
+      leaderboardShow: true
     }
   }
 
@@ -41,9 +40,8 @@ class competition extends Component {
     const { level } = this.state
     const { _id } = location.state
     if( level === compDetails.level ){
-      this.openSnack('This is the Final level!!')
+      alert('This is the Final level!!')
       return
-
     }
     if(participant.level > level) {
       const updatedLevel = level + 1
@@ -73,10 +71,15 @@ class competition extends Component {
     }
   }
 
-  render () {
-    const { compDetails, token, profile, leaderboard } = this.props
-    const { open, message } = this.state;
+  showLeaderboardHandler = (eventId, leaderboardStatus, token) => {
+    const { onInitLeaderboardStatus, onInitLeaderboard } = this.props
+    onInitLeaderboardStatus(eventId, leaderboardStatus, token)
+    onInitLeaderboard(eventId)
+    this.forceUpdate()
+  }
 
+  render () {
+    const { compDetails, token, profile, leaderboard, leaderboardStatus } = this.props
     const { level } = this.state
     let participant = null
     let problemsSolved = null
@@ -92,6 +95,10 @@ class competition extends Component {
       })
     }
     let data = <Spinner />
+    let leaderboardShow = null
+    if(leaderboard.length !== 0 && leaderboardStatus ){
+      leaderboardShow = <CompLeaderboard userId = {userId} leaderboard = {leaderboard} key= 'leaderboard' />
+    }
     if (compDetails && profile) {
       data = (
         <div>
@@ -137,7 +144,9 @@ class competition extends Component {
           <div className={classes.rankingCont}>
             <div className={classes.subTitle}>User Ranking:</div>
             <div className={classes.miniLine} />
-            <CompLeaderboard userId = {userId} leaderboard = {leaderboard} key={compDetails._id} />
+            {leaderboardShow}
+            <Button onClick = {() => this.showLeaderboardHandler(compDetails._id, true, token)}>Show</Button>
+            <Button onClick = {() => this.showLeaderboardHandler(compDetails._id, false, token)}>Hide</Button>
           </div>
         </div>
       )
@@ -167,12 +176,14 @@ const mapStateToProps = state => ({
   token: state.token,
   profile: state.profile,
   leaderboard: state.leaderboard,
-  userId: state.userId
+  userId: state.userId,
+  leaderboardStatus: state.leaderboardStatus
 })
 const mapDispatchToProps = dispatch => ({
   onInitProfile: (userId, token) => dispatch(CompetitionActions.initProfile(userId, token)),
   onInitCompetition: (id, token, level) => dispatch(CompetitionActions.initCompetition(id, token, level)),
   onInitLeaderboard: (eventId) => dispatch(CompetitionActions.initLeaderboard(eventId)),
+  onInitLeaderboardStatus: (eventId, leaderboardStatus) => dispatch(CompetitionActions.initLeaderboardStatus(eventId, leaderboardStatus)),
   onInitCompetitionLevelProblems: (eventId, token, level, participantId) => dispatch(CompetitionActions.initCompetitionLevelProblems(eventId, token, level, participantId))
 })
 

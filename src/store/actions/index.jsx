@@ -13,7 +13,8 @@ export {
   onitEvent,
   initCompetitionLevelProblems,
   regEvent,
-  initLeaderboard
+  initLeaderboard,
+  initLeaderboardStatus
 } from './competitions'
 
 export {

@@ -54,6 +54,25 @@ export const initLeaderboard = eventId => async dispatch => {
   await dispatch(fetchLeaderboard(response.data))
 }
 
+export const fetchLeaderboardStatus = leaderboardStatus => ({
+  type: actionType.SET_LEADERBOARD_STATUS,
+  leaderboardStatus
+})
+
+export const initLeaderboardStatus = (eventId, leaderboardStatus, token) => async dispatch => {
+  const url = 'http://localhost:3000/api/event/leaderboard/' + eventId
+  console.log(leaderboardStatus)
+  const response = await Axios({
+    method: 'PUT',
+    url: url,
+    data: {
+      leaderboardStatus: leaderboardStatus
+    },
+    headers: { Authorization: 'Bearer ' + token }
+  })
+  await dispatch(fetchLeaderboardStatus(response.data.showLeaderboard))
+}
+
 export const initCompetitionLevelProblems = (eventId, token, level, participantId) => async dispatch => {
   const url = `http://localhost:3000/api/event/${eventId}/level-probelms`
   const response = await Axios({
@@ -140,6 +159,5 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     participant: userParticipant,
     events: userEvent
   }
-  dispatch(fetchProfile(updatedProfile))
   alert('Registered Successfully!!!')
 }
