@@ -127,6 +127,10 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     },
     headers: { Authorization: 'Bearer ' + token }
   })
+  if (!participant.data.data) {
+    console.log('Already Registered!!')
+    return
+  }
   const participantId = participant.data.data._id
   url = 'http://localhost:3000/api/event/' + event._id
   event.participants.push(participantId)
@@ -159,10 +163,6 @@ export const regEvent = (token, userId, profile, event) => async (dispatch) => {
     participant: userParticipant,
     events: userEvent
   }
-<<<<<<< HEAD
-  alert('Registered Successfully!!!')
-=======
   dispatch(fetchProfile(updatedProfile))
   // alert('Registered Successfully!!!')
->>>>>>> d7f2d6a780f13f53338624d3a2889ff313fcaee7
 }

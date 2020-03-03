@@ -22,13 +22,11 @@ class competition extends Component {
     super(props)
     this.state = {
       level: 1,
-<<<<<<< HEAD
       eventId: null,
-      leaderboardShow: true
-=======
+      leaderboardShow: true,
       open: false,
-      message: ""
->>>>>>> d7f2d6a780f13f53338624d3a2889ff313fcaee7
+      message: "",
+      dummy: true
     }
     this.openSnack = this.openSnack.bind(this)
     this.closeSnack = this.closeSnack.bind(this)
@@ -49,7 +47,6 @@ class competition extends Component {
     const { level } = this.state
     const { onInitCompetition, location, token, onInitProfile, onInitLeaderboard, userId} = this.props
     const { _id } = location.state
-<<<<<<< HEAD
      onInitCompetition(_id, token, level)
      onInitProfile(userId, token)
      onInitLeaderboard(_id)
@@ -59,17 +56,8 @@ class competition extends Component {
     const { token, compDetails, location, onInitCompetitionLevelProblems } = this.props
     const { level } = this.state
     const { _id } = location.state
-    if( level === compDetails.level ){
-      alert('This is the Final level!!')
-      return
-=======
-    let participant = null
     if( level === compDetails.levels ){
       this.openSnack('This is the Final level!!')
-    }
-    if( profile ) {
-      participant = profile.participant[profile.participant.length -1]
->>>>>>> d7f2d6a780f13f53338624d3a2889ff313fcaee7
     }
     if(participant.level > level) {
       const updatedLevel = level + 1
@@ -102,17 +90,18 @@ class competition extends Component {
   showLeaderboardHandler = (eventId, leaderboardStatus, token) => {
     const { onInitLeaderboardStatus, onInitLeaderboard } = this.props
     onInitLeaderboardStatus(eventId, leaderboardStatus, token)
-    onInitLeaderboard(eventId)
-    this.forceUpdate()
+    
+    const { dummy } = this.state
+    setTimeout(() => {
+      //this.forceUpdate()
+      onInitLeaderboard(eventId)
+      this.setState({ dummy: !dummy })
+    }, 2000)
   }
 
   render () {
-<<<<<<< HEAD
     const { compDetails, token, profile, leaderboard, leaderboardStatus } = this.props
-=======
     const { open, message } = this.state;
-    const { compDetails, token, profile } = this.props
->>>>>>> d7f2d6a780f13f53338624d3a2889ff313fcaee7
     const { level } = this.state
     let participant = null
     let problemsSolved = null
@@ -120,6 +109,9 @@ class competition extends Component {
     if (compDetails && profile) {
       userId = profile._id
       participant = compDetails.participants.filter(el => el.userId === userId)
+      if(!participant){
+        this.forceUpdate()
+      }
       participant = participant[0]
       problemsSolved = participant.problemsSolved 
       problemsSolved = problemsSolved.map(prb => {

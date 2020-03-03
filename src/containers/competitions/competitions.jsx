@@ -63,25 +63,26 @@ class competitions extends Component {
 
   registerHandler = async (event) => {
     const { token, userId, profile, registerCompetition } = this.props;
-    if(new Date(event.endTime).getTime() < new Date().getTime()){
-      return alert('Registration is Over!!')
-    }
     if(!token){
       this.openSnack('Login to Register!!')
+      return
     }
     if(new Date(event.startTime) > (new Date())){
       this.openSnack('Registration has not started yet!!')
+      return
     }
     const profileParticipantsId = profile.participant.map(el => el._id)
     let isParticipated = profileParticipantsId.some(item => event.participants.includes(item))
     if(isParticipated){
       this.openSnack('Already Registered !!')
+      return
     }
     await registerCompetition(token, userId, profile, event)
     const { onInitCompetitions, onInitProfile } = this.props
     await onInitProfile(userId, token)
     await onInitCompetitions()
     this.forceUpdate()
+    this.openSnack('Successfully Registered!!')
   }
 
 

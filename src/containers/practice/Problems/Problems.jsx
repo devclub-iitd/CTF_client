@@ -50,7 +50,7 @@ class problems extends Component {
           console.log('Sedning req')
          profile.problems.push(prb._id)
          prb.userSolved = prb.userSolved + 1
-         const url = 'http://localhost:3000/api/problem/'+prb._id
+         const url = 'http://localhost:3000/api/problem/updated_problem/'+prb._id
          const response = await Axios({
             method: 'PUT',
             url: url,
