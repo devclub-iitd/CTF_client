@@ -1,9 +1,9 @@
 version: '3.4'
 
 services:
-  dashboard_client:
+  ctf_client:
     build: .
-    image: "${REGISTRY_NAME}devclubiitd/dashboard_client:0.1"
+    image: "${REGISTRY_NAME}devclubiitd/ctf_client:0.1"
     ports:
       - ${PORT}:80
     healthcheck:
