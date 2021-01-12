@@ -1,9 +1,9 @@
 .title {
-    text-align: center;
+  text-align: center;
 }
 .center {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .mainCont {
   display: flex;
@@ -15,7 +15,6 @@
   height: calc(100% - 150px);
   width: 100%;
   left: 0px;
-
 }
 .section {
   margin-left: 80px;
@@ -29,7 +28,7 @@
 .miniLine {
   width: 80px;
   height: 8px;
-  background-color: rgba(63,81,181,0.9);
+  background-color: rgba(63, 81, 181, 0.9);
   /* background-color: rgba(0,0,0,0.8); */
   margin-top: 25px;
   border-radius: 3px;

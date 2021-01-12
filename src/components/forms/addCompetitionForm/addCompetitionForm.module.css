@@ -14,7 +14,7 @@
 .miniLine {
   width: 40px;
   height: 8px;
-  background-color: rgba(63,81,181,0.9);
+  background-color: rgba(63, 81, 181, 0.9);
   /* background-color: rgba(0,0,0,0.8); */
   margin-top: 25px;
   border-radius: 3px;
@@ -33,8 +33,8 @@
   font-weight: 700;
 }
 .textField {
-    display: flex;
-    justify-content: flex-start;
-    margin-right: 200px;
-    width:450px
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 200px;
+  width: 450px;
 }

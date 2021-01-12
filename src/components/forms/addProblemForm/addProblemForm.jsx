@@ -1,56 +1,53 @@
-import React, { useState } from 'react'
-import TextField from '@material-ui/core/TextField'
-import { Typography, Container, Button } from '@material-ui/core'
-import Icon from '@material-ui/core/Icon'
-import Axios from 'axios'
-import { connect } from 'react-redux'
-import classes from './addProblemForm.module.css'
-import * as actions from '../../../store/actions/index'
-import Snackbar from '../../UI/snackbar/snackbar'
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
-
+import React, { useState } from "react";
+import TextField from "@material-ui/core/TextField";
+import { Typography, Container, Button } from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
+import Axios from "axios";
+import { connect } from "react-redux";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Snackbar from "../../UI/snackbar/snackbar";
+import * as actions from "../../../store/actions/index";
+import classes from "./addProblemForm.module.css";
 
 const AddProbelmForm = (props) => {
   const [formElements, setFormElement] = useState({
-    name: '',
-    category: '',
-    details: '',
-    difficulty: '',
-    answer: '',
+    name: "",
+    category: "",
+    details: "",
+    difficulty: "",
+    answer: "",
     level: 1,
     score: 0,
-    isActive: 1
-  })
+    isActive: 1,
+  });
   const [open, setOpen] = React.useState(false);
-  const [message, setMessage] = React.useState('');
+  const [message, setMessage] = React.useState("");
 
   const openSnack = (mess) => {
-    setMessage(mess)
+    setMessage(mess);
     setOpen(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
 
-
-  const changeHandler = name => (event) => {
-    setFormElement({ ...formElements, [name]: event.target.value })
-  }
+  const changeHandler = (name) => (event) => {
+    setFormElement({ ...formElements, [name]: event.target.value });
+  };
 
   const submitHandler = (event) => {
-    event.preventDefault()
-    const { addProblem, token } = props
-    addProblem(formElements, token)
-    openSnack('Problem added Successfully')
-  }
+    event.preventDefault();
+    const { addProblem, token } = props;
+    addProblem(formElements, token);
+    openSnack("Problem added Successfully");
+  };
 
   return (
     <div className={classes.mainCont}>
@@ -58,14 +55,13 @@ const AddProbelmForm = (props) => {
         <div className={classes.title}>Add a Problem</div>
         <div className={classes.miniLine} />
         <form noValidate autoComplete="off" onSubmit={submitHandler}>
-
           <TextField
             id="standard-name"
             label="Name"
             className={classes.textField}
             margin="normal"
             name="name"
-            onChange={changeHandler('name')}
+            onChange={changeHandler("name")}
           />
           <br />
           <FormControl className={classes.textField}>
@@ -74,11 +70,17 @@ const AddProbelmForm = (props) => {
               labelId="category"
               id="category"
               value={formElements.category}
-              onChange={changeHandler('category')}
+              onChange={changeHandler("category")}
             >
-              <MenuItem value={'Web Exploits'}>Web Exploits</MenuItem>
-              <MenuItem value={'Binary Exploits'}>Binary Exploits</MenuItem>
-              <MenuItem value={'Cipher-Decipher'}>Cipher Decipher</MenuItem>
+              <MenuItem value="Binary Exploitation">
+                Binary Exploitation
+              </MenuItem>
+              <MenuItem value="Reverse Engineering">
+                Reverse Engineering
+              </MenuItem>
+              <MenuItem value="Web Exploitation">Web Exploitation</MenuItem>
+              <MenuItem value="Cryptography">Cryptography</MenuItem>
+              <MenuItem value="Forensics">Forensics</MenuItem>
             </Select>
           </FormControl>
 
@@ -91,7 +93,7 @@ const AddProbelmForm = (props) => {
             rows="10"
             className={classes.textField}
             fullWidth="true"
-            onChange={changeHandler('details')}
+            onChange={changeHandler("details")}
             variant="outlined"
           />
           <br />
@@ -101,17 +103,22 @@ const AddProbelmForm = (props) => {
             className={classes.textField}
             margin="normal"
             name="score"
-            onChange={changeHandler('score')}
+            onChange={changeHandler("score")}
           />
           <br />
-          <TextField
-            id="standard-difficulty"
-            label="Difficulty"
-            className={classes.textField}
-            margin="normal"
-            name="difficulty"
-            onChange={changeHandler('difficulty')}
-          />
+          <FormControl className={classes.textField}>
+            <InputLabel>Difficulty</InputLabel>
+            <Select
+              labelId="Difficulty"
+              id="difficulty"
+              value={formElements.difficulty}
+              onChange={changeHandler("difficulty")}
+            >
+              <MenuItem value="easy">Easy</MenuItem>
+              <MenuItem value="medium">Medium</MenuItem>
+              <MenuItem value="hard">Hard</MenuItem>
+            </Select>
+          </FormControl>
           <br />
           <TextField
             id="standard-level"
@@ -119,7 +126,7 @@ const AddProbelmForm = (props) => {
             className={classes.textField}
             margin="normal"
             name="level"
-            onChange={changeHandler('level')}
+            onChange={changeHandler("level")}
           />
           <br />
           <TextField
@@ -128,43 +135,48 @@ const AddProbelmForm = (props) => {
             className={classes.textField}
             margin="normal"
             name="answer"
-            onChange={changeHandler('answer')}
+            onChange={changeHandler("answer")}
           />
           <br />
-          <TextField
-            id="standard-activity"
-            label="Activity"
-            className={classes.textField}
-            margin="normal"
-            name="isActive"
-            onChange={changeHandler('isActive')}
-          />
+          <FormControl className={classes.textField}>
+            <InputLabel>Activity</InputLabel>
+            <Select
+              labelId="Activity"
+              id="standard-activity"
+              value={formElements.activity}
+              onChange={changeHandler("isActive")}
+            >
+              <MenuItem value={1}>Practice</MenuItem>
+              <MenuItem value={2}>Competition</MenuItem>
+            </Select>
+          </FormControl>
           <br />
           <br />
-          <Button type="submit" variant="contained" color="primary" className={classes.button}>
-                 Send
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Send
             <Icon className={classes.rightIcon}>send</Icon>
           </Button>
         </form>
         <Snackbar open={open} message={message} handleClose={handleClose} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => {
-  return {
-    token: state.token
-  }
-}
+const mapStateToProps = (state) => ({
+  token: state.token,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addProblem: (problem, token) => dispatch(actions.onitProblem(problem, token))
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  addProblem: (problem, token) => dispatch(actions.onitProblem(problem, token)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddProbelmForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AddProbelmForm);
 
 // <TextField
 //   id="standard-category"

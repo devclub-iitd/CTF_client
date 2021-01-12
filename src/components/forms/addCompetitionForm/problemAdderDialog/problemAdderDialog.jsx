@@ -1,27 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-  Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Button
-} from '@material-ui/core';
-import Icon from '@material-ui/core/Icon'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Spinner from '../../../UI/Spinner/Spinner';
-import * as probelmActions from '../../../../store/actions/index';
-import classes from './problemAdderDialog.module.css';
-
+  Typography,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Grid,
+  Container,
+  Button,
+} from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Spinner from "../../../UI/Spinner/Spinner";
+import * as probelmActions from "../../../../store/actions/index";
+import classes from "./problemAdderDialog.module.css";
 
 class problems extends Component {
-    state={
-      challenges: [],
-      levels: new Map()
-    };
+  state = {
+    challenges: [],
+    levels: new Map(),
+  };
 
-    componentDidMount() {
-      const { onInitProblems } = this.props;
-      onInitProblems('2');
-    }
-
+  componentDidMount() {
+    const { onInitProblems } = this.props;
+    onInitProblems("2");
+  }
 
   checkBoxChangeHandler = (element) => {
     const { challenges } = this.state;
@@ -30,22 +34,28 @@ class problems extends Component {
       if (i === element) {
         flag = false;
       }
-      return '';
+      return "";
     });
-    const levels = this.state.levels
-    const level = element.level.toString()
+    const { levels } = this.state;
+    const level = element.level.toString();
     if (flag === true) {
-      if(!levels.has(level)){
-        levels.set(level,0)
+      if (!levels.has(level)) {
+        levels.set(level, 0);
       }
-      levels.set(level,(parseInt(levels.get(level),10)+ element.score).toString())
+      levels.set(
+        level,
+        (parseInt(levels.get(level), 10) + element.score).toString()
+      );
       this.setState({ challenges: [...challenges, element._id], levels });
     } else {
       let temp = [...challenges];
-      if(levels.has(level)){
-        levels.set(levels.get(level),(parseInt(levels.get(level),10) - element.score).toString())
+      if (levels.has(level)) {
+        levels.set(
+          levels.get(level),
+          (parseInt(levels.get(level), 10) - element.score).toString()
+        );
       }
-      temp = temp.filter(item => item !== element);
+      temp = temp.filter((item) => item !== element);
       this.setState({ challenges: temp, levels });
     }
   };
@@ -53,15 +63,15 @@ class problems extends Component {
   submitHandler = () => {
     const { challenges, levels } = this.state;
     const { problemSubmit } = this.props;
-    problemSubmit(challenges,levels);
-  }
+    problemSubmit(challenges, levels);
+  };
 
   render() {
     const { problemsList } = this.props;
     let prob = null;
     if (problemsList) {
-      prob = Object.values(problemsList).map(el => (
-        <div style={{ width: '100%' }} key={el.id}>
+      prob = Object.values(problemsList).map((el) => (
+        <div style={{ width: "100%" }} key={el.id}>
           <ExpansionPanel>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
@@ -72,38 +82,27 @@ class problems extends Component {
                 <Grid item xs={3}>
                   <div className={classes.column1}>
                     <span className={classes.checkBox}>
-                      <input type="checkbox" onChange={() => this.checkBoxChangeHandler(el)} />
+                      <input
+                        type="checkbox"
+                        onChange={() => this.checkBoxChangeHandler(el)}
+                      />
                     </span>
-                    <Typography>
-                      {el.name}
-                      {' '}
-                    </Typography>
+                    <Typography>{el.name} </Typography>
                   </div>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography>
-                    {el.userSolved}
-                    {' '}
-                  </Typography>
+                  <Typography>{el.userSolved} </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography>
-                    {el.score}
-                    {' '}
-                  </Typography>
+                  <Typography>{el.score} </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography>
-                    {el.status ? 'Solved' : 'Unsolved'}
-                    {' '}
-                  </Typography>
+                  <Typography>{el.status ? "Solved" : "Unsolved"} </Typography>
                 </Grid>
               </Grid>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
-                {el.details}
-              </Typography>
+              <Typography>{el.details}</Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </div>
@@ -133,16 +132,19 @@ class problems extends Component {
       );
     }
 
-
     return (
       <div>
         <Container maxWidth="md">
-          <div className={classes.title}>
-            Problems
-          </div>
+          <div className={classes.title}>Problems</div>
           {display}
           {prob}
-          <Button type="submit" variant="contained" color="primary" onClick={this.submitHandler} style={{ 'marginTop': '20px' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={this.submitHandler}
+            style={{ marginTop: "20px" }}
+          >
             submit
           </Button>
         </Container>
@@ -157,12 +159,12 @@ problems.propTypes = {
   problemSubmit: PropTypes.node.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   problemsList: state.problems,
 });
-const mapDispatchToProps = dispatch => ({
-  onInitProblems: (problemType) => dispatch(probelmActions.initProbelms(problemType)),
+const mapDispatchToProps = (dispatch) => ({
+  onInitProblems: (problemType) =>
+    dispatch(probelmActions.initProbelms(problemType)),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(problems);

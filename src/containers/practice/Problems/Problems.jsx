@@ -1,75 +1,87 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-  Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Box,
-  Button, TextField, Fab
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import Axios from 'axios';
-import Spinner from '../../../components/UI/Spinner/Spinner';
-import * as probelmActions from '../../../store/actions/index';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import classes from './Problems.module.css';
+  Typography,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Grid,
+  Container,
+  Box,
+  Button,
+  TextField,
+  Fab,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import Axios from "axios";
+import NavigationIcon from "@material-ui/icons/Navigation";
+import Spinner from "../../../components/UI/Spinner/Spinner";
+import * as probelmActions from "../../../store/actions/index";
+import classes from "./Problems.module.css";
 
 class problems extends Component {
   componentDidMount() {
     const { onInitProblems } = this.props;
-    onInitProblems('1');
+    onInitProblems("1");
   }
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      answer: '',
-      id: ''
-    }
+      answer: "",
+      id: "",
+    };
   }
 
   status = (_id) => {
-    const { profile } = this.props
-    if(profile){
-      if(profile.problems.includes(_id)){
-        return true
+    const { profile } = this.props;
+    if (profile) {
+      if (profile.problems.includes(_id)) {
+        return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   answerInput = (event) => {
     event.preventDefault();
     const answer = event.target.value;
     this.setState({ answer });
-  }
+  };
 
   submitAnswerHandler = async (prb) => {
-    const { profile, token } = this.props
-    const { answer } = this.state;console.log(prb,answer)
-    if(token && prb.answer === answer){
-          console.log('Sedning req')
-         profile.problems.push(prb._id)
-         prb.userSolved = prb.userSolved + 1
-         const url = 'http://localhost:3000/api/problem/updated_problem/'+prb._id
-         const response = await Axios({
-            method: 'PUT',
-            url: url,
-            data: {
-              problems: profile.problems,
-              userSolved: prb.userSolved
-            },
-            headers: { 'Authorization': 'Bearer ' + token }
-         });
-         console.log(response)
+    const { profile, token } = this.props;
+    const { answer } = this.state;
+    if (token && prb.answer === answer) {
+      console.log("Sedning req");
+      profile.problems.push(prb._id);
+      prb.userSolved += 1;
+      const url = `http://localhost:3000/api/problem/updated_problem/${prb._id}`;
+      const response = await Axios({
+        method: "PUT",
+        url,
+        data: {
+          problems: profile.problems,
+          userSolved: prb.userSolved,
+        },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("Correct Answer");
+    } else if (!token) {
+      alert("Login to answer");
+    } else if (prb.answer !== answer) {
+      alert("Wrong Answer");
     }
-  }
+  };
 
   render() {
     const { problemsList } = this.props;
     let prob = null;
     if (problemsList) {
-      prob = (problemsList).map(el => (
-        <div style={{ width: '100%' }} key={el.id}>
+      prob = problemsList.map((el) => (
+        <div style={{ width: "100%" }} key={el.id}>
           <ExpansionPanel>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
@@ -78,31 +90,19 @@ class problems extends Component {
             >
               <Grid container spacing={3}>
                 <Grid item xs={3}>
-                  <Typography>
-                    {el.name}
-                    {' '}
-                  </Typography>
+                  <Typography>{el.name} </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>{el.userSolved} </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>{el.score} </Typography>
                 </Grid>
                 <Grid item xs={3}>
                   <Typography>
-                    {el.userSolved}
-                    {' '}
+                    {this.status(el._id) ? "Solved" : "Unsolved"}{" "}
                   </Typography>
                 </Grid>
-                <Grid item xs={3}>
-                  <Typography>
-                    {el.score}
-                    {' '}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography>
-                    {this.status(el._id) ? 'Solved' : 'Unsolved'}
-                    {' '}
-                  </Typography>
-                </Grid>
-
-
               </Grid>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
@@ -120,10 +120,13 @@ class problems extends Component {
                     }}
                     onChange={this.answerInput}
                   />
-                  <Button variant="outlined" color="primary" onClick={() => this.submitAnswerHandler(el)}>
-        Submit
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => this.submitAnswerHandler(el)}
+                  >
+                    Submit
                   </Button>
-
                 </div>
               </Typography>
             </ExpansionPanelDetails>
@@ -154,34 +157,31 @@ class problems extends Component {
       );
     }
 
-    const { profile, token } =this.props
-    let isAdmin = null
-    if(profile){
-      isAdmin = profile.isAdmin
+    const { profile, token } = this.props;
+    let isAdmin = null;
+    if (profile) {
+      isAdmin = profile.isAdmin;
     }
-
 
     return (
       <div className={classes.mainCont}>
-          <div className={classes.innerCont}>
-            <div className={classes.pageTitle}>
-                Problems
-            </div>
-            <div className={classes.miniLine} />
-            <div className={classes.tableCont}>
-              {display}
-              <div className={classes.tableProbs}>
-                {prob}
-              </div>
-            </div>
-          { (isAdmin && token) ? <div className={classes.btnCont}>
+        <div className={classes.innerCont}>
+          <div className={classes.pageTitle}>Problems</div>
+          <div className={classes.miniLine} />
+          <div className={classes.tableCont}>
+            {display}
+            <div className={classes.tableProbs}>{prob}</div>
+          </div>
+          {isAdmin && token ? (
+            <div className={classes.btnCont}>
               <Link to="/add/problem">
                 <Fab variant="extended" color="primary" aria-label="Add">
                   <NavigationIcon className={classes.extendedIcon} />
                   Add Problem
                 </Fab>
               </Link>
-            </div> : null }
+            </div>
+          ) : null}
         </div>
       </div>
     );
@@ -193,14 +193,14 @@ problems.propTypes = {
   problemsList: PropTypes.node.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   problemsList: state.problems,
   token: state.token,
-  profile: state.profile
+  profile: state.profile,
 });
-const mapDispatchToProps = dispatch => ({
-  onInitProblems: (problemType) => dispatch(probelmActions.initProbelms(problemType)),
+const mapDispatchToProps = (dispatch) => ({
+  onInitProblems: (problemType) =>
+    dispatch(probelmActions.initProbelms(problemType)),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(problems);

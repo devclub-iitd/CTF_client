@@ -2,8 +2,8 @@ export {
   initProbelms,
   fetchProblems,
   categoryFetchProblems,
-  onitProblem
-} from './problems'
+  onitProblem,
+} from "./problems";
 
 export {
   initCompetitions,
@@ -14,16 +14,9 @@ export {
   initCompetitionLevelProblems,
   regEvent,
   initLeaderboard,
-  initLeaderboardStatus
-} from './competitions'
+  initLeaderboardStatus,
+} from "./competitions";
 
-export {
-  initProfile,
-  fetchProfile
-} from './profile'
+export { initProfile, fetchProfile } from "./profile";
 
-export {
-  auth,
-  logout,
-  authCheckState
-} from './auth'
+export { auth, logout, authCheckState } from "./auth";

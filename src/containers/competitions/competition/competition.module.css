@@ -18,7 +18,7 @@
 }
 .miniLineCol {
   width: 40px;
-  background-color: rgba(245,0,87,1);
+  background-color: rgba(245, 0, 87, 1);
   /* background-color: rgba(0,0,0,0.8); */
   margin: auto;
   margin-bottom: 0px;
@@ -33,7 +33,9 @@
   margin-top: 20px;
   width: 60%;
 }
-.ruleCont, .challengesCont, .rankingCont {
+.ruleCont,
+.challengesCont,
+.rankingCont {
   width: 100%;
   margin: auto;
 }
@@ -45,9 +47,9 @@
 }
 .miniLine {
   width: 40px;
-  background-color: rgba(63,81,181,0.9);
+  background-color: rgba(63, 81, 181, 0.9);
   /* background-color: rgba(0,0,0,0.8); */
-  margin-top:20px;
+  margin-top: 20px;
   margin-left: 10px;
   border-radius: 3px;
   height: 8px;

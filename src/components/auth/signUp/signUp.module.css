@@ -22,7 +22,7 @@
 }
 .miniLine {
   width: 40px;
-  background-color: rgba(63,81,181,0.9);
+  background-color: rgba(63, 81, 181, 0.9);
   /* background-color: rgba(0,0,0,0.8); */
   margin: auto;
   margin-top: 25px;
@@ -54,7 +54,7 @@
   justify-content: space-around;
   align-items: center;
 }
-.modalRow .orSym{
+.modalRow .orSym {
   width: 40px;
   line-height: 40px;
   height: 40px;
@@ -62,7 +62,7 @@
   border: 1px solid black;
 }
 .textField {
-  width: 350px
+  width: 350px;
 }
 .btnText {
   margin-right: 10px;

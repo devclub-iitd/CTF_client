@@ -1,168 +1,176 @@
-import Axios from 'axios'
-import * as actionType from './actionsTypes'
+import Axios from "axios";
+import * as actionType from "./actionsTypes";
 
-export const fetchCompetitions = competitions => ({
+export const fetchCompetitions = (competitions) => ({
   type: actionType.SET_COMPETITIONS,
-  competitions
-})
+  competitions,
+});
 
-export const fetchProfile = profile => ({
+export const fetchProfile = (profile) => ({
   type: actionType.SET_PROFILE,
-  profile
-})
+  profile,
+});
 
 export const initCompetitions = () => (dispatch) => {
-  Axios.get('http://localhost:3000/api/event/')
-    .then((response) => {
-      dispatch(fetchCompetitions(response.data.data.reverse()))
-    })
-}
+  Axios.get("http://localhost:3000/api/event/").then((response) => {
+    dispatch(fetchCompetitions(response.data.data.reverse()));
+  });
+};
 
-export const fetchCompetition = competition => ({
+export const fetchCompetition = (competition) => ({
   type: actionType.SET_COMPETITION,
-  competition
-})
+  competition,
+});
 
 export const initCompetition = (eventId, token, level) => async (dispatch) => {
-  const url = `http://localhost:3000/api/event/${eventId}`
+  const url = `http://localhost:3000/api/event/${eventId}`;
   const response = await Axios({
-    method: 'GET',
-    url: url,
+    method: "GET",
+    url,
     params: {
       level,
-      eventId
+      eventId,
     },
-    headers: { Authorization: 'Bearer ' + token }
-  })
-  await dispatch(fetchCompetition(response.data))
-}
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  await dispatch(fetchCompetition(response.data));
+};
 
-export const fetchCompetitionLevelProblems = challenges => ({
+export const fetchCompetitionLevelProblems = (challenges) => ({
   type: actionType.SET_COMPETITIONS_LEVEL_PROBLEMS,
-  challenges
-})
+  challenges,
+});
 
-export const fetchLeaderboard = leaderboard => ({
+export const fetchLeaderboard = (leaderboard) => ({
   type: actionType.SET_LEADERBOARD,
-  leaderboard
-})
+  leaderboard,
+});
 
-export const initLeaderboard = eventId => async dispatch => {
-  const url = 'http://localhost:3000/api/event/leaderboard/' + eventId
-  const response = await Axios.get(url)
-  console.log(response.data)
-  await dispatch(fetchLeaderboard(response.data))
-}
+export const initLeaderboard = (eventId) => async (dispatch) => {
+  const url = `http://localhost:3000/api/event/leaderboard/${eventId}`;
+  const response = await Axios.get(url);
+  console.log(response.data);
+  await dispatch(fetchLeaderboard(response.data));
+};
 
-export const fetchLeaderboardStatus = leaderboardStatus => ({
+export const fetchLeaderboardStatus = (leaderboardStatus) => ({
   type: actionType.SET_LEADERBOARD_STATUS,
-  leaderboardStatus
-})
+  leaderboardStatus,
+});
 
-export const initLeaderboardStatus = (eventId, leaderboardStatus, token) => async dispatch => {
-  const url = 'http://localhost:3000/api/event/leaderboard/' + eventId
-  console.log(leaderboardStatus)
+export const initLeaderboardStatus = (
+  eventId,
+  leaderboardStatus,
+  token
+) => async (dispatch) => {
+  const url = `http://localhost:3000/api/event/leaderboard/${eventId}`;
+  console.log(leaderboardStatus);
   const response = await Axios({
-    method: 'PUT',
-    url: url,
+    method: "PUT",
+    url,
     data: {
-      leaderboardStatus: leaderboardStatus
+      leaderboardStatus,
     },
-    headers: { Authorization: 'Bearer ' + token }
-  })
-  await dispatch(fetchLeaderboardStatus(response.data.showLeaderboard))
-}
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  await dispatch(fetchLeaderboardStatus(response.data.showLeaderboard));
+};
 
-export const initCompetitionLevelProblems = (eventId, token, level, participantId) => async dispatch => {
-  const url = `http://localhost:3000/api/event/${eventId}/level-probelms`
+export const initCompetitionLevelProblems = (
+  eventId,
+  token,
+  level,
+  participantId
+) => async (dispatch) => {
+  const url = `http://localhost:3000/api/event/${eventId}/level-probelms`;
   const response = await Axios({
-    method: 'GET',
-    url: url,
+    method: "GET",
+    url,
     params: {
       eventId,
       level,
-      participantId
+      participantId,
     },
-    headers: { Authorization: 'Bearer ' + token }
-  })
-  await dispatch(fetchCompetitionLevelProblems(response.data.data))
-}
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  await dispatch(fetchCompetitionLevelProblems(response.data.data));
+};
 
 // Adding an Event or Competition
 
-export const addEvent = competition => ({
+export const addEvent = (competition) => ({
   type: actionType.ADD_EVENT,
-  competition
-})
+  competition,
+});
 
 export const onitEvent = (event, token) => async (dispatch) => {
-  const url = 'http://localhost:3000/api/event/'
-  const levelScore = JSON.stringify(Array.from(event.levelScore.entries()))
+  const url = "http://localhost:3000/api/event/";
+  const levelScore = JSON.stringify(Array.from(event.levelScore.entries()));
   const response = await Axios({
-    method: 'POST',
-    url: url,
+    method: "POST",
+    url,
     data: {
       ...event,
-      levelScore
+      levelScore,
     },
-    headers: { Authorization: 'Bearer ' + token }
-  })
-  dispatch(addEvent(response.data.data))
-}
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  dispatch(addEvent(response.data.data));
+};
 
 export const regEvent = (token, userId, profile, event) => async (dispatch) => {
-  let username = null
+  let username = null;
   if (profile) {
-    username = profile.username
+    username = profile.username;
   }
-  let url = 'http://localhost:3000/api/participant/'
+  let url = "http://localhost:3000/api/participant/";
   const participant = await Axios({
-    method: 'POST',
-    url: url,
+    method: "POST",
+    url,
     data: {
       eventId: event._id,
       eventName: event.name,
-      userId: userId,
-      handle: username
+      userId,
+      handle: username,
     },
-    headers: { Authorization: 'Bearer ' + token }
-  })
+    headers: { Authorization: `Bearer ${token}` },
+  });
   if (!participant.data.data) {
-    console.log('Already Registered!!')
-    return
+    console.log("Already Registered!!");
+    return;
   }
-  const participantId = participant.data.data._id
-  url = 'http://localhost:3000/api/event/' + event._id
-  event.participants.push(participantId)
-  event.leaderboard.push(participantId)
+  const participantId = participant.data.data._id;
+  url = `http://localhost:3000/api/event/${event._id}`;
+  event.participants.push(participantId);
+  event.leaderboard.push(participantId);
   const eventResponse = await Axios({
-    method: 'PUT',
-    url: url,
+    method: "PUT",
+    url,
     data: {
       participants: event.participants,
-      leaderboard: event.leaderboard
+      leaderboard: event.leaderboard,
     },
-    headers: { Authorization: 'Bearer ' + token }
-  })
-  url = 'http://localhost:3000/api/user/' + userId
-  const userParticipant = [...profile.participant]
-  const userEvent = [...profile.events]
-  userEvent.push(event._id)
-  userParticipant.push(participantId)
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  url = `http://localhost:3000/api/user/${userId}`;
+  const userParticipant = [...profile.participant];
+  const userEvent = [...profile.events];
+  userEvent.push(event._id);
+  userParticipant.push(participantId);
   const userResponse = await Axios({
-    method: 'PUT',
-    url: url,
+    method: "PUT",
+    url,
     data: {
       participant: userParticipant,
-      events: userEvent
+      events: userEvent,
     },
-    headers: { Authorization: 'Bearer ' + token }
-  })
+    headers: { Authorization: `Bearer ${token}` },
+  });
   const updatedProfile = {
     ...profile,
     participant: userParticipant,
-    events: userEvent
-  }
-  dispatch(fetchProfile(updatedProfile))
+    events: userEvent,
+  };
+  dispatch(fetchProfile(updatedProfile));
   // alert('Registered Successfully!!!')
-}
+};

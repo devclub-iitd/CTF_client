@@ -1,5 +1,5 @@
 .container {
-    text-align: center;
+  text-align: center;
 }
 .modalTitle {
   font-size: 40px;
@@ -8,7 +8,7 @@
 }
 .miniLine {
   width: 40px;
-  background-color: rgba(63,81,181,0.9);
+  background-color: rgba(63, 81, 181, 0.9);
   /* background-color: rgba(0,0,0,0.8); */
   margin: auto;
   margin-top: 25px;
@@ -20,7 +20,7 @@
   display: flex;
   justify-content: flex-start;
   margin-right: 200px;
-  width:350px
+  width: 350px;
 }
 .btnText {
   margin-right: 10px;
