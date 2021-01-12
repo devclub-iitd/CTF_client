@@ -12,9 +12,9 @@ const contactUs = () => (
         <div className={classes.contactDetDesc}>
           <div>
             DevClub is one of the most friendly and open clubs that is there in
-            the Institute and all of its members are easily.You can go through
-            our official website and feel free to send us any mail or message
-            over facebook.
+            the Institute and all of its members are easily accessible.You can
+            go through our official website and feel free to send us any mail or
+            message over facebook.
             <br />
             <br />
             Some more contact information below

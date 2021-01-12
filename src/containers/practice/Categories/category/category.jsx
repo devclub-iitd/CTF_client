@@ -6,6 +6,8 @@ import {
   ExpansionPanelDetails,
   Grid,
   Container,
+  TextField,
+  Button,
   Box,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -31,15 +33,45 @@ class categories extends Component {
     );
   }
 
+  status = (_id) => {
+    const { profile } = this.props;
+    if (profile) {
+      if (profile.problems.includes(_id)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   answerInput = (event) => {
     event.preventDefault();
     const answer = event.target.value;
     this.setState({ answer });
   };
 
-  submitAnswerHandler = () => {
+  submitAnswerHandler = async (prb) => {
+    const { profile, token } = this.props;
     const { answer } = this.state;
-    Axios.post("Post Link", answer);
+    if (token && prb.answer === answer) {
+      console.log("Sedning req");
+      profile.problems.push(prb._id);
+      prb.userSolved += 1;
+      const url = `http://localhost:3000/api/problem/updated_problem/${prb._id}`;
+      const response = await Axios({
+        method: "PUT",
+        url,
+        data: {
+          problems: profile.problems,
+          userSolved: prb.userSolved,
+        },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("Correct Answer");
+    } else if (!token) {
+      alert("Login to answer");
+    } else if (prb.answer !== answer) {
+      alert("Wrong Answer");
+    }
   };
 
   render() {
@@ -65,7 +97,10 @@ class categories extends Component {
                   <Typography>{el.score} </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography>{el.status ? "Solved" : "Unsolved"} </Typography>
+                  <Typography>
+                    {" "}
+                    {this.status(el._id) ? "Solved" : "Unsolved"}{" "}
+                  </Typography>
                 </Grid>
               </Grid>
             </ExpansionPanelSummary>
@@ -73,10 +108,24 @@ class categories extends Component {
               <Typography>
                 {el.details}
                 <div>
-                  <input onChange={this.answerInput} type="text" name={el.id} />
-                  <button type="button" onClick={this.submitAnswerHandler}>
-                    Answer
-                  </button>
+                  <TextField
+                    id={el._id}
+                    label="Answer"
+                    style={{ margin: 8 }}
+                    fullWidth
+                    margin="large"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.answerInput}
+                  />
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => this.submitAnswerHandler(el)}
+                  >
+                    Submit
+                  </Button>
                 </div>
               </Typography>
             </ExpansionPanelDetails>
@@ -135,6 +184,8 @@ categories.propTypes = {
 
 const mapStateToProps = (state) => ({
   problemsList: state.categoryProblems,
+  token: state.token,
+  profile: state.profile,
 });
 const mapDispatchToProps = (dispatch) => ({
   oncategoryFetchProblems: (category) =>

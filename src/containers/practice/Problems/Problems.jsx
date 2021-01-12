@@ -5,8 +5,6 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   Grid,
-  Container,
-  Box,
   Button,
   TextField,
   Fab,
@@ -22,17 +20,17 @@ import * as probelmActions from "../../../store/actions/index";
 import classes from "./Problems.module.css";
 
 class problems extends Component {
-  componentDidMount() {
-    const { onInitProblems } = this.props;
-    onInitProblems("1");
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       answer: "",
       id: "",
     };
+  }
+
+  componentDidMount() {
+    const { onInitProblems } = this.props;
+    onInitProblems("1");
   }
 
   status = (_id) => {
