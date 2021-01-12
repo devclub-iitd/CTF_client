@@ -1,14 +1,14 @@
-import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import PropTypes from 'prop-types';
+import React from "react";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import PropTypes from "prop-types";
 
-const StyledTableCell = withStyles(theme => ({
+const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -18,9 +18,9 @@ const StyledTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles(theme => ({
+const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.background.default,
     },
   },
@@ -31,27 +31,26 @@ function createData(rank, name, score) {
 }
 
 const rows = [
-  createData(1, 'Max', 667),
-  createData(2, 'Scooby', 660),
-  createData(3, 'Planck', 632),
-  createData(4, 'Tommy', 611),
-  createData(5, 'Rocky', 566),
+  createData(1, "Max", 667),
+  createData(2, "Scooby", 660),
+  createData(3, "Planck", 632),
+  createData(4, "Tommy", 611),
+  createData(5, "Rocky", 566),
 ];
 
-
 function CustomizedTables({ width }) {
-  let wid = '30%';
-  if (width) {
-    wid = width;
-  }
-  const useStyles = makeStyles(theme => ({
+  // idk what this code was for ----------------
+  // let wid = '30%';
+  // if (width) {
+  //   wid = width;
+  // }
+  const useStyles = makeStyles((theme) => ({
     root: {
-      width: wid,
-      marginTop: theme.spacing(3),
-      overflowX: 'auto',
+      width: "300px",
+      padding: "0px",
     },
     table: {
-      minWidth: 250,
+      width: "300px",
     },
   }));
 
@@ -68,7 +67,7 @@ function CustomizedTables({ width }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {rows.map((row) => (
             <StyledTableRow key={row.rank}>
               <StyledTableCell component="th" scope="row">
                 {row.rank}

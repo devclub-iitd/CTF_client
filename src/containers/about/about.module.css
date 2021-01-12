@@ -1,15 +1,57 @@
+.mainCont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: red; */
+  justify-content: center;
+  position: absolute;
+  top: 150px;
+  height: calc(100% - 150px);
+  width: 100%;
+  left: 0px;
+}
+.topbox {
+  font-family: "Roboto", sans-serif;
+  background-color: #e6e6e6;
+  border-radius: 20px;
+  text-align: center;
+  padding: 40px;
+  width: calc(63% - 80px);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+}
 .whyctf {
-    padding-top: 80px;
-    padding-bottom: 0px;
-    color: #89D6F3;
-  
-    text-align: center;
-  }
-  
-  .topbox {
-    font-family:  "Roboto", sans-serif;
-    background-color: #1D6B87;
-    text-align: center;
-    padding-bottom: 80px;
-    color : #FFFFFF;
-  }
+  /* padding-bottom: 0px; */
+  text-align: center;
+}
+.whyDesc {
+  font-style: italic;
+}
+.subText {
+  width: 60%;
+  margin-top: 30px;
+}
+.miniLine {
+  width: 40px;
+  height: 8px;
+  background-color: rgba(63, 81, 181, 0.9);
+  /* background-color: rgba(0,0,0,0.8); */
+  margin-top: 25px;
+  border-radius: 3px;
+}
+.miniLineCenter {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  height: 3px;
+}
+.aboutTitle {
+  font-size: 40px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.aboutText {
+  margin-top: 25px;
+  font-size: 16px;
+}

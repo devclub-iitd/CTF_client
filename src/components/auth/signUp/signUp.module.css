@@ -1,10 +1,69 @@
 .container {
-text-align: center;
+  text-align: center;
 }
-
+.mainCont {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 150px;
+  height: calc(100% - 150px);
+  width: 100%;
+  left: 0px;
+  justify-content: center;
+  align-items: center;
+  /* background-color: green; */
+}
+.pageTitle {
+  font-weight: 700;
+  font-size: 50px;
+  margin-top: 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.miniLine {
+  width: 40px;
+  background-color: rgba(63, 81, 181, 0.9);
+  /* background-color: rgba(0,0,0,0.8); */
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  border-radius: 3px;
+  height: 8px;
+}
+.left {
+  width: 40%;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.right {
+  width: 40%;
+  /* background-color: green; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.modalRow {
+  margin-top: 30px;
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.modalRow .orSym {
+  width: 40px;
+  line-height: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid black;
+}
 .textField {
-    display: flex;
-    justify-content: flex-start;
-    margin-right: 200px;
-    width:200px
+  width: 350px;
+}
+.btnText {
+  margin-right: 10px;
 }

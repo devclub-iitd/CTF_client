@@ -1,38 +1,85 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-  Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid, Container, Box,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Axios from 'axios';
-import Spinner from '../../../../components/UI/Spinner/Spinner';
-import * as probelmActions from '../../../../store/actions/index';
+  Typography,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Grid,
+  Container,
+  TextField,
+  Button,
+  Box,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Axios from "axios";
+import Spinner from "../../../../components/UI/Spinner/Spinner";
+import * as probelmActions from "../../../../store/actions/index";
 
-
-class problems extends Component {
+class categories extends Component {
   componentDidMount() {
     const { oncategoryFetchProblems, history } = this.props;
-    oncategoryFetchProblems(history.location.pathname.substring(21));
+    const categoryNames = {
+      1: "Binary Exploitation",
+      2: "Reverse Engineering",
+      3: "Web Exploitation",
+      4: "Cryptography",
+      5: "Forensics",
+      hidden: "Hidden Problems",
+    };
+    oncategoryFetchProblems(
+      categoryNames[history.location.pathname.substring(21)]
+    );
   }
+
+  status = (_id) => {
+    const { profile } = this.props;
+    if (profile) {
+      if (profile.problems.includes(_id)) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   answerInput = (event) => {
     event.preventDefault();
     const answer = event.target.value;
     this.setState({ answer });
-  }
+  };
 
-  submitAnswerHandler = () => {
+  submitAnswerHandler = async (prb) => {
+    const { profile, token } = this.props;
     const { answer } = this.state;
-    Axios.post('Post Link', answer);
-  }
+    if (token && prb.answer === answer) {
+      console.log("Sedning req");
+      profile.problems.push(prb._id);
+      prb.userSolved += 1;
+      const url = `http://localhost:3000/api/problem/updated_problem/${prb._id}`;
+      const response = await Axios({
+        method: "PUT",
+        url,
+        data: {
+          problems: profile.problems,
+          userSolved: prb.userSolved,
+        },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("Correct Answer");
+    } else if (!token) {
+      alert("Login to answer");
+    } else if (prb.answer !== answer) {
+      alert("Wrong Answer");
+    }
+  };
 
   render() {
     const { problemsList } = this.props;
     let prob = null;
     if (problemsList) {
-      prob = Object.values(problemsList).map(el => (
-        <div style={{ width: '100%' }} key={el.id}>
+      prob = Object.values(problemsList).map((el) => (
+        <div style={{ width: "100%" }} key={el.id}>
           <ExpansionPanel>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
@@ -41,39 +88,44 @@ class problems extends Component {
             >
               <Grid container spacing={3}>
                 <Grid item xs={3}>
-                  <Typography>
-                    {el.name}
-                    {' '}
-                  </Typography>
+                  <Typography>{el.name} </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>{el.userSolved} </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>{el.score} </Typography>
                 </Grid>
                 <Grid item xs={3}>
                   <Typography>
-                    {el.userSolved}
-                    {' '}
+                    {" "}
+                    {this.status(el._id) ? "Solved" : "Unsolved"}{" "}
                   </Typography>
                 </Grid>
-                <Grid item xs={3}>
-                  <Typography>
-                    {el.score}
-                    {' '}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography>
-                    {el.status ? 'Solved' : 'Unsolved'}
-                    {' '}
-                  </Typography>
-                </Grid>
-
-
               </Grid>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <Typography>
                 {el.details}
                 <div>
-                  <input onChange={this.answerInput} type="text" name={el.id} />
-                  <button type="button" onClick={this.submitAnswerHandler}>Answer</button>
+                  <TextField
+                    id={el._id}
+                    label="Answer"
+                    style={{ margin: 8 }}
+                    fullWidth
+                    margin="large"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={this.answerInput}
+                  />
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => this.submitAnswerHandler(el)}
+                  >
+                    Submit
+                  </Button>
                 </div>
               </Typography>
             </ExpansionPanelDetails>
@@ -89,25 +141,21 @@ class problems extends Component {
           <br />
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Typography variant="h4">Problems  </Typography>
+              <Typography variant="h4">Problems </Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography variant="h4">Users Solved </Typography>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Score  </Typography>
+              <Typography variant="h4">Score </Typography>
             </Grid>
             <Grid item xs={3}>
-              <Typography variant="h4">Status  </Typography>
+              <Typography variant="h4">Status </Typography>
             </Grid>
-
-
           </Grid>
-
         </div>
       );
     }
-
 
     return (
       <div>
@@ -115,36 +163,33 @@ class problems extends Component {
           <Container maxWidth="md">
             <Box p={4}>
               <Typography variant="h1" align="center">
-                    Category Problems
+                Category Problems
               </Typography>
             </Box>
-            <Box p={3}>
-              {display}
-            </Box>
+            <Box p={3}>{display}</Box>
 
             {prob}
-
           </Container>
         </Box>
-
-
       </div>
     );
   }
 }
 
-problems.propTypes = {
+categories.propTypes = {
   oncategoryFetchProblems: PropTypes.node.isRequired,
   problemsList: PropTypes.node.isRequired,
   history: PropTypes.node.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   problemsList: state.categoryProblems,
+  token: state.token,
+  profile: state.profile,
 });
-const mapDispatchToProps = dispatch => ({
-  oncategoryFetchProblems: category => dispatch(probelmActions.categoryFetchProblems(category)),
+const mapDispatchToProps = (dispatch) => ({
+  oncategoryFetchProblems: (category) =>
+    dispatch(probelmActions.categoryFetchProblems(category)),
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(problems);
+export default connect(mapStateToProps, mapDispatchToProps)(categories);
