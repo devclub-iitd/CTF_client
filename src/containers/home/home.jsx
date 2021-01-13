@@ -5,6 +5,7 @@ import Axios from 'axios';
 import classes from './home.module.css';
 import CompTable from '../../components/Table/CompTable/CompTable';
 import UserTable from '../../components/Table/UserTable/UserTable';
+import { SUBDOMAIN } from '../../utils/api';
 
 const Home = () => {
     const [event, setEvent] = useState(null);
@@ -13,7 +14,7 @@ const Home = () => {
             const response = await Axios.get(url);
             setEvent(response.data);
         };
-        const url = 'http://localhost:3000/api/event/ongoing-events';
+        const url = SUBDOMAIN + 'api/event/ongoing-events';
         getEvents(url);
     }, []);
     let eventList = [];
@@ -73,7 +74,7 @@ const Home = () => {
                                             className={classes.extendedIcon}
                                         />
                                         <a
-                                            href="http://localhost:3000/"
+                                            href={SUBDOMAIN}
                                             target="_blank"
                                         >
                                             Walkthrough
