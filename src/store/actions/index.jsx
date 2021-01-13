@@ -1,22 +1,22 @@
 export {
-  initProbelms,
-  fetchProblems,
-  categoryFetchProblems,
-  onitProblem,
-} from "./problems";
+    initProbelms,
+    fetchProblems,
+    categoryFetchProblems,
+    onitProblem
+} from './problems';
 
 export {
-  initCompetitions,
-  fetchCompetitions,
-  initCompetition,
-  fetchCompetition,
-  onitEvent,
-  initCompetitionLevelProblems,
-  regEvent,
-  initLeaderboard,
-  initLeaderboardStatus,
-} from "./competitions";
+    initCompetitions,
+    fetchCompetitions,
+    initCompetition,
+    fetchCompetition,
+    onitEvent,
+    initCompetitionLevelProblems,
+    regEvent,
+    initLeaderboard,
+    initLeaderboardStatus
+} from './competitions';
 
-export { initProfile, fetchProfile } from "./profile";
+export { initProfile, fetchProfile } from './profile';
 
-export { auth, logout, authCheckState } from "./auth";
+export { auth, logout, authCheckState } from './auth';

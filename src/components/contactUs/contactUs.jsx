@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const contactUs = () => <h1>Contact Us</h1>;
 

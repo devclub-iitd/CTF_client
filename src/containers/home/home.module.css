@@ -1,76 +1,76 @@
 .title {
-  text-align: center;
+    text-align: center;
 }
 .center {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 .mainCont {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  top: 150px;
-  height: calc(100% - 150px);
-  width: 100%;
-  left: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    top: 150px;
+    height: calc(100% - 150px);
+    width: 100%;
+    left: 0px;
 }
 .section {
-  margin-left: 80px;
-  margin-top: 80px;
-  margin-right: 120px;
+    margin-left: 80px;
+    margin-top: 80px;
+    margin-right: 120px;
 }
 .sectionTitle {
-  font-size: 80px;
-  font-weight: 700;
+    font-size: 80px;
+    font-weight: 700;
 }
 .miniLine {
-  width: 80px;
-  height: 8px;
-  background-color: rgba(63, 81, 181, 0.9);
-  /* background-color: rgba(0,0,0,0.8); */
-  margin-top: 25px;
-  border-radius: 3px;
+    width: 80px;
+    height: 8px;
+    background-color: rgba(63, 81, 181, 0.9);
+    /* background-color: rgba(0,0,0,0.8); */
+    margin-top: 25px;
+    border-radius: 3px;
 }
 .splitSection {
-  /* margin-top: 30px; */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    /* margin-top: 30px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .splitSectionLeft {
-  width: 60%;
-  font-size: 17px;
+    width: 60%;
+    font-size: 17px;
 }
 .splitSectionLeftDesc {
-  margin-top: 30px;
+    margin-top: 30px;
 }
 .splitSectionLeftHighlight {
-  font-size: 16px;
-  font-style: italic;
-  font-weight: 300;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 300;
 }
 .splitSectionRight {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .section2 {
-  margin-left: 80px;
-  margin-right: 80px;
-  margin-top: 100px;
-  padding-bottom: 100px;
-  width: calc(100% - 160px);
-  text-align: center;
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 100px;
+    padding-bottom: 100px;
+    width: calc(100% - 160px);
+    text-align: center;
 }
 .sectionTitleSmall {
-  font-weight: 700;
-  font-size: 50px;
+    font-weight: 700;
+    font-size: 50px;
 }
 .userTableCont {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
 }

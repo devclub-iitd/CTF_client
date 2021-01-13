@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const rules = () => <h1>rules</h1>;
 

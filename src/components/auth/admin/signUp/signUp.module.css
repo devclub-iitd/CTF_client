@@ -1,27 +1,27 @@
 .container {
-  text-align: center;
+    text-align: center;
 }
 .modalTitle {
-  font-size: 40px;
-  font-weight: 700;
-  text-transform: uppercase;
+    font-size: 40px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 .miniLine {
-  width: 40px;
-  background-color: rgba(63, 81, 181, 0.9);
-  /* background-color: rgba(0,0,0,0.8); */
-  margin: auto;
-  margin-top: 25px;
-  margin-bottom: 0px;
-  border-radius: 3px;
-  height: 8px;
+    width: 40px;
+    background-color: rgba(63, 81, 181, 0.9);
+    /* background-color: rgba(0,0,0,0.8); */
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 0px;
+    border-radius: 3px;
+    height: 8px;
 }
 .textField {
-  display: flex;
-  justify-content: flex-start;
-  margin-right: 200px;
-  width: 350px;
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 200px;
+    width: 350px;
 }
 .btnText {
-  margin-right: 10px;
+    margin-right: 10px;
 }
